@@ -1,0 +1,102 @@
+{
+	"project": {
+		"project_name": "deployer.js",
+		"author": "Gerkin",
+		"documentation": {
+			"base": {
+				"url": "http://deployer.doc",
+				"path": "/mnt/workdata/php/documentation/deployer.js"
+			},
+			"format": [
+				"%BASE%",
+				"%PROJECT%",
+				"%VERSION%",
+				"%TYPE%"
+			]
+		},
+		"company_start": "2016",
+		"commands": [
+			{
+				"minify": {
+					"actions": {
+						"each": {
+							"before": null,
+							"after": "git.add"
+						}
+					},
+					"selection": {
+						"\\.(js|css)$": true,
+						"\\.min\\.(js|css)$": false,
+						"^\\.\\/node_modules($|\\/)": false,
+						"utils\\.js": false
+					},
+					"output": {
+						"from": "^(.*)(\\.(?:css|js))$",
+						"to": "$1.min$2"
+					}
+				}
+			},
+			{
+				"jsdoc": {
+					"private": true,
+					"selection": {
+						"\\.(js|css)$": true,
+						"\\.min\\.(js|css)$": false,
+						"^\\.\\/node_modules($|\\/)": false
+					},
+					"typepath": "javascript"
+				},
+				"phpdoc": {
+					"private": true,
+					"templates": {
+						"gerkindevelopment": {
+							"vars": {}
+						}
+					},
+					"selection": {
+						"\\.php$": true
+					},
+					"typepath": "php"
+				},
+				"ithoughts-index-doc": {
+					"template": "ithoughts-index-doc",
+					"head_links": {
+						"GerkinDevelopment page": "https://www.gerkindevelopment.net/en/portfolio/ithoughts-tooltip-glossary/",
+						"WordPress page": "https://wordpress.org/plugins/ithoughts-tooltip-glossary/",
+						"Back to Documentation Index": "/documentation"
+					},
+					"doc_links": [
+						{
+							"labels": {
+								"main": "JavaScript",
+								"sub": "Client side"
+							},
+							"image": "/images/clientside.jpg",
+							"link": "/javascript/index.html"
+						},
+						{
+							"labels": {
+								"main": "PHP",
+								"sub": "Server side"
+							},
+							"image": "/images/serverside.jpg",
+							"link": "/php/index.html"
+						}
+					]
+				},
+				"version-history": {
+					"template": "ithoughts-index-doc"
+				}
+			},
+			{
+				"git-doc": {},
+				"git": {}
+			}
+		],
+		"versions": {
+			"%VERSION%": "/%VERSION%",
+			"1.0": "/1.0",
+			"1.0.1": "/1.0.1"
+		}
+	}
+}
