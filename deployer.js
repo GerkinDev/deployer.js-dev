@@ -92,7 +92,6 @@ deployer = {
 
 /**
  * @class action
- * @interface
  * @package deployer.js
  */
 /**
