@@ -119,17 +119,17 @@
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
-                "md5": "0a46402462478e3efc51a289b6f3af99"
-            },
             "./actions/files-version.js": {
-                "sha1": "a2ad514163169877a566ec67fce222e806090f86",
-                "md5": "66a567ca019578439e950bec85e7617b"
+                "sha1": "693ef41b293398c1ba2da8990b3c1a65372147fc",
+                "md5": "6da63bc90b08682f5e1e89c7bccede36"
             },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
                 "md5": "2f01e1796be052fd679f910c870b30ac"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
+                "md5": "0a46402462478e3efc51a289b6f3af99"
             },
             "./actions/jsdoc.js": {
                 "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
