@@ -113,7 +113,6 @@ module.exports = {
 					}
 				}, function(err){
 					// Rewrite checksums
-					deployer.log.silly("FILES-VERSION => New checksums: ", checksums);
 					localConfig.project.checksums = checksums;
 					return writeLocalConfigFile(localConfig, cb);
 				});
