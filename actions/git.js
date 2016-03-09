@@ -19,7 +19,7 @@ const git = require("nodegit");
  */
 
 /**
- * @namespace action
+ * @class action
  * @implements {module:deployer~action}
  */
 module.exports = {
