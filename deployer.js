@@ -92,15 +92,14 @@ deployer = {
 
 /**
  * @class action
- * @package deployer.js
  */
 /**
  * @method process
- * @memberof {deployer.js~action}
+ * @memberof {deployer~action}
  */
 /**
  * @method test
- * @memberof {deployer.js~action}
+ * @memberof {deployer~action}
  */
 
 
