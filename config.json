@@ -112,24 +112,24 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "83dfdd599f9d829011759f016b2f2056ce8287b2",
-                "md5": "c7d13aa0af0d9affc5aa57cb57268503"
+                "sha1": "8600e4a051322216d83aa6de8a3dda10c0606648",
+                "md5": "89611da8013aaa2d228ec60ff380b95f"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
-                "md5": "0a46402462478e3efc51a289b6f3af99"
+            "./actions/files-version.js": {
+                "sha1": "818b5c80e2f168e2d779686e3b2f5f8d0f25878f",
+                "md5": "02ec10af4f7b5a917cb041462ed0f65f"
             },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
                 "md5": "2f01e1796be052fd679f910c870b30ac"
             },
-            "./actions/files-version.js": {
-                "sha1": "818b5c80e2f168e2d779686e3b2f5f8d0f25878f",
-                "md5": "02ec10af4f7b5a917cb041462ed0f65f"
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
+                "md5": "0a46402462478e3efc51a289b6f3af99"
             },
             "./actions/jsdoc.js": {
                 "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
