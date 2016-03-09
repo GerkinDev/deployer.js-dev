@@ -58,6 +58,7 @@
                         "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
                     },
                     "template": "default",
+					"template.bck":"gerkindevelopment",
                     "typepath": "javascript"
                 },
                 "ithoughts-index-doc": {
