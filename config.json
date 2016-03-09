@@ -124,20 +124,20 @@
                 "md5": "54070456d20b43d5549f644af5966f88"
             },
             "./actions/git.js": {
-                "sha1": "04bf81373d5c871a88441f170ad53d2ec55acd45",
-                "md5": "7df4b967c8895797acbfaaba5a092ba1"
+                "sha1": "986d15b81c4df0cdc542be0e31c7a84f8d8864bf",
+                "md5": "9c1788f4c3ef13f3bfaca6b1cb97213f"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
                 "md5": "0a46402462478e3efc51a289b6f3af99"
             },
-            "./actions/jsdoc.js": {
-                "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
-                "md5": "d3a720db3458a1de4757c58f5976003f"
-            },
             "./actions/minify.js": {
                 "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
                 "md5": "a72529e6bff58d882083fa51b792004c"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
+                "md5": "d3a720db3458a1de4757c58f5976003f"
             },
             "./actions/phpdoc.js": {
                 "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
