@@ -111,8 +111,8 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "20354624af3c91a891a7401922b94bc18bbb2b1f",
-                "md5": "17ef8d9bc221e7aa38cd2a383ec32a66"
+                "sha1": "dac36102873031cb23bd860d7a8ce35c7d5e6ce3",
+                "md5": "4fa53650523cc76e9f533897de5e4ecb"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
@@ -123,20 +123,20 @@
                 "md5": "38b4e48067d986e9f71f23f5dcf4080b"
             },
             "./actions/git.js": {
-                "sha1": "8a9211eed69a7eff1e7d4b18da3cfd1c512ca165",
-                "md5": "0378665fea58abd51a65c0109405c502"
+                "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
+                "md5": "2f01e1796be052fd679f910c870b30ac"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
                 "md5": "0a46402462478e3efc51a289b6f3af99"
             },
-            "./actions/jsdoc.js": {
-                "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
-                "md5": "d3a720db3458a1de4757c58f5976003f"
-            },
             "./actions/minify.js": {
                 "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
                 "md5": "a72529e6bff58d882083fa51b792004c"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
+                "md5": "d3a720db3458a1de4757c58f5976003f"
             },
             "./actions/phpdoc.js": {
                 "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
