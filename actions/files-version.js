@@ -80,7 +80,14 @@ module.exports = {
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
 						deployer.log.silly("File " + file + " is new");
-						return fileChanged(file, cb1);
+						return fileChanged(file, function(err, newChecksums){
+							if(err){
+								deployer.log.error(err)
+								return cb1(err);
+							}
+							checksums[file] = newChecksums;
+							cb1(err);
+						});
 					} else {
 						var typesums = Object.keys(
 							localConfigChecksum
@@ -100,16 +107,17 @@ module.exports = {
 						}
 						if(changed){
 							deployer.log.silly("File " + file + " changed");
-							return fileChanged(file, function(err, newChercksums){
+							return fileChanged(file, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
 									return cb1(err);
 								}
-								checksums[file] = newChercksums;
+								checksums[file] = newChecksums;
 								cb1(err);
 							});
 						} else {
 							deployer.log.silly("File " + file + " has the same checksums");
+							checksums[file] = localConfigChecksum;
 							return cb1();
 						}
 					}
