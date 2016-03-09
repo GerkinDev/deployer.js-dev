@@ -123,9 +123,9 @@
                 "md5": "7a25687e7db4c881aae1419b82cf5350",
                 "sha1": "de03ba58dcc8e67406a158e00e22eec034ff85bc"
             },
-            "./actions/minify.js": {
-                "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
-                "md5": "a72529e6bff58d882083fa51b792004c"
+            "./actions/git.js": {
+                "sha1": "743d759cb102160a877f29e66271efbb0a6e6de7",
+                "md5": "3e405ecabc5e82f5fe5ae707d77543c4"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "92936f8345d7fd7a916ab2b388d88b7bc0339a6d",
@@ -135,21 +135,21 @@
                 "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
                 "md5": "d3a720db3458a1de4757c58f5976003f"
             },
+            "./actions/minify.js": {
+                "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
+                "md5": "a72529e6bff58d882083fa51b792004c"
+            },
             "./actions/phpdoc.js": {
                 "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
                 "md5": "3e5c34d6e6fa4dbee4dfe796e7287bff"
-            },
-            "./actions/wordpress-upgrade.js": {
-                "sha1": "e6c1004286fe21f12425fa5cd40e3e044c7811d1",
-                "md5": "3cd8f5626034f515d9b2aa0b36557522"
             },
             "./actions/version-history.js": {
                 "sha1": "b786ca7e7281c0d2125f8ba9be92399371189faa",
                 "md5": "518d9d222d4f7b8c2970a0169dc1150d"
             },
-            "./actions/git.js": {
-                "sha1": "743d759cb102160a877f29e66271efbb0a6e6de7",
-                "md5": "3e405ecabc5e82f5fe5ae707d77543c4"
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "e6c1004286fe21f12425fa5cd40e3e044c7811d1",
+                "md5": "3cd8f5626034f515d9b2aa0b36557522"
             }
         }
     }
