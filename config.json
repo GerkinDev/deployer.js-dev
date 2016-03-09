@@ -112,8 +112,8 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "81736545ae5006b483a02dccc3b2cb8d4a26fea8",
-                "md5": "f36ff096049a8a0c5aeabedd0e37fbd0"
+                "md5": "03f3f6c752992be809fce1ae0ee4f75f",
+                "sha1": "d12c2ed45d7707ceb30f0bdffd76116e2e9fda45"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
