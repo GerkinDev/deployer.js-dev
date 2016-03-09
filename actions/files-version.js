@@ -16,10 +16,15 @@ const readline = require('readline');
 /**
  * @todo description {@link deployer}
  * @module actions/files-version
- * @mixes {module:deployer~action}
  * @requires fs
  * @requires readline
  * @requires checksum
+ */
+
+/**
+ * @class actions/files-version
+ * @static
+ * @implements {module:deployer~action}
  */
 module.exports = {
 	/**

@@ -91,14 +91,16 @@ deployer = {
 
 
 /**
- * @mixin action
+ * @interface action
  */
 /**
  * @method process
+ * @abstract
  * @memberof module:deployer~action
  */
 /**
  * @method test
+ * @abstract
  * @memberof module:deployer~action
  */
 
