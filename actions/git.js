@@ -22,7 +22,7 @@ module.exports = {
 	 * @method
      * @param   {object} config Options to explain to the module how to behave
      * @param   {array} files Files returned by {@link utils.getFilesRec}
-     * @param   {callback} Function to call at the end of action
+     * @param   {callback} cb Function to call at the end of action
      * @returns {undefined}
      */
 	process: function(config, files, cb){

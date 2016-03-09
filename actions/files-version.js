@@ -1,5 +1,5 @@
 /**
- * @file actions/files-version Set version at changes
+ * @file Set version at changes
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
@@ -14,7 +14,8 @@ const readline = require('readline');
 
 /**
  * @todo description {@link deployer}
- * @module actions/wordpress-upgrade
+ * @module actions/files-version
+ * @implements {deployer.action}
  * @requires fs
  * @requires readline
  * @requires checksum
@@ -119,11 +120,26 @@ module.exports = {
 }
 
 function fileChanged(file, cb){
-	var regexHeader = new RegExp((file.match(/\.php$/) ? "<\\?php[\\n\\s]*" : "") + "(?:.*\\n)?(\\/\\*\\*\\n(?:\\s*\\*\\s*(?:@?.*)?\\n)*\\s*\\*\\/)");
+	var regexHeader = new RegExp((file.match(/\.php$/) ? "<\\?php[\\n\\s]*(?:.*\\n)?" : "^") + "(\\/\\*\\*\\n(?:\\s*\\*\\s*(?:@?.*)?\\n)*\\s*\\*\\/)");
 	var filepath = path.resolve(".", file);
 	fs.readFile(filepath, "UTF-8", function(err, content){
 		var header = content.match(regexHeader);
-		var infos = {fd:{},legal:{},other:{},version:{}};
+		var infos = {
+			fd:{
+				file: false,
+				description: false
+			},
+			legal:{
+				"author":false,
+				"copyright":false,
+				"license":false,
+				"package":false,
+			},
+			other:{},
+			version:{
+				version: false
+			}
+		};
 		if(header != null && header.length >= 2 && header[1])
 			header = header[1];
 		if(!header){

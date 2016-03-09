@@ -83,14 +83,26 @@ deployer = {
 		]
 	}
 };
-
 /**
  * @todo Describe options
  */
 
+
+
+/**
+ * @interface deployer.action
+ * @package deployer.js
+ */
+/**
+ * @method process
+ */
+
+
+
 /**
  * @function __autoexec
  * @desc This init function execute itself as soon as module is included
+ * @package deployer.js
  * @abstract
  */
 (function(){
