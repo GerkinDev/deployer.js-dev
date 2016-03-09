@@ -22,7 +22,7 @@ const readline = require('readline');
  */
 
 /**
- * @class actions/files-version
+ * @class files-version
  * @static
  * @implements {module:deployer~action}
  */
@@ -30,6 +30,7 @@ module.exports = {
 	/**
      * Process the generation operation with the config provided
 	 * @method
+	 * @memberof module::actions/files-version~files-version
      * @param   {object} config Options to explain to the module how to behave
      * @param   {array} files Files returned by {@link utils.getFilesRec}
      * @param   {callback} cb Function to call at the end of action
