@@ -97,6 +97,10 @@ deployer = {
  * @method process
  * @memberof module:deployer~action
  */
+/**
+ * @method test
+ * @memberof module:deployer~action
+ */
 
 
 
