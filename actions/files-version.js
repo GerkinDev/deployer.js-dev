@@ -221,11 +221,11 @@ function fileChanged(file, cb){
 
 function makeChecksums(file, cb){
 	async.parallel({
-		sha1:function(cb2){
-			checksum.file(filepath, {algorithm:"sha1"}, cb2);
+		sha1: function(cb2){
+			checksum.file(file, {algorithm:"sha1"}, cb2);
 		},
-		md5:function(cb2){
-			checksum.file(filepath, {algorithm:"md5"}, cb2);
+		md5: function(cb2){
+			checksum.file(file, {algorithm:"md5"}, cb2);
 		}
 	}, cb);
 }
