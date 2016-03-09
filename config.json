@@ -104,6 +104,29 @@
                             }
                         ]
                     }
+                },
+                {
+                    "git": {
+						"path":"/mnt/workdata/nodejs/documentation/deployer.js",
+                        "actions": [
+                            {
+                                "action": "commit",
+                                "data": {
+                                    "message": "Release version %VERSION%"
+                                }
+                            },
+                            {
+                                "action": "tag",
+                                "data": {
+                                    "label": "v%VERSION%",
+                                    "message": "Release version %VERSION%"
+                                }
+                            },
+                            {
+                                "action": "push"
+                            }
+                        ]
+                    }
                 }
             ]
         ],
