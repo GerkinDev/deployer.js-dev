@@ -107,7 +107,7 @@
                 },
                 {
                     "git": {
-						"path":"/mnt/workdata/nodejs/documentation/deployer.js",
+                        "path": "/mnt/workdata/nodejs/documentation/deployer.js",
                         "actions": [
                             {
                                 "action": "commit",
@@ -142,13 +142,13 @@
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
-            "./actions/git.js": {
-                "sha1": "1dfd693fe2b8ddf95bc6b5cfa0b879ac555b3725",
-                "md5": "752a2e9aba3a4deefb457f141f6d9e79"
-            },
             "./actions/files-version.js": {
                 "md5": "7a25687e7db4c881aae1419b82cf5350",
                 "sha1": "de03ba58dcc8e67406a158e00e22eec034ff85bc"
+            },
+            "./actions/git.js": {
+                "sha1": "1dfd693fe2b8ddf95bc6b5cfa0b879ac555b3725",
+                "md5": "752a2e9aba3a4deefb457f141f6d9e79"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "92936f8345d7fd7a916ab2b388d88b7bc0339a6d",
