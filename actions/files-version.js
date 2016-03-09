@@ -22,7 +22,7 @@ const readline = require('readline');
  */
 
 /**
- * @namespace action
+ * @class action
  * @implements {module:deployer~action}
  */
 module.exports = {
