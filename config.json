@@ -112,16 +112,16 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "3748b7ea5291fbb66cb8484f59fd54294d7547d1",
-                "md5": "675f60c3538273a1c3b985e511f6c09c"
+                "sha1": "71308254c99ef75c67921459d67c0ef065d7e8dc",
+                "md5": "47063882a6d7740fec43f736875a494e"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
             "./actions/files-version.js": {
-                "sha1": "e923d9831395a0bc3bfd4d11e7367bdd97d188f4",
-                "md5": "1739abd5c043eecef79b046a2dcd79de"
+                "sha1": "e5533fe63335a0866ffd1e02e3f29a4f40fe9c7a",
+                "md5": "bcf013a64f2b04e46b70be63ae446d02"
             },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
