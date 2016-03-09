@@ -107,8 +107,49 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.4"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.5"
         },
-        "checksums": {}
+        "checksums": {
+            "./deployer.js": {
+                "sha1": "cce2230e03ddec06798ea02cd196a893a848b59b",
+                "md5": "79da7aeeea34f0f25e9685eb26f1e659"
+            },
+            "./utils.js": {
+                "sha1": "72419caf7fd7de74d8799ae386e572fe0360fb9f",
+                "md5": "3e910371c58f1e8564706b7d2e4a28c6"
+            },
+            "./actions/files-version.js": {
+                "sha1": "21f00d4b2bd77df1b6e7b0c58c5a4a69d4202a93",
+                "md5": "524ac9e183e7c7f8b57542abfb489408"
+            },
+            "./actions/git.js": {
+                "sha1": "85167a8abeacd425e13a7993fef42462edcc12de",
+                "md5": "174c1dcb986374ed86351c262bbb8157"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "0dacd2f13875e4a5c2a6dd81ca5e30a1c8f00e03",
+                "md5": "c964b583a25308d9889b36b0ec855cf7"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "3b1b5e7b2741c60d5af91ba4901642250afef2a9",
+                "md5": "2715ccb34d22818402922e092bcc133f"
+            },
+            "./actions/minify.js": {
+                "sha1": "e2618a1651348fb9c1b8a5a9be48c3c0e93cc231",
+                "md5": "90d65ee4258efa2563e2a7617c9581c0"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "040041c437c15a9bb70b488d813c84ee81dc42fb",
+                "md5": "080832040b0e16665cb333799a93fec1"
+            },
+            "./actions/version-history.js": {
+                "sha1": "47a0632597c61904952f2672d5329d4f537f0857",
+                "md5": "7f170d5a47f97e0f3810623a61c4ff6c"
+            },
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "092ddb86eba2be1fa0e7c60595cbf5a5a1fedd05",
+                "md5": "68f3c48ef484cdeacb3a4c7a78941f06"
+            }
+        }
     }
 }
