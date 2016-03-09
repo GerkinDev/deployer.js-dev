@@ -88,25 +88,6 @@ deployer = {
  * @todo Describe options
  */
 
-
-
-/**
- * @interface action
- */
-/**
- * @method process
- * @abstract
- * @static
- * @memberof module:deployer~action
- * @description Process the generation operation with the config provided
- * @param   {object} config Options to explain to the module how to behave
- * @param   {array} files Files returned by {@link utils.getFilesRec}
- * @param   {callback} cb Function to call at the end of action
- * @returns {undefined}
- */
-
-
-
 /**
  * @function __autoexec
  * @desc This init function execute itself as soon as module is included
