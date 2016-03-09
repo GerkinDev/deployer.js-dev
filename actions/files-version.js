@@ -15,7 +15,7 @@ const readline = require('readline');
 
 /**
  * @todo description {@link deployer}
- * @class actions/files-version
+ * @module actions/files-version
  * @implements {module:deployer~action}
  * @requires fs
  * @requires readline
