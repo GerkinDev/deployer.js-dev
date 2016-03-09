@@ -107,49 +107,8 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.3"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.4"
         },
-        "checksums": {
-            "./deployer.js": {
-                "sha1": "853f2ee5e85e74cece8a2b2472144ea55c6dbcd0",
-                "md5": "344ea119fde8656f26a4771f961231ec"
-            },
-            "./utils.js": {
-                "sha1": "209ad7b30dabd3ba2fb09fd9da230d4d9d60b8ab",
-                "md5": "53eab452e222682aff0fd5a060b830f6"
-            },
-            "./actions/files-version.js": {
-                "sha1": "cac1279fbf733da362801677c41cbe9dcc20f161",
-                "md5": "4151725334e823b360dcf9d15f748c6d"
-            },
-            "./actions/git.js": {
-                "sha1": "19522559a4e88197a2a09076e0ec5ca55b2edeb1",
-                "md5": "f506759eb50aa194e91fe17dbea2cac9"
-            },
-            "./actions/jsdoc.js": {
-                "sha1": "7803cbce256fdad41032f955b562d7a05f5b9891",
-                "md5": "d073e92b15cc7a05f0a706497dcb7ae2"
-            },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "e86b1edf50407fbd62b15004ee4dd87e699e3dae",
-                "md5": "969b7a77ee7a46d3592ab710e4e76e35"
-            },
-            "./actions/minify.js": {
-                "sha1": "726caf6efe4e336c7ec60f8b9a23bfa5837308cb",
-                "md5": "473f0dff375309cfa36626607125953a"
-            },
-            "./actions/phpdoc.js": {
-                "sha1": "fe5f6e98dc66096db3edb45bea28a5f489354f85",
-                "md5": "dd04e84e11611d1a127a04a03f558ed0"
-            },
-            "./actions/version-history.js": {
-                "sha1": "13aa58a4162f9eeae1efb3dc393f6411dd004a9e",
-                "md5": "0624d68beb7e7a5bf830d7b4a8856057"
-            },
-            "./actions/wordpress-upgrade.js": {
-                "sha1": "15b9bcc451210fcebe0b78a4f3c697f7eedf8256",
-                "md5": "e361016f24ea91aa864f5738a29bf83c"
-            }
-        }
+        "checksums": {}
     }
 }
