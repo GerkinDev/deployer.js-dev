@@ -27,7 +27,7 @@ module.exports = {
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Execute git actions with the provided config. Files are ignored.
-	 * @tutorial git
+	 * @tutorial git-process
      */
 	process: function(config, files, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
@@ -81,6 +81,7 @@ module.exports = {
 						deployer.log.silly('GIT => Prepare pushing');
 						return repository.getRemote("origin", function(){
 						}).then(function(remote){
+							if(typeof remote != "undefined" && remote != null && remote) {
 							return remote.push([
 								"refs/heads/master:refs/heads/master"
 							],{
@@ -91,6 +92,9 @@ module.exports = {
 									}
 								}
 							});
+							} else {
+								throw 'Remote "origin" not found';
+							}
 						}).done(function(){
 							deployer.log.info("GIT => Pushed to repository");
 							return cb1();
