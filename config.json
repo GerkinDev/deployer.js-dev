@@ -120,12 +120,12 @@
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
             "./actions/files-version.js": {
-                "sha1": "247884ce4916a1815b4e87be94a21c9df837c22b",
-                "md5": "55d75a4af4056e703e713d5a3341c261"
+                "sha1": "ca583501c0c894cbccb7d96f94928e2ede55d427",
+                "md5": "54070456d20b43d5549f644af5966f88"
             },
             "./actions/git.js": {
-                "sha1": "986d15b81c4df0cdc542be0e31c7a84f8d8864bf",
-                "md5": "9c1788f4c3ef13f3bfaca6b1cb97213f"
+                "sha1": "7ee28d94e003412314bbb52b4453c116a4a21c66",
+                "md5": "02e5c13e55c9ef97ad56b2313154699e"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
