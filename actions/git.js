@@ -27,7 +27,7 @@ module.exports = {
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Execute git actions with the provided config. Files are ignored.
-	 * @tutorial actions/git.html
+	 * @tutorial actions/git
      */
 	process: function(config, files, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
