@@ -107,12 +107,44 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.9"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.10"
         },
         "checksums": {
-            "./actions/files-version.js": {
-                "sha1": "ed32607e7af3101991d5c79cdcfc46142bfb143d",
-                "md5": "8e02729879158f99f4f162cd808c646a"
+            "./deployer.js": {
+                "sha1": "3e89f454589c47a0a61cba3c155c11c060325dd8",
+                "md5": "d481450c6157d3b4b0b043e43aaf3570"
+            },
+            "./utils.js": {
+                "sha1": "e73d39aa22e3784385552616bd9faa980f66eb5a",
+                "md5": "7a33a46fdc9a68776978479a66ba209b"
+            },
+            "./actions/git.js": {
+                "sha1": "54c371edd4c087c4dd3a08e7de272cbe224b1794",
+                "md5": "1bde9b88c14932fecba03310a19208be"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "016aa66366927dc0b1ac7743a16c941984f560f1",
+                "md5": "9efb1e7d578803aefdc178f17a54e4fe"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "cde9700f99addc1096c3e42bfc71a1be4fd570fe",
+                "md5": "fe5b3cbcf78ba7b5469367c14caad634"
+            },
+            "./actions/minify.js": {
+                "sha1": "99553554242639d43f3326438564a10e7181afbc",
+                "md5": "cb4d5c1f938302ed87eaf9284f04d02a"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "dae3137160f065cf9efda0bcf0e3adfee0d1ec1a",
+                "md5": "6c83aef95dcf3d1fe683a0171424952a"
+            },
+            "./actions/version-history.js": {
+                "sha1": "68758ba381677aee575e63a80d43de764ddadd00",
+                "md5": "c1002acfc553e09d7afb6d4446acf7f0"
+            },
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "32ad215fcac145e455c8c3b2c97b3aef4f2ea071",
+                "md5": "5102acc876b20fb7380f35d6e541cc2d"
             }
         }
     }
