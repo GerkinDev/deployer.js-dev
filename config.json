@@ -120,8 +120,8 @@
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
             "./actions/files-version.js": {
-                "sha1": "c5815b859833a95e435b2ea86dc949516089567c",
-                "md5": "595dad9c806969bcf5ef19bf116d9e6d"
+                "sha1": "e923d9831395a0bc3bfd4d11e7367bdd97d188f4",
+                "md5": "1739abd5c043eecef79b046a2dcd79de"
             },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
