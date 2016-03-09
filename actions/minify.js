@@ -1,6 +1,6 @@
 /**
  * @file Handles minifying actions from deployer
- * @description false
+ * @description Handles minifying actions from deployer
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment

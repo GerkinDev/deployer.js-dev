@@ -1,6 +1,6 @@
 /**
  * @file Sync with git
- * @description false
+ * @description Sync with git
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment

@@ -1,6 +1,6 @@
 /**
  * @file Generates the documentation of javascript
- * @description false
+ * @description Generates the documentation of javascript
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment

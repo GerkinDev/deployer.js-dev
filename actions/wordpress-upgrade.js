@@ -1,6 +1,6 @@
 /**
  * @file Upgrades WordPress plugin infos
- * @description false
+ * @description Upgrades WordPress plugin infos
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment

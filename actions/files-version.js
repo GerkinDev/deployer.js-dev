@@ -1,6 +1,6 @@
 /**
  * @file Set version at changes
- * @description false
+ * @description Set version at changes
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
@@ -198,7 +198,9 @@ function fileChanged(file, cb){
 			for(var type in infosMod){
 				docblock += "\n";
 				for(var data in infosMod[type]){
-					docblock += " * @" + data + " " + infosMod[type][data] + "\n";
+					if(infosMod[type][data]){
+						docblock += " * @" + data + " " + infosMod[type][data] + "\n";
+					}
 				}
 				docblock += " *";
 			}

@@ -1,6 +1,6 @@
 /**
  * @file Generates the documentation index
- * @description false
+ * @description Generates the documentation index
  *
  * @author Gerkin
  * @copyright 2016 GerkinDevelopment
