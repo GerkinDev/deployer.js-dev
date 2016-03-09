@@ -39,8 +39,8 @@
                     "selection": {
                         "\\.(js)$": true,
                         "\\.min\\.(js)$": false,
-						"^\\.\\/node_modules($|\\/)": false,
-						"^\\.\\/templates($|\\/)": false
+                        "^\\.\\/node_modules($|\\/)": false,
+                        "^\\.\\/templates($|\\/)": false
                     },
                     "setDiffs": {
                         "/(@version\\s+)\\d+(\\.\\d+)*": "$1%VERSION%"
@@ -54,8 +54,8 @@
                         "\\.(js)$": true,
                         "\\.min\\.(js)$": false,
                         "^\\.\\/node_modules($|\\/)": false,
-						"^\\.\\/templates($|\\/)": false,
-						"^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+                        "^\\.\\/templates($|\\/)": false,
+                        "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
                     },
                     "template": "gerkindevelopment",
                     "typepath": "javascript"
@@ -107,7 +107,7 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net//0.1"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1"
         }
     }
 }
