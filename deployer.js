@@ -91,7 +91,7 @@ deployer = {
 
 
 /**
- * @interface action
+ * @mixin action
  */
 /**
  * @method process
