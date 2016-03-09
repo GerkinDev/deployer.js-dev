@@ -110,9 +110,45 @@
             "0.1": "http://deployer.gerkindevelopment.net/0.1.11"
         },
         "checksums": {
+            "./deployer.js": {
+                "sha1": "20354624af3c91a891a7401922b94bc18bbb2b1f",
+                "md5": "17ef8d9bc221e7aa38cd2a383ec32a66"
+            },
+            "./utils.js": {
+                "md5": "fb0b8939d18ba48f1dd00828db298649",
+                "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
+            },
             "./actions/files-version.js": {
-                "sha1": "10283ed9cc2b4a14ba76407a5ab4d3c713589459",
-                "md5": "c14e6558df9faa5437168902b4c558f5"
+                "sha1": "ef443093cb8ff84035b989f79a83f09e0c50d946",
+                "md5": "0ef00e541f1bd038f0a7a171e759c54b"
+            },
+            "./actions/git.js": {
+                "sha1": "e59aa5681fbaf2291a23651e46f19eee11a51b88",
+                "md5": "112ad69e3b0a2574eca8886219cfce1d"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "c8c62f136d06b3b86035bd72ec4a770b04e1ba06",
+                "md5": "1fc6cd18921eccfe4ff3c6c5ebbed18e"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "cba78a2d03de568a31b3b75a75f0e6cf8a7400c7",
+                "md5": "eaef8e9cfc3bdf61b36202447d2772f3"
+            },
+            "./actions/minify.js": {
+                "md5": "e79a55803b7a0280fe737dfb906e6386",
+                "sha1": "eb57a0ebb8b4c53b1f312ebba4aa8d209e8a6ff9"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "50e50ce4600c96b0c7f3f2c5c6ae4043da17a939",
+                "md5": "55c0490a6595a575ba7949075aaf584d"
+            },
+            "./actions/version-history.js": {
+                "sha1": "1d6d942d42350d33c0fbc48a911ae8d108f8d09e",
+                "md5": "1dbc2ea98615ceb15661a28aa688b6f8"
+            },
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "7c7af9bd6847bb029bff0f85de7d22a33694db95",
+                "md5": "2da046e36016f6b4c9d5d9502cfb7e6f"
             }
         }
     }
