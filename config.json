@@ -57,7 +57,7 @@
                         "^\\.\\/templates($|\\/)": false,
                         "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
                     },
-                    "template": "gerkindevelopment",
+                    "template": "default",
                     "typepath": "javascript"
                 },
                 "ithoughts-index-doc": {
