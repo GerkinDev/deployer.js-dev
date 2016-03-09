@@ -96,12 +96,12 @@ deployer = {
 
 /**
  * @method process
- * @memberof action
+ * @memberof deployer~action
  */
 
 /**
  * @method test
- * @memberof action
+ * @memberof deployer~action
  */
 
 
