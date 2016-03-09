@@ -69,6 +69,7 @@ module.exports = {
 				"encoding": "utf8",               // same as -e utf8
 				"destination": composeUrl({base: "path", type:config.typepath}, 0, 3),          // same as -d ./out/
 				"recurse": true,                  // same as -r
+				"tutorials": "."
 			}
 		};
 		if(config.template)
