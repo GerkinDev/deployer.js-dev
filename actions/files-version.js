@@ -48,18 +48,8 @@ module.exports = {
 
 		async.each(filesArray, function(file, cb1){
 			var filepath = path.resolve(".", file);
-			async.parallel([
-				function(cb2){
-					checksum.file(filepath, {algorithm:"sha1"}, cb2);
-				},
-				function(cb2){
-					checksum.file(filepath, {algorithm:"md5"}, cb2);
-				}
-			], function(err, returns){
-				checksums[file] = {
-					sha1: returns[0],
-					md5: returns[1],
-				}
+			makeChecksums(filepath, function(err, returns){
+				checksums[file] = returns
 				cb1(err);
 			});
 		}, function(err){
@@ -218,9 +208,26 @@ function fileChanged(file, cb){
 			} else {
 				content = content.replace(new RegExp("(" + (file.match(/\.php$/) ? "<\\?php" : "^") + ")"), "$1\n\n" + docblock + "\n\n");
 			}
-			return fs.writeFile(filepath, content, cb);
+			return fs.writeFile(filepath, content, function(err){
+				if(err){
+					deployer.log.warn("FILES-VERSION => Error while rewriting " + file + "");
+					return cb(err)
+				}
+				makeChecksums(filepath, cb);
+			});
 		});
 	});
+}
+
+function makeChecksums(file, cb){
+	async.parallel({
+		sha1:function(cb2){
+			checksum.file(filepath, {algorithm:"sha1"}, cb2);
+		},
+		md5:function(cb2){
+			checksum.file(filepath, {algorithm:"md5"}, cb2);
+		}
+	}, cb);
 }
 
 function checkHeaderDatas(infos, file, cb){
