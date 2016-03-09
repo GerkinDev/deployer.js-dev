@@ -19,18 +19,14 @@ const git = require("nodegit");
  */
 
 /**
- * @class action
+ * @namespace action
  * @implements {module:deployer~action}
  */
 module.exports = {
 	/**
-	 * @todo description
-	 * @method
-	 * @memberof module::actions/files-version~action
-     * @param   {object} config Options to explain to the module how to behave
-     * @param   {array} files Files returned by {@link utils.getFilesRec}
-     * @param   {callback} cb Function to call at the end of action
-     * @returns {undefined}
+	 * @method process
+	 * @memberof module::actions/git~action
+	 * @description Execute git actions with the provided config. Files are ignored.
      */
 	process: function(config, files, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
