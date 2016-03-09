@@ -79,6 +79,7 @@ module.exports = {
 				async.forEachOfSeries(checksums, function(checksum, file, cb1){
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
+						deployer.log.silly("File " + file + " is new");
 						return fileChanged(file, cb1);
 					} else {
 						var typesums = Object.keys(
@@ -98,6 +99,7 @@ module.exports = {
 							changed |= (typeof checksum[type] != "undefined" && checksum[type] != null && typeof localConfigChecksum[type] != "undefined" && localConfigChecksum[type] != null && localConfigChecksum[type] != checksum[type]);
 						}
 						if(changed){
+							deployer.log.silly("File " + file + " changed");
 							return fileChanged(file, function(err, newChercksums){
 								if(err){
 									deployer.log.error(err)
@@ -107,6 +109,7 @@ module.exports = {
 								cb1(err);
 							});
 						} else {
+							deployer.log.silly("File " + file + " has the same checksums");
 							return cb1();
 						}
 					}
@@ -146,7 +149,7 @@ function fileChanged(file, cb){
 		if(!header){
 			deployer.log.warn("File " + file + " has no file header");
 		} else {
-			deployer.log.silly("File " + file + " has changed");
+			deployer.log.info("File " + file + " has changed");
 			var splitInfos = /^[\f\t ]*\*[\f\t ]*(?!\/)(?:@(\w+))?[\f\t ]*(.*)??$/gm;
 			var splittedHeader = header.match(splitInfos);
 			var requiredInfos = ["file", "copyright", "license", "package", "author", "version"];
