@@ -9,7 +9,7 @@
             },
             "format": [
                 "%BASE%",
-                "%VERSION%",
+                "%VERSION_MINOR%",
                 "%TYPE%"
             ],
             "resources": {
@@ -107,7 +107,6 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.15"
         },
         "checksums": {
             "./deployer.js": {

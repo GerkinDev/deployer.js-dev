@@ -15,7 +15,7 @@ const git = require("nodegit");
 /**
  * @todo description  with {@link deployer}
  * @module actions/git
- * @requires git
+ * @requires nodegit
  */
 module.exports = {
 	/**
