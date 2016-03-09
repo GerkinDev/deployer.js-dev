@@ -112,8 +112,8 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "c70f49019f9626659fddb82f93b9554d9fe39992",
-                "md5": "255dea147f9cdd7a773bde5f68d8b58f"
+                "sha1": "81736545ae5006b483a02dccc3b2cb8d4a26fea8",
+                "md5": "f36ff096049a8a0c5aeabedd0e37fbd0"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
@@ -143,13 +143,13 @@
                 "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
                 "md5": "3e5c34d6e6fa4dbee4dfe796e7287bff"
             },
-            "./actions/wordpress-upgrade.js": {
-                "sha1": "e6c1004286fe21f12425fa5cd40e3e044c7811d1",
-                "md5": "3cd8f5626034f515d9b2aa0b36557522"
-            },
             "./actions/version-history.js": {
                 "sha1": "b786ca7e7281c0d2125f8ba9be92399371189faa",
                 "md5": "518d9d222d4f7b8c2970a0169dc1150d"
+            },
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "e6c1004286fe21f12425fa5cd40e3e044c7811d1",
+                "md5": "3cd8f5626034f515d9b2aa0b36557522"
             }
         }
     }
