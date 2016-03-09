@@ -73,13 +73,13 @@ module.exports = {
 					return cb(err);
 				}
 				if(!localConfig)
-					return cb("Could not read config file");
+					return cb("FILES-VERSION => Could not read config file");
 
 				var filesChecked = [];
 				async.forEachOfSeries(checksums, function(checksum, file, cb1){
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
-						deployer.log.silly("File " + file + " is new");
+						deployer.log.silly("FILES-VERSION => File " + file + " is new");
 						return fileChanged(file, function(err, newChecksums){
 							if(err){
 								deployer.log.error(err)
@@ -106,7 +106,7 @@ module.exports = {
 							changed |= (typeof checksum[type] != "undefined" && checksum[type] != null && typeof localConfigChecksum[type] != "undefined" && localConfigChecksum[type] != null && localConfigChecksum[type] != checksum[type]);
 						}
 						if(changed){
-							deployer.log.silly("File " + file + " changed");
+							deployer.log.silly("FILES-VERSION => File " + file + " changed");
 							return fileChanged(file, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
@@ -116,13 +116,14 @@ module.exports = {
 								cb1(err);
 							});
 						} else {
-							deployer.log.silly("File " + file + " has the same checksums");
+							deployer.log.silly("FILES-VERSION => File " + file + " has the same checksums");
 							checksums[file] = localConfigChecksum;
 							return cb1();
 						}
 					}
 				}, function(err){
 					// Rewrite checksums
+					deployer.log.silly("FILES-VERSION => New checksums: ", checksums);
 					localConfig.project.checksums = checksums;
 					return writeLocalConfigFile(localConfig, cb);
 				});
@@ -155,9 +156,9 @@ function fileChanged(file, cb){
 		if(header != null && header.length >= 2 && header[1])
 			header = header[1];
 		if(!header){
-			deployer.log.warn("File " + file + " has no file header");
+			deployer.log.warn("FILES-VERSION => File " + file + " has no file header");
 		} else {
-			deployer.log.info("File " + file + " has changed");
+			deployer.log.info("FILES-VERSION => File " + file + " has changed");
 			var splitInfos = /^[\f\t ]*\*[\f\t ]*(?!\/)(?:@(\w+))?[\f\t ]*(.*)??$/gm;
 			var splittedHeader = header.match(splitInfos);
 			var requiredInfos = ["file", "copyright", "license", "package", "author", "version"];
