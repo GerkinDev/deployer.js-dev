@@ -76,7 +76,7 @@ module.exports = {
 								return cb1(err);
 							}
 							checksums[file] = newChecksums;
-							cb1(err);
+							return cb1(err);
 						});
 					} else {
 						var typesums = Object.keys(
@@ -100,14 +100,15 @@ module.exports = {
 							return fileChanged(file, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
+									checksums[file] = {};
 									return cb1(err);
 								}
 								checksums[file] = newChecksums;
-								cb1(err);
+								return cb1(err);
 							});
 						} else {
 							deployer.log.silly("FILES-VERSION => File " + file + " has the same checksums");
-							checksums[file] = localConfigChecksum;
+							checksums[file] = localConfigChecksum[file];
 							return cb1();
 						}
 					}
