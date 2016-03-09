@@ -12,5 +12,5 @@
 		"cleverLinks": false,
 		"monospaceLinks": false
 	},
-	"tutorials": "."
+	"tutorials": "/mnt/workdata/nodejs/scripts/deployer/"
 }
