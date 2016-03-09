@@ -107,9 +107,13 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.8"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.9"
         },
         "checksums": {
+            "./deployer.js": {
+                "sha1": "e21e719182eb7779e56b6d18e1b0d9d546a60609",
+                "md5": "a69960c01ffce66bee8cefc6bdf35342"
+            },
             "./utils.js": {
                 "md5": "5422f511bebd6dfc4bbc12748481d4d1",
                 "sha1": "9bf8ab8f23709ca062a21c7a5c12919f0b5ec31b"
@@ -145,10 +149,6 @@
             "./actions/wordpress-upgrade.js": {
                 "sha1": "c533b157551e24412cf65af583b83bdb8ca59bdc",
                 "md5": "b76aa534b8184c6d5380bc9bc279cd04"
-            },
-            "./deployer.js": {
-                "sha1": "e21e719182eb7779e56b6d18e1b0d9d546a60609",
-                "md5": "a69960c01ffce66bee8cefc6bdf35342"
             }
         }
     }
