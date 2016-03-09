@@ -112,20 +112,24 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "c8438229a793b635ad41a741ebb84373b434264e",
-                "md5": "4d7d802f7113201fc3d5a725c8b41dda"
+                "sha1": "854e37da1c26001425c2fe8ee564579eca8663a1",
+                "md5": "da870ee6497387a5f5550def063a417d"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
+            "./actions/files-version.js": {
+                "sha1": "818b5c80e2f168e2d779686e3b2f5f8d0f25878f",
+                "md5": "02ec10af4f7b5a917cb041462ed0f65f"
+            },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
                 "md5": "2f01e1796be052fd679f910c870b30ac"
             },
-            "./actions/files-version.js": {
-                "sha1": "818b5c80e2f168e2d779686e3b2f5f8d0f25878f",
-                "md5": "02ec10af4f7b5a917cb041462ed0f65f"
+            "./actions/minify.js": {
+                "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
+                "md5": "a72529e6bff58d882083fa51b792004c"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
@@ -134,10 +138,6 @@
             "./actions/jsdoc.js": {
                 "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
                 "md5": "d3a720db3458a1de4757c58f5976003f"
-            },
-            "./actions/minify.js": {
-                "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
-                "md5": "a72529e6bff58d882083fa51b792004c"
             },
             "./actions/phpdoc.js": {
                 "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
