@@ -119,36 +119,36 @@
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
             "./actions/files-version.js": {
-                "sha1": "90fe4568d37a3f7d714ea2db05c1f842ca09ee14",
-                "md5": "252f61eec989441108310c9a8d7d89f1"
+                "sha1": "60d4f89609d682c8192e1dc6de2b30668e9d0e94",
+                "md5": "38b4e48067d986e9f71f23f5dcf4080b"
             },
             "./actions/git.js": {
-                "sha1": "8b6f316c49352d857e757ca2ae12870e1b07d728",
-                "md5": "e08635869624168fa475885394f4d271"
+                "sha1": "8a9211eed69a7eff1e7d4b18da3cfd1c512ca165",
+                "md5": "0378665fea58abd51a65c0109405c502"
             },
             "./actions/ithoughts-index-doc.js": {
-                "sha1": "c8c62f136d06b3b86035bd72ec4a770b04e1ba06",
-                "md5": "1fc6cd18921eccfe4ff3c6c5ebbed18e"
+                "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
+                "md5": "0a46402462478e3efc51a289b6f3af99"
             },
             "./actions/jsdoc.js": {
-                "sha1": "cba78a2d03de568a31b3b75a75f0e6cf8a7400c7",
-                "md5": "eaef8e9cfc3bdf61b36202447d2772f3"
+                "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
+                "md5": "d3a720db3458a1de4757c58f5976003f"
             },
             "./actions/minify.js": {
-                "md5": "e79a55803b7a0280fe737dfb906e6386",
-                "sha1": "eb57a0ebb8b4c53b1f312ebba4aa8d209e8a6ff9"
+                "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
+                "md5": "a72529e6bff58d882083fa51b792004c"
             },
             "./actions/phpdoc.js": {
-                "sha1": "50e50ce4600c96b0c7f3f2c5c6ae4043da17a939",
-                "md5": "55c0490a6595a575ba7949075aaf584d"
+                "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
+                "md5": "3e5c34d6e6fa4dbee4dfe796e7287bff"
             },
             "./actions/version-history.js": {
-                "sha1": "1d6d942d42350d33c0fbc48a911ae8d108f8d09e",
-                "md5": "1dbc2ea98615ceb15661a28aa688b6f8"
+                "sha1": "b786ca7e7281c0d2125f8ba9be92399371189faa",
+                "md5": "518d9d222d4f7b8c2970a0169dc1150d"
             },
             "./actions/wordpress-upgrade.js": {
-                "sha1": "7c7af9bd6847bb029bff0f85de7d22a33694db95",
-                "md5": "2da046e36016f6b4c9d5d9502cfb7e6f"
+                "sha1": "e6c1004286fe21f12425fa5cd40e3e044c7811d1",
+                "md5": "3cd8f5626034f515d9b2aa0b36557522"
             }
         }
     }
