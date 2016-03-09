@@ -112,8 +112,8 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "633c676ded3acb3d299ccb64d3285c4657be6946",
-                "md5": "aa5be93e6208278c0a3da7a3a53d756a"
+                "md5": "5d3a3456d3b741faf3c6c66ee317d966",
+                "sha1": "1cd1ef9303277ac27d3e555d85726339f5231d06"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
@@ -124,8 +124,8 @@
                 "md5": "54070456d20b43d5549f644af5966f88"
             },
             "./actions/git.js": {
-                "sha1": "7ee28d94e003412314bbb52b4453c116a4a21c66",
-                "md5": "02e5c13e55c9ef97ad56b2313154699e"
+                "sha1": "157876fad4e64346ae54efb2a46d9a70874b9808",
+                "md5": "67bfb9bd1b5e3444960c0eda1d19469f"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
