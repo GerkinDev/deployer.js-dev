@@ -108,6 +108,7 @@ module.exports = {
 							});
 						} else {
 							deployer.log.silly("FILES-VERSION => File " + file + " has the same checksums");
+							console.log(localConfigChecksum);
 							checksums[file] = localConfigChecksum[file];
 							return cb1();
 						}
