@@ -91,17 +91,11 @@ deployer = {
 
 
 /**
- * @class action
+ * @interface action
  */
-
 /**
  * @method process
  * @memberof module:deployer~action
- */
-
-/**
- * @method test
- * @memberof {module:deployer~action}
  */
 
 
