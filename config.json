@@ -4,7 +4,7 @@
         "author": "Gerkin",
         "documentation": {
             "base": {
-                "url": "http://deployer.gerkindevelopment.net/",
+                "url": "http://deployer.gerkindevelopment.net",
                 "path": "/mnt/workdata/nodejs/documentation/deployer.js/"
             },
             "format": [
@@ -39,7 +39,8 @@
                     "selection": {
                         "\\.(js)$": true,
                         "\\.min\\.(js)$": false,
-						"^\\.\\/node_modules($|\\/)": false
+						"^\\.\\/node_modules($|\\/)": false,
+						"^\\.\\/templates($|\\/)": false
                     },
                     "setDiffs": {
                         "/(@version\\s+)\\d+(\\.\\d+)*": "$1%VERSION%"
@@ -52,7 +53,9 @@
                     "selection": {
                         "\\.(js)$": true,
                         "\\.min\\.(js)$": false,
-                        "^\\.\\/node_modules($|\\/)": false
+                        "^\\.\\/node_modules($|\\/)": false,
+						"^\\.\\/templates($|\\/)": false,
+						"^\\.\\/actions\\/ithoughts-index-doc\\.js": false
                     },
                     "template": "gerkindevelopment",
                     "typepath": "javascript"

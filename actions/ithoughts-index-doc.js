@@ -1,9 +1,13 @@
 /**
  * @file actions/ithoughts-index-doc generates the documentation index
+ *
  * @author Gerkin
- *         
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
+ * @package deployer.js
+ *
  * @version 0.1
-*/
+ */
 
 const swig = require("swig");
 const ncp = require("ncp");

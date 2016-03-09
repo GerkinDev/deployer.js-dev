@@ -14,11 +14,18 @@ throwError = function(error, critical){
 }*/
 
 /**
- * Retrieve all files from path, excluding ones in the {@link deployer}.config.excludeExplore
- * @method
- * @param   {string} path Path to explore
- * @param   {callback} cb Callback to call afterwards. Returns (err, files)
+ * @description Retrieve all files from path, excluding ones in the {@link deployer}.config.excludeExplore
+ * @file Global functions used through Deployer.js package
+ *
+ * @copyright 2016 GerkinDevelopment
+ * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
+ * @package deployer.js
+ *
+ * @method undefined
+ * @param {callback} cb Callback to call afterwards. Returns (err, files)
  * @returns {undefined}
+ *
+ * @version 0.1
  */
 getFilesRec = function(path, cb){
 	var out = [];
