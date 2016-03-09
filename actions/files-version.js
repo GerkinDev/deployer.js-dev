@@ -20,12 +20,17 @@ const readline = require('readline');
  * @requires readline
  * @requires checksum
  */
-
-/**
- * @namespace action
- * @implements {module:deployer~action}
- */
 module.exports = {
+	/**
+	 * @method process
+	 * @static
+	 * @memberof module:actions/files-version
+	 * @param   {object} config Options to explain to the module how to behave
+	 * @param   {array} files Files on which handle the version header.
+	 * @param   {callback} cb Function to call at the end of action
+	 * @returns {undefined}
+	 * @description Browse each file in `files`, check if they changed, then rewrite them by changing their version header 
+	 */
 	process: function(config, files, cb){
 		var reformatedFiles = reformatFiles(files);
 		var selectors = Object.keys(config.selection)

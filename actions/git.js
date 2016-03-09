@@ -23,10 +23,11 @@ module.exports = {
 	 * @static
 	 * @memberof module:actions/git
 	 * @param   {object} config Options to explain to the module how to behave
-	 * @param   {array} files Files returned by {@link utils.getFilesRec}
+	 * @param   {array} files Unused.
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Execute git actions with the provided config. Files are ignored.
+	 * @tutorial tutorials/actions/git.html
      */
 	process: function(config, files, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
