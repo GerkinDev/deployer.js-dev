@@ -112,16 +112,16 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "a7ab9125224de0e777c4e4a965c40108808a9589",
-                "md5": "9ea188bd3253b73e69be75c3cffa9b74"
+                "sha1": "fd3beae2d7839cf42cc662c77ece9092bc2552f3",
+                "md5": "04a241e6066e09b753bccaf15d84f3aa"
             },
             "./utils.js": {
                 "md5": "fb0b8939d18ba48f1dd00828db298649",
                 "sha1": "9f1de0a174d09cee6a65e0a6d8d2be25b328ea3f"
             },
             "./actions/files-version.js": {
-                "md5": "e797eb5294d2ef90cd743e1ae2ecf677",
-                "sha1": "7c2537a6398b825ef8f2d4122154db50c4f44f95"
+                "sha1": "818b5c80e2f168e2d779686e3b2f5f8d0f25878f",
+                "md5": "02ec10af4f7b5a917cb041462ed0f65f"
             },
             "./actions/git.js": {
                 "sha1": "ec7c7b2e51974f2f86df2de27a3eb5557638d43f",
@@ -131,6 +131,10 @@
                 "sha1": "fe546c34817c50c00768534a916cca7e5679aafb",
                 "md5": "0a46402462478e3efc51a289b6f3af99"
             },
+            "./actions/phpdoc.js": {
+                "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
+                "md5": "3e5c34d6e6fa4dbee4dfe796e7287bff"
+            },
             "./actions/jsdoc.js": {
                 "sha1": "3819ceb4c016ba3d429ea4e7d75887bb9b9ea239",
                 "md5": "d3a720db3458a1de4757c58f5976003f"
@@ -138,10 +142,6 @@
             "./actions/minify.js": {
                 "sha1": "40511575212c4e40d0cfe1f6ef8cf0fbfc0bac1b",
                 "md5": "a72529e6bff58d882083fa51b792004c"
-            },
-            "./actions/phpdoc.js": {
-                "sha1": "3f2df6f90a25e47dfcf8c3a346f4f5fa6c6e5f49",
-                "md5": "3e5c34d6e6fa4dbee4dfe796e7287bff"
             },
             "./actions/version-history.js": {
                 "sha1": "b786ca7e7281c0d2125f8ba9be92399371189faa",
