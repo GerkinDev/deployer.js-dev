@@ -96,6 +96,11 @@ deployer = {
  */
 /**
  * @method process
+ * @memberof {deployer~action}
+ */
+/**
+ * @method test
+ * @memberof {deployer~action}
  */
 
 
