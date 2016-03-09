@@ -91,7 +91,8 @@ deployer = {
 
 
 /**
- * @interface action
+ * @module action
+ * @interface
  * @package deployer.js
  */
 /**
