@@ -17,10 +17,16 @@ const git = require("nodegit");
  * @module actions/git
  * @requires nodegit
  */
+
+/**
+ * @namespace action
+ * @implements {module:deployer~action}
+ */
 module.exports = {
 	/**
 	 * @todo description
 	 * @method
+	 * @memberof module::actions/files-version~action
      * @param   {object} config Options to explain to the module how to behave
      * @param   {array} files Files returned by {@link utils.getFilesRec}
      * @param   {callback} cb Function to call at the end of action

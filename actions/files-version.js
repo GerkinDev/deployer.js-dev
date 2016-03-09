@@ -22,19 +22,10 @@ const readline = require('readline');
  */
 
 /**
- * @namespace files-version
+ * @namespace action
  * @implements {module:deployer~action}
  */
 module.exports = {
-	/**
-     * Process the generation operation with the config provided
-	 * @method
-	 * @memberof module::actions/files-version~files-version
-     * @param   {object} config Options to explain to the module how to behave
-     * @param   {array} files Files returned by {@link utils.getFilesRec}
-     * @param   {callback} cb Function to call at the end of action
-     * @returns {undefined}
-     */
 	process: function(config, files, cb){
 		var reformatedFiles = reformatFiles(files);
 		var selectors = Object.keys(config.selection)
