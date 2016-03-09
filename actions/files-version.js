@@ -113,7 +113,7 @@ module.exports = {
 				}, function(err){
 					// Rewrite checksums
 					localConfig.project.checksums = checksums;
-					cb();//return writeLocalConfigFile(localConfig, cb);
+					return writeLocalConfigFile(localConfig, cb);
 				});
 			});
 		});
