@@ -107,6 +107,7 @@
             ]
         ],
         "versions": {
+            "0.1": "http://deployer.gerkindevelopment.net/0.1"
         },
         "checksums": {
             "./deployer.js": {
@@ -122,8 +123,8 @@
                 "md5": "252f61eec989441108310c9a8d7d89f1"
             },
             "./actions/git.js": {
-                "sha1": "e59aa5681fbaf2291a23651e46f19eee11a51b88",
-                "md5": "112ad69e3b0a2574eca8886219cfce1d"
+                "sha1": "8b6f316c49352d857e757ca2ae12870e1b07d728",
+                "md5": "e08635869624168fa475885394f4d271"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "c8c62f136d06b3b86035bd72ec4a770b04e1ba06",
