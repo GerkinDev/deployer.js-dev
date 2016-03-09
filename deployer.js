@@ -95,11 +95,11 @@ deployer = {
  */
 /**
  * @method process
- * @memberof deployer~action
+ * @memberof action
  */
 /**
  * @method test
- * @memberof deployer~action
+ * @memberof action
  */
 
 
