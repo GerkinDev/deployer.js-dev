@@ -107,7 +107,7 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.13"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.14"
         },
         "checksums": {
             "./deployer.js": {
