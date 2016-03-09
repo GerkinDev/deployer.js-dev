@@ -1,5 +1,5 @@
 /**
- * @file actions/wordpress-upgrade upgrades WordPress infos
+ * @file Upgrades WordPress plugin infos
  * @description false
  *
  * @author Gerkin

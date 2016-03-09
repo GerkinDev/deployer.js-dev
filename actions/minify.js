@@ -1,5 +1,5 @@
 /**
- * @file actions/minify handles minifying actions from deployer
+ * @file Handles minifying actions from deployer
  * @description false
  *
  * @author Gerkin

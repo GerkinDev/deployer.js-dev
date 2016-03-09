@@ -1,5 +1,5 @@
 /**
- * @file actions/phpdoc generates the documentation of javascript
+ * @file Generates the documentation of javascript
  * @description false
  *
  * @author Gerkin

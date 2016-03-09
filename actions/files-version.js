@@ -146,6 +146,7 @@ function fileChanged(file, cb){
 		if(!header){
 			deployer.log.warn("File " + file + " has no file header");
 		} else {
+			deployer.log.silly("File " + file + " has changed");
 			var splitInfos = /^[\f\t ]*\*[\f\t ]*(?!\/)(?:@(\w+))?[\f\t ]*(.*)??$/gm;
 			var splittedHeader = header.match(splitInfos);
 			var requiredInfos = ["file", "copyright", "license", "package", "author", "version"];

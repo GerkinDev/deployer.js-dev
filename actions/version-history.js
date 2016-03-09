@@ -1,5 +1,5 @@
 /**
- * @file actions/version-history generates the documentation index
+ * @file Generates the documentation index
  * @description false
  *
  * @author Gerkin

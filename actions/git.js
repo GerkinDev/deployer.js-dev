@@ -1,5 +1,5 @@
 /**
- * @file actions/git sync with git
+ * @file Sync with git
  * @description false
  *
  * @author Gerkin
