@@ -107,7 +107,7 @@
             ]
         ],
         "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1.7"
+            "0.1": "http://deployer.gerkindevelopment.net/0.1.8"
         },
         "checksums": {
             "./deployer.js": {
@@ -122,13 +122,13 @@
                 "sha1": "5eb3c607f7c56881e514d416631ec74a929e4eb7",
                 "md5": "3e7f0c8c3d6864632c2034d2e34c8c0e"
             },
-            "./actions/git.js": {
-                "sha1": "d8b63180a1e72be634f7857e0b2fb0fc8ca1e092",
-                "md5": "96b00ff3c4d8779410fed2b576f4d8a8"
-            },
             "./actions/jsdoc.js": {
                 "sha1": "1a4ccb541b60b6cf95ee511820214b34f94fe88f",
                 "md5": "8145503dd5e9350481e936fcdcc79a53"
+            },
+            "./actions/git.js": {
+                "sha1": "d8b63180a1e72be634f7857e0b2fb0fc8ca1e092",
+                "md5": "96b00ff3c4d8779410fed2b576f4d8a8"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "220f9ca3b780b3e78ee236c9c3b56d304ecf103a",
