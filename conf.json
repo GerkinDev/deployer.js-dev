@@ -12,5 +12,8 @@
 		"cleverLinks": false,
 		"monospaceLinks": false
 	},
-	"tutorials": "/mnt/workdata/nodejs/scripts/deployer/"
+	"opts": {
+		"recurse": true,                  // same as -r
+		"tutorials": ".", // same as -u path/to/tutorials
+	}
 }
