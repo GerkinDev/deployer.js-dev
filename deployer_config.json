@@ -13,8 +13,15 @@
 						{
 							"action": "add",
 							"data": {
-								"path": ".",
+								"path": "../",
 								"force": true
+							}
+						},
+						{
+							"action": "cp",
+							"data": {
+								"from": ".",
+								"to": "../tags/%VERSION%"
 							}
 						},
 						{
