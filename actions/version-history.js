@@ -11,14 +11,12 @@
  */
 
 const swig = require("swig");
-const ncp = require("ncp");
 
 /**
  * @todo description {@link deployer}
  * @module actions/version-history
  * @requires fs
  * @requires swig
- * @requires ncp
  */
 module.exports = {
 	/**

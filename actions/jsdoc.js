@@ -48,6 +48,9 @@ module.exports = {
 		for(var i = 0; i < l; i++){
 			filesArray[i] = path.resolve(".", filesArray[i]);
 		}
+		var pathobj = {base: "path"};
+		if(config.typepath)
+			pathobj.type = config.typepath;
 		var root = {
 			tags: {
 				allowUnknownTags: true,
@@ -59,7 +62,7 @@ module.exports = {
 			source: {
 				include: filesArray
 			},
-			"plugins": [],
+			"plugins": config.plugins ? config.plugins : [],
 			"templates": {
 				"cleverLinks": false,
 				"monospaceLinks": false
@@ -67,9 +70,8 @@ module.exports = {
 			"opts": {
 				"template": "templates/default",  // same as -t templates/default
 				"encoding": "utf8",               // same as -e utf8
-				"destination": composeUrl({base: "path", type:config.typepath}, 0, 3),          // same as -d ./out/
+				"destination": composeUrl(pathobj, 0, 3),          // same as -d ./out/
 				"recurse": true,                  // same as -r
-				"tutorials": "/mnt/workdata/nodejs/scripts/deployer/tutorials"
 			}
 		};
 		if(config.template)
@@ -93,11 +95,15 @@ module.exports = {
 			})
 			process.on("exit", function(exitCode){
 				deployer.log.info("JSDOC => Process JSDOC exited with code " + exitCode);
-				fs.unlink(targetPath, function(err){
-					if(err)
-						deployer.warn("JSDOC => Could not unlink config file " + targetPath);
+				if(!deployer.config.dirty){
+					fs.unlink(targetPath, function(err){
+						if(err)
+							deployer.warn("JSDOC => Could not unlink config file " + targetPath);
+						cb();
+					});
+				} else {
 					cb();
-				});
+				}
 			})
 		});
 	}

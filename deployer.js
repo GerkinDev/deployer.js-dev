@@ -145,14 +145,17 @@ deployer = {
 		],
 		function(err, critical){
 			deployer.config = replacePlaceHolders(deployer.config);
-			if(!deployer.config.project.documentation.resources)
-				deployer.config.project.documentation.resources = {
-					url: composeUrl({base: "url"}, 0,2) + "/resources",
-					path: composeUrl({base: "path"}, 0,2) + "/resources"
+			if(deployer.config.project.documentation){
+				if(!deployer.config.project.documentation.resources){
+					deployer.config.project.documentation.resources = {
+						url: composeUrl({base: "url"}, 0,2) + "/resources",
+						path: composeUrl({base: "path"}, 0,2) + "/resources"
+					}
 				}
-				if(!deployer.config.version_history){
-					deployer.config.version_history = {};
-				}
+			}
+			if(!deployer.config.version_history){
+				deployer.config.version_history = {};
+			}
 			init = false;
 			if(typeof err != "undefined" && err !== true){
 				if(typeof critical === "undefined")
@@ -160,9 +163,9 @@ deployer = {
 				throwError(err, critical);
 			}
 
-			getFilesRec(process.cwd(), function(err, files){
+			return getFilesRec(process.cwd(), function(err, files){
 				deployer.log.silly("Configuration: " + JSON.stringify(deployer.config, null, 4));
-				execCommandGroups(files);
+				return execCommandGroups(files);
 			});
 		}
 	);
@@ -204,25 +207,25 @@ function checkArgs(){
 function execCommandGroups(files){
 	var i = 1;
 	var timestartGroup;
-	async.eachSeries(deployer.config.project.commands, function(commandGroup, cb1){
+	return async.eachSeries(deployer.config.project.commands, function(commandGroup, cb1){
 		timestartGroup = (new Date()).getTime();
 		deployer.log.info("========> Processing group " + (i++));
 		if(commandGroup != null && typeof commandGroup != "undefined" && commandGroup.constructor.name == "Object"){
-			execParallelCommandGroup(files, commandGroup, function(err){
+			return execParallelCommandGroup(files, commandGroup, function(err){
 				deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-				cb1(err)
+				return cb1(err)
 			});
 		} else if(commandGroup.constructor.name == "Array"){
-			async.each(commandGroup, function(subCommandGroup, cb2){
-				execParallelCommandGroup(files, subCommandGroup, cb2);
+			return async.each(commandGroup, function(subCommandGroup, cb2){
+				return execParallelCommandGroup(files, subCommandGroup, cb2);
 			}, function(err){
 				deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-				cb1(err);
+				return cb1(err);
 			});
 		} else {
 			deployer.log.error("Unhandled type for commandGroup " + (i - 1) + ": " + typeof commandGroup);
 			deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-			cb1();
+			return cb1();
 		}
 	}, function(err){
 		if(err){
@@ -248,9 +251,9 @@ function execParallelCommandGroup(files, group, cb){
 		var timestart = (new Date()).getTime();
 		deployer.log.info("====> Starting action " + key);
 		var handler = require("./actions/" + key + ".js");
-		handler.process(value, files, function(){
+		return handler.process(value, files, function(){
 			deployer.log.info("====> Finished action " + key + " after " + ((new Date()).getTime() - timestart) + "ms");
-			cb2();
+			return cb2();
 		});
 	}, function(err){
 		cb(err);

@@ -209,7 +209,8 @@ function fileChanged(file, cb){
 			if(header){
 				content = content.replace(header, docblock);
 			} else {
-				content = content.replace(new RegExp("(" + (file.match(/\.php$/) ? "<\\?php" : "^") + ")"), "$1\n\n" + docblock + "\n\n");
+				var isPhp = file.match(/\.php$/);
+				content = content.replace(new RegExp("(" + (isPhp ? "<\\?php" : "^") + ")"), "$1" + (isPhp ? "\n\n" : "") + docblock + "\n\n");
 			}
 			return fs.writeFile(filepath, content, function(err){
 				if(err){

@@ -1,9 +1,15 @@
 {
 	"name": "deployer.js",
-	"version": "0.0.1",
-	"devDependencies": {
-		"async": "^1.5.2"
+	"description": "Automating and configurable script to handle working on projects",
+	"homepage": "TODO",
+	"license": "GPL-3.0",
+	"private": true,
+	"author": {
+		"name" : "Germain Alexandre",
+		"email" : "agermain@gerkindevelopment.net",
+		"url" : "https://www.gerkindevelopment.net/"
 	},
+	"version": "0.0.1",
 	"dependencies": {
 		"async": "^1.5.2",
 		"colour": "^0.7.1",
@@ -12,11 +18,12 @@
 		"jsdoc": "^3.4.0",
 		"merge": "^1.2.0",
 		"minifier": "^0.7.1",
-		"ncp": "^2.0.0",
+		"fs-extra": "*",
+		"node.svn": "^0.1.8",
+		"nodegit": "0.11.9",
 		"randomstring": "^1.1.3",
 		"replace": "^0.3.0",
 		"swig": "^1.4.2",
-		"xmlbuilder": "^4.2.1",
-		"nodegit": "2.14.2"
+		"xmlbuilder": "^4.2.1"
 	}
 }
