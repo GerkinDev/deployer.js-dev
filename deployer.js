@@ -360,35 +360,42 @@ function execCommandGroup(command, prefix, callback){
 	var act = (command.actions.length > 0);
 	var mod = (["serie","parallel"].indexOf(command.mode) > -1);
 	if(act ^ mod){
-		deployer.log.error("Misconfigured command: missing action or mode");
+		deployer.log.error("Misconfigured command group "+prefix+": missing action or mode");
 		callback();
 	} else {
 		if(!act && !mod){
 			deployer.log.silly("Empty command, return");
 			callback();
 		} else {
+			if(prefix)
+				prefix += ".";
+
 			deployer.log.silly("Executing in mode " + command.mode);
 			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
 			async[mode](command.actions, function(action,index,cb){
 				var timestart = (new Date()).getTime();
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
-				deployer.log.silly("Action: ", JSON.stringify(action));
-				var handler = require("./actions/" + action.action + ".js");
-				if(handler){
-					if(handler.process){
-						return handler.process(action.data, function(){
-							deployer.log.info("====> Finished action " + prefix + "." + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
-							return cb();
-						});
+				if(action.command_group){
+					execCommandGroup(action.actions, prefix + index, callback);
+				} else {
+					deployer.log.silly("Action: ", JSON.stringify(action));
+					var handler = require("./actions/" + action.action + ".js");
+					if(handler){
+						if(handler.process){
+							return handler.process(action.data, function(){
+								deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
+								return cb();
+							});
+						} else {
+							var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+							deployer.log.error(err)
+							return cb(err)
+						}
 					} else {
-						var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+						var err = 'Action "' +action.action+'" not found!';
 						deployer.log.error(err)
 						return cb(err)
 					}
-				} else {
-					var err = 'Action "' +action.action+'" not found!';
-					deployer.log.error(err)
-					return cb(err)
 				}
 			}, function(err){
 				if(err)
