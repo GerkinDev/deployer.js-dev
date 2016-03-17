@@ -370,8 +370,8 @@ function execCommandGroup(command, prefix, callback){
 			deployer.log.silly("Executing in mode " + command.mode);
 			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
 			async[mode](command.actions, function(action,index,cb){
-				console.log(index,action);
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
+				deployer.log.silly("Action: ", JSON.stringify(action));
 				var handler = require("./actions/" + action.action + ".js");
 				if(handler){
 					if(handler.process){

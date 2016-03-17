@@ -25,13 +25,12 @@ module.exports = {
 	 * @static
 	 * @memberof module:actions/git
 	 * @param   {object} config Options to explain to the module how to behave
-	 * @param   {array} files Unused.
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
-	 * @description Execute git actions with the provided config. Files are ignored.
+	 * @description Execute git actions with the provided config.
 	 * @tutorial git-process
      */
-	process: function(config, files, cb){
+	process: function(config,  cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
 		git.Repository.open(repoPath).done(function(repository){
 			var signature = git.Signature.default(repository);//.create(ret.name,ret.email,(new Date()).getTime(), 0);
