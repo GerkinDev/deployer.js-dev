@@ -370,19 +370,20 @@ function execCommandGroup(command, prefix, callback){
 			deployer.log.silly("Executing in mode " + command.mode);
 			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
 			async[mode](command.actions, function(action,index,cb){
+				var timestart = (new Date()).getTime();
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
 				deployer.log.silly("Action: ", JSON.stringify(action));
 				var handler = require("./actions/" + action.action + ".js");
 				if(handler){
 					if(handler.process){
-					return handler.process(action.data, function(){
-						deployer.log.info("====> Finished action " + prefix + "." + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
-						return cb();
-					});
+						return handler.process(action.data, function(){
+							deployer.log.info("====> Finished action " + prefix + "." + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
+							return cb();
+						});
 					} else {
-					var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
-					deployer.log.error(err)
-					return cb(err)
+						var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+						deployer.log.error(err)
+						return cb(err)
 					}
 				} else {
 					var err = 'Action "' +action.action+'" not found!';
