@@ -23,12 +23,11 @@ module.exports = {
 	 * @static
 	 * @memberof module:actions/svn
 	 * @param   {object} config Options to explain to the module how to behave
-	 * @param   {array} files Unused.
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Sync. 
 	 */
-	process: function(config, files, cb){
+	process: function(config, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
 		const svn = new SVN(repoPath);
 		async.eachSeries(config.actions, function(action, cb1){

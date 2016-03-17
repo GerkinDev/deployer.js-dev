@@ -26,13 +26,12 @@ module.exports = {
 	 * @static
 	 * @memberof module:actions/files-version
 	 * @param   {object} config Options to explain to the module how to behave
-	 * @param   {array} files Files on which handle the version header.
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Browse each file in `files`, check if they changed, then rewrite them by changing their version header 
 	 */
-	process: function(config, files, cb){
-		var reformatedFiles = reformatFiles(files);
+	process: function(config, cb){
+		var reformatedFiles = reformatFiles(deployer.config.files);
 		var selectors = Object.keys(config.selection)
 		for(var i = 0, j = selectors.length; i < j; i++){
 			var selector = selectors[i];

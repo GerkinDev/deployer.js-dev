@@ -23,11 +23,10 @@ module.exports = {
      * Generates a templated PHP file for the version history
 	 * @method
      * @param   {object} config Options to explain to the module how to behave
-     * @param   {array} files Files returned by {@link utils.getFilesRec}
      * @param   {callback} Function to call at the end of action
      * @returns {undefined}
      */
-	process: function(config, files, cb){
+	process: function(config, cb){
 		var templatePath = path.resolve(deployer.config.base_path,"templates/" + config.template + "/versionner.swig.php");
 		var templateArgs = {
 			title: deployer.config.project.project_name,

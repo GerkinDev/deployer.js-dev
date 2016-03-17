@@ -30,7 +30,7 @@ module.exports = {
 	 * @description Execute git actions with the provided config.
 	 * @tutorial git-process
      */
-	process: function(config,  cb){
+	process: function(config, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
 		git.Repository.open(repoPath).done(function(repository){
 			var signature = git.Signature.default(repository);//.create(ret.name,ret.email,(new Date()).getTime(), 0);

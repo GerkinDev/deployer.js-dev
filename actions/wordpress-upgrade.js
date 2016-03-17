@@ -23,11 +23,10 @@ module.exports = {
      * Process the generation operation with the config provided
 	 * @method
      * @param   {object} config Options to explain to the module how to behave
-     * @param   {array} files Files returned by {@link utils.getFilesRec}
      * @param   {callback} Function to call at the end of action
      * @returns {undefined}
      */
-	process: function(config, files, cb){
+	process: function(config, cb){
 		var versions = {};
 		var fileContents = {};
 		async.parallel([
@@ -55,9 +54,9 @@ module.exports = {
 			},
 			function(cb1){
 				var file = new RegExp(deployer.config.project.project_name.replace(/[\W]/g, ".?") + "\\.php", "i");
-				for(var i = 0, j = files.length; i < j && file.constructor.name != "String"; i++){
-					if(files[i].match && files[i].match(file))
-						file = files[i];
+				for(var i = 0, j = deployer.config.files.length; i < j && file.constructor.name != "String"; i++){
+					if(deployer.config.files[i].match && deployer.config.files[i].match(file))
+						file = deployer.config.files[i];
 				}
 				if(file.constructor.name != "String"){
 					return cb1("WORDPRESS-UPGRADE => Could not find which file is the main file.");

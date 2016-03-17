@@ -23,12 +23,11 @@ module.exports = {
      * Process the generation operation with the config provided
 	 * @method
      * @param   {object} config Options to explain to the module how to behave
-     * @param   {array} files Files returned by {@link utils.getFilesRec}
      * @param   {callback} Function to call at the end of action
      * @returns {undefined}
      */
-	process: function(config, files, cb){
-		var reformatedFiles = reformatFiles(files);
+	process: function(config, cb){
+		var reformatedFiles = reformatFiles(deployer.config.files);
 		var selectors = Object.keys(config.selection)
 		for(var i = 0, j = selectors.length; i < j; i++){
 			var selector = selectors[i];

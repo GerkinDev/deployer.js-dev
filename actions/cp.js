@@ -24,12 +24,11 @@ module.exports = {
 	 * @static
 	 * @memberof module:actions/cp
 	 * @param   {object} config Options to explain to the module how to behave
-	 * @param   {array} files Unused.
 	 * @param   {callback} cb Function to call at the end of action
 	 * @returns {undefined}
 	 * @description Copy. 
 	 */
-	process: function(config, files, cb){
+	process: function(config, cb){
 		return async.each(config, function(pair, cb1){
 			deployer.log.silly('CP => Copy from "' + path.resolve(".", pair.from) + '" to "' + path.resolve(".", pair.to) + '"');
 			return new fs_extra.copy(path.resolve(".", pair.from),path.resolve(".", pair.to), {
