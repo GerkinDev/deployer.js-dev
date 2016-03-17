@@ -206,3 +206,22 @@ writeLocalConfigFile = function(filecontent, cb){
 		cb(err);
 	});
 }
+
+getModuleVersion = function(moduleName, callback){
+	if(!deployer.config.moduleVersion)
+		deployer.config.moduleVersion = {};
+	fs.readFile(path.resolve(moduleName.match(/\.js$/) ? moduleName : moduleName + ".js"), "UTF-8", function(err, content){
+		if(err){
+			deployer.log.error("Could not find version of module \"" + moduleName + "\"");
+			deployer.config.moduleVersion[moduleName] = "unknown"
+		} else {
+			var version = content.match(/^\/\*\*(?:\s|.)+?(@version\s+[\d\.\w]+)/);
+			if(version[1] && content.indexOf(version) < content.indexOf("*/")){
+				deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
+			} else {
+				deployer.config.moduleVersion[moduleName] = "unknown";
+			}
+		}
+		callback();
+	});
+}

@@ -22,6 +22,15 @@ async = require("async");
 colour = require("colour");
 merge = require('merge');
 path = require('path');
+const commander = require('commander')
+const cli = new commander.Command();
+const readline = require('readline');
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+rl.pause();
+const spawnargs = require('spawn-args');
 
 require('./utils.js');
 
@@ -53,13 +62,15 @@ deployer = {
 			"verbose",
 			"info",
 			"warn",
-			"error"
+			"error",
+			"silent"
 		],
 		silly: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"rainbow","1":"silly"}));},
 		verbose: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"blue","1":"verbose"}));},
 		info: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"cyan","1":"info"}));},
 		warn: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"yellow","1":"warn"}));},
 		error: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"red","1":"error"}));},
+		always: function(string){deployer.log.custom.apply( this, composeLog(arguments, {'0':"gray","1":"silent"}));},
 		custom: function(string){
 			var level = arguments[1];
 			var color = arguments[0];
@@ -70,32 +81,81 @@ deployer = {
 					argsR[i - 1] = arguments[i];
 				}
 				console.log.apply(console.log, argsR);
-				/*if(deployer.log.levels.indexOf(level) >= deployer.log.levels.indexOf("warn"))
-					console.trace();*/
+				if(deployer.log.levels.indexOf(level) >= deployer.log.levels.indexOf("warn") && level != "silent"){
+					console.trace();
+				}
 			}
 		},
 	},
 	config: {
-		globalConfigFile: "config.global.json",
-		configFile: "config.json",
 		loglevel: "silly",
 		excludeExplore: [
 			"^.\\/node_modules($|\\/.+)"
-		]
+		],
+		project: {
+			commands:{
+				_default:{
+					awake: true
+				}
+			}
+		},
+		action: "_default"
 	}
 };
 /**
  * @todo Describe options
  */
 
+function self_update(){
+	deployer.log.verbose("Self updating");
+}
+
+getModuleVersion("deployer", function(){
+	cli.version(deployer.config.moduleVersion.deployer);
+	cli.option('-d, --dump_config', 'Dump the compiled config file', false);
+	cli.option('-l, --log_level <level>', 'Set the log level', /^(silly|verbose|info|warn|error|silent)$/i, false);
+	cli.option('-g, --global_config_file <path>', 'Will use the file <path> as global base config file', /.*\.json(?![^a-zA-Z])$/, "config.global.json");
+	cli.option('-c, --config_file <path>', 'Will use the project file <path>', /.*\.json(?![^a-zA-Z])$/, "deployer_config.json");
+	cli.command('self-update').description("Update deployer.js").action(self_update);
+	cli.command('help').alias('dry-run').description("Get help for commands available with current config").action(function(){
+		handleCli();
+		console.log("Looking for action help");
+		deployer.config.action = "undefined";
+		run(true);
+	});
+	cli.command('*').description("The name of the command you want to use").action(function(action){
+		handleCli();
+		deployer.config.action = action;
+		run();
+	});
+	cli.parse(process.argv);
+
+	if(cli.args.length == 0){ // Nothing was given
+		handleCli();
+		run();
+	}
+});
+
+function handleCli(){
+	deployer.config.configFile = cli.opts()["config_file"];
+	deployer.config.globalConfigFile = cli.opts()["global_config_file"];
+	if(cli.opts()["log_level"]){
+		deployer.config.loglevel = cli.opts()["log_level"];
+	}
+	init = false;
+}
+
 /**
- * @function __autoexec
- * @desc This init function execute itself as soon as module is included
- * @package deployer.js
- * @abstract
+ * Runs the specified command
+ * @author Gerkin
+ * @param   {boolean} [dry=false] Set to true to parse the config file and output the available commands
+ * @returns {undefined}
  */
-(function(){
-	deployer.config = merge(deployer.config, checkArgs());
+function run(dry){
+	if(typeof dry == "undefined")
+		dry = false;
+	deployer.log.verbose('Executing action "'+deployer.config.action+'"');
+	//deployer.config = merge(deployer.config, checkArgs());
 	var file;
 	deployer.config.base_path = __dirname;
 	async.waterfall(
@@ -112,8 +172,12 @@ deployer = {
 				try{
 					var configFile = JSON.parse(str);
 					deployer.config = merge.recursive(deployer.config, configFile);
+					if(cli.opts()["log_level"]){
+						deployer.config.loglevel = cli.opts()["log_level"];
+					}
 					return cb();
 				} catch(e) {
+					deployer.log.error("Parse error of GLOBAL config file:", e);
 					return cb(e);
 				}
 			},
@@ -136,9 +200,12 @@ deployer = {
 				try{
 					var configFile = JSON.parse(str);
 					deployer.config = merge.recursive(deployer.config, configFile);
+					if(cli.opts()["log_level"]){
+						deployer.config.loglevel = cli.opts()["log_level"];
+					}
 					return cb();
 				} catch(e) {
-					deployer.log.warn("Invalid JSON file " + file + ": " + JSON.stringify(e));
+					deployer.log.warn("Invalid JSON file " + file + ": ",e);
 					return cb(e , false);
 				}
 			},
@@ -156,7 +223,6 @@ deployer = {
 			if(!deployer.config.version_history){
 				deployer.config.version_history = {};
 			}
-			init = false;
 			if(typeof err != "undefined" && err !== true){
 				if(typeof critical === "undefined")
 					critical = true;
@@ -164,38 +230,172 @@ deployer = {
 			}
 
 			return getFilesRec(process.cwd(), function(err, files){
-				deployer.log.silly("Configuration: " + JSON.stringify(deployer.config, null, 4));
-				return execCommandGroups(files);
+				if(cli.opts()["dump_config"])
+					deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
+
+				deployer.config.files = files;
+
+
+				function reformatHelp(output){
+					output = output.replace(/\s*Usage:.*(\s*^\s*$\s)*/gm, "").replace(/\s*Options(\s|.)*/gm,"");
+					output = colour.italic(output);
+					return "\n"+output+"\n\n";
+				}
+
+				if(dry){
+					const helpCli = new commander.Command();
+					helpCli.command("help").description("Output the help.").action(function(){
+						innerCli.outputHelp(reformatHelp);
+					});
+
+					for(var command in deployer.config.project.commands){
+						var tmpcmd = deployer.config.project.commands[command];
+						deployer.log.verbose("Registering command "+command);
+						helpCli.command(command).description(
+							(tmpcmd.description ? tmpcmd.description : "") +
+							(tmpcmd.description && tmpcmd.awake ? " - " : "") +
+							(tmpcmd.awake ? colour.underline("Open listening CLI") : "")
+						);
+					}
+					helpCli.help(reformatHelp);
+				} else {
+					var exit = false;
+					var initialCmd = deployer.config.project.commands[deployer.config.action];
+					if(initialCmd){
+						if(initialCmd.awake){
+							const innerCli = new commander.Command();
+
+							var clicb = null;
+
+							innerCli.command("help").description("Output the help.").action(function(){
+								innerCli.outputHelp(reformatHelp);
+								if(clicb != null && clicb.constructor.name == "Function"){
+									clicb();
+								}
+							});
+							innerCli.command("exit").description("Exit the program").action(function(){
+								exit = true;
+								if(clicb != null && clicb.constructor.name == "Function"){
+									clicb();
+								}
+							});
+
+							for(var command in deployer.config.project.commands){
+								var tmpcmd = deployer.config.project.commands[command];
+								if(!tmpcmd.awake){
+									deployer.log.verbose("Registering command "+command);
+									var tmpcli; 
+									if(tmpcmd.description){
+										tmpcli = innerCli.command(command).description(tmpcmd.description);
+									} else {
+										tmpcli = innerCli.command(command);
+									}
+									tmpcli.action((function(){
+										var cmd = command;
+										return function(){
+											if(clicb != null && clicb.constructor.name == "Function"){
+												execCommandRoot(cmd,clicb);
+											}
+										}
+									})());
+								}
+							}
+
+							execCommandRoot(deployer.config.action, function(err){
+								innerCli.outputHelp(reformatHelp);
+								rl.setPrompt(colour["green"](colour["bold"]("    => ")));
+								rl.on('close',function(){
+									process.exit(0);
+								});
+								async.doUntil(
+									function(cb){
+										rl.prompt();
+										rl.on('line', function(data){
+											var args = [process.argv[0],process.argv[1]].concat(spawnargs(data)); // Prepend to allow the args to be run by commander
+											rl.pause();
+											rl.removeAllListeners('line');
+											clicb = cb;
+											innerCli.parse(args);
+										});
+									},
+									function(){return exit},
+									function(){
+										deployer.log.always("Exiting...");
+										rl.close();
+									}
+								);
+							});
+						} else {
+							execCommandRoot(deployer.config.action,function(){});
+						}
+					} else {
+						deployer.log.error('Tried to launch Deployer with unexistent action "' + deployer.config.action + '"');
+					}
+				}
+				//return execCommandGroups(files);
 			});
 		}
 	);
-})();
+}
 
-/**
- * @function checkArgs
- * @desc Retrive arguments, check them and build an object with them
- * @return Parsed arguments
- * @private
- */
-function checkArgs(){
-	var args = process.argv.slice(2);
-	var r = {}
-	if(args.length < 1){
-		deployer.log.error("Should be called this way:")
-		deployer.log.error(process.argv[0] + " " + process.argv[1] + " [version] [optional: config file]");
-		process.exit(1);
+function execCommandRoot(command, callback){
+	var cmds = deployer.config.project.commands;
+	if(cmds[command]){
+		deployer.log.silly('Running command "' + command + '".');
+		var cmd = cmds[command];
+		deployer.log.verbose('Command "' + command + '" config:',cmd);
+		if(cmd.command_group){
+			return execCommandGroup(cmd, "", callback)
+		}
+	} else {
+		deployer.log.error('Command "' + command + '" is not configured.');
 	}
-
-	if(!args[0].match(/\d+(\d+\.)*/)){
-		deployer.log.error("Version " + args[0] + " is not a valid format.");
-		process.exit(1);
+	if(typeof callback != "undefined"){
+		deployer.log.info("Listen");
+		callback();
 	}
-	r["version"] = args[0];
-	r["minor_version"] = r.version.replace(/^(\d+\.\d+).*$/, "$1");
+}
 
-	if(args[1])
-		r["configFile"] = args[1];
-	return r;
+function execCommandGroup(command, prefix, callback){
+	var act = (command.actions.length > 0);
+	var mod = (["serie","parallel"].indexOf(command.mode) > -1);
+	if(act ^ mod){
+		deployer.log.error("Misconfigured command: missing action or mode");
+		callback();
+	} else {
+		if(!act && !mod){
+			deployer.log.silly("Empty command, return");
+			callback();
+		} else {
+			deployer.log.silly("Executing in mode " + command.mode);
+			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
+			async[mode](command.actions, function(action,index,cb){
+				console.log(index,action);
+				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
+				var handler = require("./actions/" + action.action + ".js");
+				if(handler){
+					if(handler.process){
+					return handler.process(action.data, function(){
+						deployer.log.info("====> Finished action " + prefix + "." + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
+						return cb();
+					});
+					} else {
+					var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+					deployer.log.error(err)
+					return cb(err)
+					}
+				} else {
+					var err = 'Action "' +action.action+'" not found!';
+					deployer.log.error(err)
+					return cb(err)
+				}
+			}, function(err){
+				if(err)
+					deployer.log.error(err);
+				callback(err);
+			});
+		}
+	}
 }
 
 /**
