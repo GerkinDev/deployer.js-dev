@@ -267,10 +267,14 @@ function run(dry){
 
 							var clicb = null;
 
-							innerCli.command("help").description("Output the help.").action(function(){
-								innerCli.outputHelp(reformatHelp);
-								if(clicb != null && clicb.constructor.name == "Function"){
-									clicb();
+							innerCli.command("help [command]").description("Output the help. [command] is optionnal.").action(function(askedCmd){
+								if(typeof askedCmd == "undefined"){
+									innerCli.outputHelp(reformatHelp);
+									if(clicb != null && clicb.constructor.name == "Function"){
+										return clicb();
+									}
+								} else {
+									console.log(askedCmd);
 								}
 							});
 							innerCli.command("exit").description("Exit the program").action(function(){
@@ -279,16 +283,33 @@ function run(dry){
 									clicb();
 								}
 							});
+							innerCli.on("*", function(c){
+								console.log();
+								deployer.log.info("Command " + colour.red(c) + " does not exist");
+								innerCli.outputHelp(reformatHelp);
+								if(clicb != null && clicb.constructor.name == "Function"){
+									return clicb();
+								}
+							});
 
 							for(var command in deployer.config.project.commands){
 								var tmpcmd = deployer.config.project.commands[command];
 								if(!tmpcmd.awake){
 									deployer.log.verbose("Registering command "+command);
-									var tmpcli; 
+									var commandHelp = "";
+									var tmpcli;
+									if(tmpcmd.arguments && Object.keys(tmpcmd.arguments).length){
+										deployer.log.verbose("Command "+command+" have arguments.");
+										commandHelp = colour.bold("For more informations, run " + colour.blue("help " + command));
+									}
 									if(tmpcmd.description){
-										tmpcli = innerCli.command(command).description(tmpcmd.description);
+										tmpcli = innerCli.command(command).description(tmpcmd.description + "    " + commandHelp);
 									} else {
-										tmpcli = innerCli.command(command);
+										tmpcli = innerCli.command(command).description(commandHelp);
+									}
+									for(var i in tmpcmd.arguments){
+										var optDesc = tmpcmd.arguments[i] ? tmpcmd.arguments[i] : "No description available";
+										tmpcli.option("--"+i, optDesc);
 									}
 									tmpcli.action((function(){
 										var cmd = command;

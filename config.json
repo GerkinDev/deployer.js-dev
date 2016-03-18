@@ -36,6 +36,11 @@
                 ]
             },
             "release": {
+				"arguments": {
+					"version": {
+						"required": true
+					}
+				},
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
                 "command_group": true,
                 "mode": "serie",
