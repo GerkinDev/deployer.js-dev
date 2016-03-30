@@ -196,11 +196,11 @@ readLocalConfigFile = function(cb){
 		}
 		try{
 			var configFile = JSON.parse(filecontent);
-			return cb(null,configFile);
 		} catch(e) {
 			deployer.log.warn("Invalid JSON file " + file,e);
 			return cb(e);
 		}
+		return cb(null,configFile);
 	});
 }
 
