@@ -37,7 +37,8 @@
 			},
 			"release": {
 				"arguments": [
-					"version"
+					"version",
+					"version2"
 				],
 				"description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
 				"command_group": true,
