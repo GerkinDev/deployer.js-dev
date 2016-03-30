@@ -137,23 +137,27 @@ filesStructToArray = function(files, basepath){
 	return ret;
 }
 
-replacePlaceHolders = function(obj){
+replacePlaceHolders = function(obj, args){
 	if(obj == null){
 		return obj;
 	} else if(typeof obj == "object" && obj != null && obj.constructor != Array){
 		var ret = {};
 		for(var i in obj){
-			ret[i] = replacePlaceHolders(obj[i]);
+			ret[i] = replacePlaceHolders(obj[i],args);
 		}
 		return ret;
 	} else if(obj.constructor == Array){
 		var ret = [];
 		for(var i = 0, j = obj.length; i < j; i++){
-			ret.push(replacePlaceHolders(obj[i]));
+			ret.push(replacePlaceHolders(obj[i],args));
 		}
 		return ret;
 	} else if(typeof obj == "string"){
-		return obj.replace(/%VERSION_MINOR%/g, deployer.config.minor_version).replace(/%VERSION%/g, deployer.config.version).replace(/%PROJECT%/g, deployer.config.project.project_name);
+		var argsKeys = Object.keys(args);
+		for(var i = 0, j = argsKeys.length; i < j; i++){
+			obj = obj.replace(new RegExp("([^\\\\]|^)%"+argsKeys[i]+"%", "gm"), "$1"+args[argsKeys[i]]);
+		}
+		return obj;
 	} else {
 		return obj;
 	}

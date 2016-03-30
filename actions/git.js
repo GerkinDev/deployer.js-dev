@@ -11,13 +11,11 @@
  */
 
 const git = require("nodegit");
-const readline = require('readline');
 
 /**
  * @todo description  with {@link deployer}
  * @module actions/git
  * @requires nodegit
- * @requires readline
  */
 module.exports = {
 	/**
@@ -41,12 +39,15 @@ module.exports = {
 						return keysData.indexOf( el ) < 0;
 					} );
 					deployer.log.info("Missing args", missingArgs);
-					switch(action.action){
-						case "commit":{
-							deployer.log.silly('GIT => Prepare commit');
-							var index;
-							var reference;
-							return git_checkArgs(action, ["message"], function(){
+					async.each(missingArgs, function(arg,cb2){
+						requestPrompt("Please provide a value for \""+arg+"\" in git: ", cb2);
+					}, function(vals){
+						console.log(vals);
+						switch(action.action){
+							case "commit":{
+								deployer.log.silly('GIT => Prepare commit');
+								var index;
+								var reference;
 								return repository.index().then(function(idx){
 									index = idx;
 									return index.read(1);
@@ -65,64 +66,67 @@ module.exports = {
 									return repository.createCommit("HEAD", signature, signature, action.data.message, reference, [parent]);
 								}).done(function(commitId){
 									deployer.log.info("GIT => Created commit " + commitId);
-									return cb1();
+									return cb2();
 								},function(err){
 									deployer.log.error('GIT => Error in "Done" while creating commit with message "' + action.data.message + '"', err);
-									return cb1();
+									return cb2();
 								});
-							});
-						} break;
+							} break;
 
-						case "tag":{
-							deployer.log.silly('GIT => Prepare tag');
-							return git_checkArgs(action, ["label", "message"], function(data){
+							case "tag":{
+								deployer.log.silly('GIT => Prepare tag');
 								return git.Reference.nameToId(repository, "HEAD").then(function(head){
 									return repository.createTag(head, action.data.label, action.data.message);
 								}).done(function(tag){
 									deployer.log.info("GIT => Created tag " + tag.name());
-									return cb1();
+									return cb2();
 								},function(error){
 									deployer.log.error('GIT => Error while tagging "' + action.data.label + '"', error);
-									return cb1();
+									return cb2();
 								});
-							})
-						} break;
+							} break;
 
-						case "push":{
-							deployer.log.silly('GIT => Prepare pushing');
-							return repository.getRemote("origin", function(){
-							}).then(function(remote){
-								var branch = (action.data && action.data.branch) ? action.data.branch : "master";
-								if(typeof remote != "undefined" && remote != null && remote) {
-									return remote.push([
-										"refs/heads/"+branch+":refs/heads/"+branch
-									],{
-										callbacks: {
-											credentials: function(url, userName) {
-												var creds = git.Cred.sshKeyFromAgent(userName);
-												return creds;
+							case "push":{
+								deployer.log.silly('GIT => Prepare pushing');
+								return repository.getRemote("origin", function(){
+								}).then(function(remote){
+									var branch = (action.data && action.data.branch) ? action.data.branch : "master";
+									if(typeof remote != "undefined" && remote != null && remote) {
+										return remote.push([
+											"refs/heads/"+branch+":refs/heads/"+branch
+										],{
+											callbacks: {
+												credentials: function(url, userName) {
+													var creds = git.Cred.sshKeyFromAgent(userName);
+													return creds;
+												}
 											}
-										}
-									});
-								} else {
-									throw 'Remote "origin" not found';
-								}
-							}).done(function(){
-								deployer.log.info("GIT => Pushed to repository");
-								return cb1();
-							},function(error){
-								deployer.log.error('GIT => Error while pushing', error);
-								return cb1();
-							});
-						} break;
+										});
+									} else {
+										throw 'Remote "origin" not found';
+									}
+								}).done(function(){
+									deployer.log.info("GIT => Pushed to repository");
+									return cb2();
+								},function(error){
+									deployer.log.error('GIT => Error while pushing', error);
+									return cb2();
+								});
+							} break;
 
-						default: {
-							var err = "Git does not support action \"" + action.action + "\"";
-							deployer.log.error("GIT => ",err);
-							return cb1(err);
-						} break;
-					}
-					deployer.log.warn("Was not catched by switch");
+							default: {
+								var err = "Git does not support action \"" + action.action + "\"";
+								deployer.log.error("GIT => ",err);
+								return cb2(err);
+							} break;
+						}
+						deployer.log.warn("Was not catched by switch");
+					}, function(err){
+						if(err){
+							deployer.log.error(err);
+						}
+						cb1(err);
+					});
 				});
 			}, function(err){
 				if(err)
@@ -142,29 +146,4 @@ function getArgsRuntime(action, cb){
 		} break;
 	}
 	cb(null,args);
-}
-
-function git_checkArgs(action, fields, cb){
-	if(fields && fields.constructor.name == "String")
-		fields = [fields];
-	if(!action.data)
-		action.data = {};
-
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout
-	});
-	async.eachSeries(fields, function(field, cb1){
-		if(action.data && action.data[field] != null){
-			return cb1();
-		} else {
-			return rl.question('Please provide a value for data "' + field + '": ', function(value){
-				action.data[field] = value;
-				return cb1();
-			});
-		}
-	}, function(){
-		rl.close();
-		return cb(null, action);
-	});
 }

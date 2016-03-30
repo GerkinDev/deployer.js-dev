@@ -24,7 +24,7 @@
 		"commands": {
 			"_default": {
 				"awake": true,
-				"command_group": true,
+				"command_group": false,
 				"mode": "serie",
 				"actions": [
 					{
@@ -53,12 +53,12 @@
 										"message": "Pre-process release v%version%"
 									}
 								}
-							],
-							"arguments":{
-								"version": {
-									"type":"action_arg",
-									"index":0
-								}
+							]
+						},
+						"arguments":{
+							"version": {
+								"type":"command_arg",
+								"index":0
 							}
 						}
 					},

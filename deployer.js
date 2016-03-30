@@ -215,7 +215,6 @@ function run(dry){
 			},
 		],
 		function(err, critical){
-			deployer.config = replacePlaceHolders(deployer.config);
 			if(deployer.config.project.documentation){
 				if(!deployer.config.project.documentation.resources){
 					deployer.config.project.documentation.resources = {
@@ -365,6 +364,9 @@ function run(dry){
 	);
 }
 
+// argsObj contains every dynamic vars avaliable in current config with inputs
+var argsObj = {config:null, command: null, action: null};
+
 function execCommandRoot(command, callback){
 	var cmds = deployer.config.project.commands;
 	if(cmds[command]){
@@ -383,6 +385,7 @@ function execCommandRoot(command, callback){
 					for(var i = 0, j = values.length; i < j; i++){
 						args[cmd.arguments[i]] = values[i];
 					}
+					argsObj["command"] = args;
 					console.log(args);
 					return execCommandGroup(cmd, "", callback);
 				})
@@ -416,6 +419,9 @@ function execCommandGroup(command, prefix, callback){
 			deployer.log.silly("Executing in mode " + command.mode);
 			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
 			async[mode](command.actions, function(action,index,cb){
+				// argsObjAction contains args for specific action.
+				var argsObjAction = merge(argsObj, true);
+				
 				var timestart = (new Date()).getTime();
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
 				if(action.command_group){
@@ -427,6 +433,7 @@ function execCommandGroup(command, prefix, callback){
 					if(handler){
 						if(handler.process){					
 							// Prepare required arguments
+							var actionDatas = merge(action.data, true);
 							if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
 								var ret;
 								if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
@@ -439,8 +446,22 @@ function execCommandGroup(command, prefix, callback){
 										ret = [ret];
 								}
 								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
+								
+								// Auto map
+								console.log(argsObjAction, action.arguments);
+								var argsAction = {};
+								for(var argName in action.arguments){
+									var aarg = action.arguments[argName];
+									switch(aarg.type){
+										case "command_arg":{
+											argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
+										}
+									}
+								}
+								console.log(argsAction);
+								actionDatas = replacePlaceHolders(actionDatas, argsAction);
 							}
-							return handler.process(action.data, function(){
+							return handler.process(actionDatas, function(){
 								deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
 								return cb();
 							});
