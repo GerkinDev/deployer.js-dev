@@ -76,7 +76,10 @@
 							}
 						},
 						"arguments":{
-							"version": 0
+							"version": {
+								"type":"command_arg",
+								"index":0
+							}
 						}
 					},
 					{
