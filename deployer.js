@@ -6,8 +6,6 @@
  * @copyright 2016 GerkinDevelopment
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
- *
- * @version 0.2.0
  */
 
 /**
@@ -110,6 +108,7 @@ function self_update(){
 	deployer.log.verbose("Self updating");
 }
 
+console.log("Pre getModuleVersion");
 getModuleVersion("deployer", function(){
 	cli.version(deployer.config.moduleVersion.deployer);
 	cli.option('-d, --dump_config', 'Dump the compiled config file', false);
@@ -132,6 +131,7 @@ getModuleVersion("deployer", function(){
 		deployer.config.action = action;
 		run();
 	});
+	console.log("Post getModuleVersion");
 	cli.parse(process.argv);
 
 	if(cli.args.length == 0){ // Nothing was given
@@ -421,7 +421,7 @@ function execCommandGroup(command, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 				var argsObjAction = merge(argsObj, true);
-				
+
 				var timestart = (new Date()).getTime();
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
 				if(action.command_group){
@@ -446,7 +446,7 @@ function execCommandGroup(command, prefix, callback){
 										ret = [ret];
 								}
 								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
-								
+
 								// Auto map
 								console.log(argsObjAction, action.arguments);
 								var argsAction = {};

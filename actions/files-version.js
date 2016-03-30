@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.0
  */
 
 const checksum = require('checksum');
@@ -70,7 +69,7 @@ module.exports = {
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
 						deployer.log.silly("FILES-VERSION => File " + file + " is new");
-						return fileChanged(file, function(err, newChecksums){
+						return fileChanged(file, config.arguments.version, function(err, newChecksums){
 							if(err){
 								deployer.log.error(err)
 								return cb1(err);
@@ -97,7 +96,7 @@ module.exports = {
 						}
 						if(changed){
 							deployer.log.silly("FILES-VERSION => File " + file + " changed");
-							return fileChanged(file, function(err, newChecksums){
+							return fileChanged(file, config.arguments.version, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
 									checksums[file] = {};
@@ -123,7 +122,7 @@ module.exports = {
 	arguments: "version"
 }
 
-function fileChanged(file, cb){
+function fileChanged(file, version, cb){
 	var regexHeader = new RegExp((file.match(/\.php$/) ? "<\\?php[\\n\\s]*(?:.*\\n)?" : "^") + "(\\/\\*\\*\\n(?:\\s*\\*\\s*(?:@?.*)?\\n)*\\s*\\*\\/)");
 	var filepath = path.resolve(".", file);
 	fs.readFile(filepath, "UTF-8", function(err, content){
@@ -192,7 +191,7 @@ function fileChanged(file, cb){
 			}
 		}
 		checkHeaderDatas(infos, file, function(infosMod){
-			infosMod["version"]["version"] = deployer.config.version;
+			infosMod["version"]["version"] = version;
 			if(Object.keys(infosMod["other"]).length == 0)
 				delete infosMod["other"];
 			var docblock = "/**";
@@ -247,7 +246,7 @@ function checkHeaderDatas(infos, file, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				rl.question("Please provide a file description: ", function(value){
+				requestPrompt("Please provide a file description: ", function(value){
 					infos["fd"]["file"] = value;
 					cb1();
 				});
@@ -268,8 +267,8 @@ function checkHeaderDatas(infos, file, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				rl.question("Please give the URL to the license: ", function(url){
-					rl.question("Please provide the license name: ", function(name){
+				requestPrompt("Please give the URL to the license: ", function(url){
+					requestPrompt("Please provide the license name: ", function(name){
 						infos["legal"]["license"] = url + " " + name;
 						cb1();
 					});
@@ -284,7 +283,7 @@ function checkHeaderDatas(infos, file, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				rl.question("Please provide a package name: ", function(name){
+				requestPrompt("Please provide a package name: ", function(name){
 					infos["legal"]["package"] = name;
 					cb1();
 				});
@@ -298,7 +297,7 @@ function checkHeaderDatas(infos, file, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				rl.question("Please provide the author name: ", function(name){
+				requestPrompt("Please provide the author name: ", function(name){
 					infos["legal"]["author"] = name;
 					cb1();
 				});

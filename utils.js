@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.1.11
  */
 
 throwError = function(error, critical){
@@ -215,18 +214,27 @@ writeLocalConfigFile = function(filecontent, cb){
 getModuleVersion = function(moduleName, callback){
 	if(!deployer.config.moduleVersion)
 		deployer.config.moduleVersion = {};
+	console.log("Looking for version of "+moduleName);
 	fs.readFile(path.resolve(moduleName.match(/\.js$/) ? moduleName : moduleName + ".js"), "UTF-8", function(err, content){
+		console.log(err, content);
 		if(err){
-			deployer.log.error("Could not find version of module \"" + moduleName + "\"");
+			deployer.log.error("Could not find module \"" + moduleName + "\"");
 			deployer.config.moduleVersion[moduleName] = "unknown"
 		} else {
-			var version = content.match(/^\/\*\*(?:\s|.)+?(@version\s+[\d\.\w]+)/);
-			if(version[1] && content.indexOf(version) < content.indexOf("*/")){
-				deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
-			} else {
-				deployer.config.moduleVersion[moduleName] = "unknown";
+			try{
+				console.log("Searching version");
+				var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
+				console.log(version);
+				if(version[1] && content.indexOf(version) < content.indexOf("*/")){
+					deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
+				} else {
+					deployer.config.moduleVersion[moduleName] = "unknown";
+				}
+			} catch(e){
+				console.log("Error!",e);
 			}
 		}
+		console.log(moduleName,deployer.config.moduleVersion[moduleName])
 		callback();
 	});
 }

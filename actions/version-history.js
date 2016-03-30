@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.0
  */
 
 const swig = require("swig");
