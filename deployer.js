@@ -25,7 +25,7 @@ path = require('path');
 const commander = require('commander')
 const cli = new commander.Command();
 const readline = require('readline');
-const rl = readline.createInterface({
+rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
@@ -372,7 +372,18 @@ function execCommandRoot(command, callback){
 		var cmd = cmds[command];
 		deployer.log.verbose('Command "' + command + '" config:',cmd);
 		if(cmd.command_group){
-			return execCommandGroup(cmd, "", callback)
+			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
+				return async.each(cmd.arguments, function(argument, cb){
+					// Enqueue prompt with text query
+					enqueuePrompt('Please provide a value for argument "'+argument+'": ', function(argVal){
+						return cb(null, argVal);
+					})
+				}, function(err){
+					return execCommandGroup(cmd, "", callback);
+				})
+			} else {
+				return execCommandGroup(cmd, "", callback);
+			}
 		}
 	} else {
 		deployer.log.error('Command "' + command + '" is not configured.');

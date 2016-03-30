@@ -9,6 +9,7 @@
  *
  * @version 0.1.11
  */
+
 throwError = function(error, critical){
 }/*
 	if(typeof critical == "undefined"){
@@ -224,4 +225,24 @@ getModuleVersion = function(moduleName, callback){
 		}
 		callback();
 	});
+}
+
+var enqueuedPrompts = [];
+var runningPromp = null;
+enqueuePrompt = function(question, callback){
+	if(runningPromp == null){
+		runningPromp = {question: question, cb: callback};
+		rl.question(question, function(value){
+			console.log(value);
+			runningPromp.cb(value); // Call this prompt request callback
+			runningPromp = null;
+			if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
+				var newPrompt = enqueuedPrompts[0];
+				enqueuedPrompts.slice(1);
+				return enqueuedPrompts(newPrompt.question, newPrompt.cb); // Execute the next prompt
+			}
+		})
+	} else {
+		enqueuedPrompts.push({question: question, cb: callback});
+	}
 }
