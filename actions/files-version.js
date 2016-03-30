@@ -119,6 +119,9 @@ module.exports = {
 				});
 			});
 		});
+	},
+	arguments: function(){
+		return "version";
 	}
 }
 

@@ -30,7 +30,7 @@
                     {
                         "action": "exec",
                         "data": {
-                            "command": "echo \"Hello World\""
+                            "command": "echo \"Welcome!\""
                         }
                     }
                 ]

@@ -117,11 +117,15 @@ getModuleVersion("deployer", function(){
 	cli.option('-g, --global_config_file <path>', 'Will use the file <path> as global base config file', /.*\.json(?![^a-zA-Z])$/, "config.global.json");
 	cli.option('-c, --config_file <path>', 'Will use the project file <path>', /.*\.json(?![^a-zA-Z])$/, "deployer_config.json");
 	cli.command('self-update').description("Update deployer.js").action(self_update);
-	cli.command('help').alias('dry-run').description("Get help for commands available with current config").action(function(){
+	cli.command('dry-run').description("Get help for commands available with current config").action(function(){
 		handleCli();
-		console.log("Looking for action help");
-		deployer.config.action = "undefined";
+		deployer.config.action = null;
 		run(true);
+	});
+	cli.command('help').description("Get help for commands & options").action(function(){
+		handleCli();
+		deployer.config.action = null;
+		cli.outputHelp();
 	});
 	cli.command('*').description("The name of the command you want to use").action(function(action){
 		handleCli();
@@ -262,9 +266,11 @@ function run(dry){
 					var exit = false;
 					var initialCmd = deployer.config.project.commands[deployer.config.action];
 					if(initialCmd){
-						if(initialCmd.awake){
+						if(initialCmd.awake){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
+							// Create the inner CLI
 							const innerCli = new commander.Command();
 
+							// This callback will be assigned later. It is called by every innerCLI action
 							var clicb = null;
 
 							innerCli.command("help [command]").description("Output the help. [command] is optionnal.").action(function(askedCmd){
@@ -274,7 +280,7 @@ function run(dry){
 										return clicb();
 									}
 								} else {
-									console.log(askedCmd);
+									console.log("Requested help for ",askedCmd);
 								}
 							});
 							innerCli.command("exit").description("Exit the program").action(function(){
@@ -401,8 +407,23 @@ function execCommandGroup(command, prefix, callback){
 				} else {
 					deployer.log.silly("Action: ", JSON.stringify(action));
 					var handler = require("./actions/" + action.action + ".js");
+					// If the handler exists and can process
 					if(handler){
-						if(handler.process){
+						if(handler.process){					
+							// Prepare required arguments
+							if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
+								var ret;
+								if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
+									ret = handler.arguments(value);// ... execute
+								} else { // ..., else,
+									ret = handler.arguments; // Simply get them
+								}
+								if(typeof ret != "undefined" && ret != null){ // If this action needs arguments
+									if(ret.constructor.name != "Array") // Force cast it to array
+										ret = [ret];
+								}
+								deployer.log.verbose("Action " + key + " requires following args: ", ret);
+							}
 							return handler.process(action.data, function(){
 								deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
 								return cb();
@@ -427,64 +448,3 @@ function execCommandGroup(command, prefix, callback){
 	}
 }
 
-/**
- * @function execCommandGroups
- * @desc Dispatch actions to submodules
- * @param   {array} files Files returned by {@link getFilesRec}
- * @private
- */
-function execCommandGroups(files){
-	var i = 1;
-	var timestartGroup;
-	return async.eachSeries(deployer.config.project.commands, function(commandGroup, cb1){
-		timestartGroup = (new Date()).getTime();
-		deployer.log.info("========> Processing group " + (i++));
-		if(commandGroup != null && typeof commandGroup != "undefined" && commandGroup.constructor.name == "Object"){
-			return execParallelCommandGroup(files, commandGroup, function(err){
-				deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-				return cb1(err)
-			});
-		} else if(commandGroup.constructor.name == "Array"){
-			return async.each(commandGroup, function(subCommandGroup, cb2){
-				return execParallelCommandGroup(files, subCommandGroup, cb2);
-			}, function(err){
-				deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-				return cb1(err);
-			});
-		} else {
-			deployer.log.error("Unhandled type for commandGroup " + (i - 1) + ": " + typeof commandGroup);
-			deployer.log.info("========> Finished group " + (i - 1) + " after " + ((new Date()).getTime() - timestartGroup) + "ms");
-			return cb1();
-		}
-	}, function(err){
-		if(err){
-			throwError(err, true);
-		} else {
-			deployer.log.info("-=- Deployer ended ok -=-");
-			// Write 
-		}
-		process.removeAllListeners("uncaughtException");
-		process.removeAllListeners("unhandledRejection");
-		process.exit();
-	});
-}
-
-/**
- * @function execSyncCommandGroup
- * @desc Dispatch actions to submodules
- * @param   {array} files Files returned by {@link getFilesRec}
- * @private
- */
-function execParallelCommandGroup(files, group, cb){
-	async.forEachOf(group, function(value, key, cb2){
-		var timestart = (new Date()).getTime();
-		deployer.log.info("====> Starting action " + key);
-		var handler = require("./actions/" + key + ".js");
-		return handler.process(value, files, function(){
-			deployer.log.info("====> Finished action " + key + " after " + ((new Date()).getTime() - timestart) + "ms");
-			return cb2();
-		});
-	}, function(err){
-		cb(err);
-	});
-}
