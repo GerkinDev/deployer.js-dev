@@ -37,8 +37,7 @@
 			},
 			"release": {
 				"arguments": [
-					"version",
-					"version2"
+					"version"
 				],
 				"description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
 				"command_group": true,
@@ -56,7 +55,10 @@
 								}
 							],
 							"arguments":{
-								"version": 0
+								"version": {
+									"type":"action_arg",
+									"index":0
+								}
 							}
 						}
 					},

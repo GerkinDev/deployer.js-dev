@@ -379,7 +379,11 @@ function execCommandRoot(command, callback){
 						return cb(null, argVal);
 					})
 				}, function(err, values){
-					console.log(values);
+					var args = {};
+					for(var i = 0, j = values.length; i < j; i++){
+						args[cmd.arguments[i]] = values[i];
+					}
+					console.log(args);
 					return execCommandGroup(cmd, "", callback);
 				})
 			} else {
@@ -434,7 +438,7 @@ function execCommandGroup(command, prefix, callback){
 									if(ret.constructor.name != "Array") // Force cast it to array
 										ret = [ret];
 								}
-								deployer.log.verbose("Action " + key + " requires following args: ", ret);
+								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
 							}
 							return handler.process(action.data, function(){
 								deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
