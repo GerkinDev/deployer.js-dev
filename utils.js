@@ -229,18 +229,16 @@ getModuleVersion = function(moduleName, callback){
 
 var enqueuedPrompts = [];
 var runningPromp = null;
-enqueuePrompt = function(question, callback){
-	console.log(enqueuedPrompts);
+requestPrompt = function(question, callback){
 	if(runningPromp == null){
 		runningPromp = {question: question, cb: callback};
 		rl.question(question, function(value){
-			console.log(value);
 			runningPromp.cb(value); // Call this prompt request callback
 			runningPromp = null;
 			if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
 				var newPrompt = enqueuedPrompts[0];
 				enqueuedPrompts.slice(1);
-				return enqueuePrompt(newPrompt.question, newPrompt.cb); // Execute the next prompt
+				return requestPrompt(newPrompt.question, newPrompt.cb); // Execute the next prompt
 			}
 		})
 	} else {

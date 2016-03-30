@@ -375,10 +375,11 @@ function execCommandRoot(command, callback){
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
 				return async.each(cmd.arguments, function(argument, cb){
 					// Enqueue prompt with text query
-					enqueuePrompt('Please provide a value for argument "'+argument+'": ', function(argVal){
+					requestPrompt('Please provide a value for argument "'+argument+'": ', function(argVal){
 						return cb(null, argVal);
 					})
-				}, function(err){
+				}, function(err, values){
+					console.log(values);
 					return execCommandGroup(cmd, "", callback);
 				})
 			} else {
@@ -425,7 +426,7 @@ function execCommandGroup(command, prefix, callback){
 							if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
 								var ret;
 								if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
-									ret = handler.arguments(value);// ... execute
+									ret = handler.arguments(action.data);// ... execute
 								} else { // ..., else,
 									ret = handler.arguments; // Simply get them
 								}
