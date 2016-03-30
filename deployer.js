@@ -373,7 +373,7 @@ function execCommandRoot(command, callback){
 		deployer.log.verbose('Command "' + command + '" config:',cmd);
 		if(cmd.command_group){
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
-				return async.each(cmd.arguments, function(argument, cb){
+				return async.map(cmd.arguments, function(argument, cb){
 					// Enqueue prompt with text query
 					requestPrompt('Please provide a value for argument "'+argument+'": ', function(argVal){
 						return cb(null, argVal);
