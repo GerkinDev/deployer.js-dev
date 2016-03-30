@@ -66,10 +66,10 @@ module.exports = {
 									return repository.createCommit("HEAD", signature, signature, action.data.message, reference, [parent]);
 								}).done(function(commitId){
 									deployer.log.info("GIT => Created commit " + commitId);
-									return cb2();
+									return cb1();
 								},function(err){
 									deployer.log.error('GIT => Error in "Done" while creating commit with message "' + action.data.message + '"', err);
-									return cb2();
+									return cb1();
 								});
 							} break;
 
@@ -79,10 +79,10 @@ module.exports = {
 									return repository.createTag(head, action.data.label, action.data.message);
 								}).done(function(tag){
 									deployer.log.info("GIT => Created tag " + tag.name());
-									return cb2();
+									return cb1();
 								},function(error){
 									deployer.log.error('GIT => Error while tagging "' + action.data.label + '"', error);
-									return cb2();
+									return cb1();
 								});
 							} break;
 
@@ -107,17 +107,17 @@ module.exports = {
 									}
 								}).done(function(){
 									deployer.log.info("GIT => Pushed to repository");
-									return cb2();
+									return cb1();
 								},function(error){
 									deployer.log.error('GIT => Error while pushing', error);
-									return cb2();
+									return cb1();
 								});
 							} break;
 
 							default: {
 								var err = "Git does not support action \"" + action.action + "\"";
 								deployer.log.error("GIT => ",err);
-								return cb2(err);
+								return cb1(err);
 							} break;
 						}
 						deployer.log.warn("Was not catched by switch");
