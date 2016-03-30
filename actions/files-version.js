@@ -97,7 +97,7 @@ module.exports = {
 						}
 						if(changed){
 							deployer.log.silly("FILES-VERSION => File " + file + " changed");
-							return fileChanged(file, config.arguments.version, function(err, newChecksums){
+							return fileChanged(file, config.targetVersion, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
 									checksums[file] = {};

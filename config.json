@@ -73,7 +73,8 @@
                             },
                             "setDiffs": {
                                 "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
-                            }
+                            },
+							"targetVersion": "%version%"
                         },
                         "arguments": {
                             "version": {
