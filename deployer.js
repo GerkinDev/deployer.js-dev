@@ -108,7 +108,6 @@ function self_update(){
 	deployer.log.verbose("Self updating");
 }
 
-console.log("Pre getModuleVersion");
 getModuleVersion("deployer", function(){
 	cli.version(deployer.config.moduleVersion.deployer);
 	cli.option('-d, --dump_config', 'Dump the compiled config file', false);
@@ -131,7 +130,6 @@ getModuleVersion("deployer", function(){
 		deployer.config.action = action;
 		run();
 	});
-	console.log("Post getModuleVersion");
 	cli.parse(process.argv);
 
 	if(cli.args.length == 0){ // Nothing was given

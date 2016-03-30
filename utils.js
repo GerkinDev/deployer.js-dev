@@ -214,27 +214,18 @@ writeLocalConfigFile = function(filecontent, cb){
 getModuleVersion = function(moduleName, callback){
 	if(!deployer.config.moduleVersion)
 		deployer.config.moduleVersion = {};
-	console.log("Looking for version of "+moduleName);
 	fs.readFile(path.resolve(moduleName.match(/\.js$/) ? moduleName : moduleName + ".js"), "UTF-8", function(err, content){
-		console.log(err, content);
 		if(err){
 			deployer.log.error("Could not find module \"" + moduleName + "\"");
 			deployer.config.moduleVersion[moduleName] = "unknown"
 		} else {
-			try{
-				console.log("Searching version");
-				var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
-				console.log(version);
-				if(version[1] && content.indexOf(version) < content.indexOf("*/")){
-					deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
-				} else {
-					deployer.config.moduleVersion[moduleName] = "unknown";
-				}
-			} catch(e){
-				console.log("Error!",e);
+			var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
+			if(version[1] && content.indexOf(version) < content.indexOf("*/")){
+				deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
+			} else {
+				deployer.config.moduleVersion[moduleName] = "unknown";
 			}
 		}
-		console.log(moduleName,deployer.config.moduleVersion[moduleName])
 		callback();
 	});
 }
