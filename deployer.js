@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version undefined
+ * @version 0.2.1
  */
 
 /**
