@@ -389,10 +389,10 @@ function execCommandRoot(command, callback){
 					}
 					argsObj["command"] = args;
 					console.log(args);
-					return execCommandGroup(cmd, "", callback);
+					return execCommandGroup(cmd, "", argsObj, callback);
 				})
 			} else {
-				return execCommandGroup(cmd, "", callback);
+				return execCommandGroup(cmd, "", argsObj, callback);
 			}
 		}
 	} else {
@@ -404,7 +404,7 @@ function execCommandRoot(command, callback){
 	}
 }
 
-function execCommandGroup(command, prefix, callback){
+function execCommandGroup(command, prefix, args, callback){
 	console.log(command);
 	var act = (command.actions.length > 0);
 	var mod = (["serie","parallel"].indexOf(command.mode) > -1);
@@ -423,10 +423,10 @@ function execCommandGroup(command, prefix, callback){
 			var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
-				var argsObjAction = merge(argsObj, true);
+				var argsObjAction = merge(args, true);
 
 				if(action.command_group){
-					execCommandGroup(action, prefix + index, callback);
+					execCommandGroup(action, prefix + index, args, callback);
 				} else {
 					deployer.log.silly("Action: ", JSON.stringify(action));
 					var handler = require("./actions/" + action.action + ".js");
