@@ -427,22 +427,8 @@ function execCommandRoot(command, callback){
 			var arguments = merge(deployer.config.arguments, true);
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
 				// Filter to take config args
-				var missingArguments = cmd.arguments.filter((elem)=>{
-					return Object.keys(arguments).indexOf(elem) == -1;
-				});
-				// Then request missings
-				return async.map(missingArguments, function(argument, cb){
-					// Enqueue prompt with text query
-					requestPrompt('Please provide a value for argument "'+argument+'" in command "' + command + '": ', function(argVal){
-						return cb(null, argVal);
-					})
-				}, function(err, values){
-					var newArgs = {};
-					for(var i = 0, j = values.length; i < j; i++){
-						newArgs[cmd.arguments[i]] = values[i];
-					}
-					arguments = merge.recursive(arguments, newArgs);
-					return execCommandGroup(cmd, arguments, "", callback);
+				return transformArguments(arguments, cmd.arguments, function(childArguments){
+					return execCommandGroup(cmd, childArguments, "", callback);
 				});
 			} else {
 				return execCommandGroup(cmd, arguments, "", callback);
