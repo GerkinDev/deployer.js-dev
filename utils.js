@@ -253,6 +253,7 @@ requestPrompt = function(question, callback){
 transformArguments = function(parent, newArgs, callback){
 	newArgs = replacePlaceHolders(newArgs,parent);
 	var arguments = merge.recursive(parent, true);
+	console.log(newArgs);
 	async.forEachOf(newArgs, function(key, newArg, cb){
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
