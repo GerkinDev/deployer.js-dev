@@ -479,6 +479,7 @@ function execCommandGroup(command, arguments, prefix, callback){
 				// argsObjAction contains args for specific action.
 
 				var argumentsChild = transformArguments(arguments,command.arguments);
+				console.log("ArgumentsChild",argumentsChild);
 				if(action.command_group){
 					execCommandGroup(action, argumentsChild, prefix + index, callback);
 				} else {
