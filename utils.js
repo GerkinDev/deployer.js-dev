@@ -264,8 +264,9 @@ transformArguments = function(parent, newArgs, callback){
 				} break;
 
 				case "prompt":{
-					return requestPrompt("Please provide a value for argument \"" + key + "\: ", function(val){
+					return requestPrompt("Please provide a value for argument \"" + key + "\": ", function(val){
 						arguments[key] = val;
+						console.log(arguments);
 						return cb();
 					});
 				} break;
