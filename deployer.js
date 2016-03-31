@@ -6,6 +6,8 @@
  * @copyright 2016 GerkinDevelopment
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
+ *
+ * @version 0.2.1
  */
 
 /**
@@ -401,6 +403,7 @@ function execCommandRoot(command, callback){
 }
 
 function execCommandGroup(command, prefix, callback){
+	console.log(command);
 	var act = (command.actions.length > 0);
 	var mod = (["serie","parallel"].indexOf(command.mode) > -1);
 	if(act ^ mod){
