@@ -77,7 +77,7 @@
                     },
                     {
                         "command_group": true,
-                        "mode": "series",
+                        "mode": "serie",
                         "actions": [
                             {
                                 "action": "jsdoc",
@@ -188,13 +188,13 @@
                 "sha1": "a0f17edad3871e52909ce7be2e406713fbac8dc7",
                 "md5": "1b90578bc930b7f36ab87108ad5bb44e"
             },
-            "./utils.js": {
-                "sha1": "0d2d0902d026e0deab4237cc0c36aa55e9ce5d82",
-                "md5": "201d06da72437196100993157b768aa0"
-            },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
                 "md5": "0ae00440c639bc77903768836adc897d"
+            },
+            "./utils.js": {
+                "sha1": "0d2d0902d026e0deab4237cc0c36aa55e9ce5d82",
+                "md5": "201d06da72437196100993157b768aa0"
             },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
@@ -208,6 +208,10 @@
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
+            "./actions/minify.js": {
+                "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
+                "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
+            },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "dc607446d675ed6290b8ad7344f993add5c7328b",
                 "md5": "7ae13cf7124426bf9f68793a828acb2c"
@@ -216,17 +220,13 @@
                 "sha1": "03732ef599353e0a9a7d5f63347466ebd5edcbbf",
                 "md5": "a438968f4e1074e07ddfac932b66c87a"
             },
-            "./actions/minify.js": {
-                "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
-                "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
+            "./actions/svn.js": {
+                "sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
+                "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
             },
             "./actions/phpdoc.js": {
                 "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
                 "md5": "d046aa174ba15913a0ce1014c4483dea"
-            },
-            "./actions/svn.js": {
-                "sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
-                "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
             },
             "./actions/version-history.js": {
                 "sha1": "63fe215de2cba527600ed35447debde75d930aa8",
