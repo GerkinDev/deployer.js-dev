@@ -422,6 +422,7 @@ function execCommandGroup(command, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 				var argsObjAction = merge(argsObj, true);
+				argsObjAction["action"] = merge(argsObjAction["command"], true);
 
 				if(action.command_group){
 					execCommandGroup(action, prefix + index, callback);
