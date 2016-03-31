@@ -149,6 +149,9 @@ function handleCli(){
 	init = false;
 }
 
+// argsObj contains every dynamic vars avaliable in current config with inputs
+var argsObj;
+
 /**
  * Runs the specified command
  * @author Gerkin
@@ -204,6 +207,7 @@ function run(dry){
 				try{
 					var configFile = JSON.parse(str);
 					deployer.config = merge.recursive(deployer.config, configFile);
+					argsObj = {config:merge.recursive(deployer.config.project.arguments,true), command: null, action: null}
 					if(cli.opts()["log_level"]){
 						deployer.config.loglevel = cli.opts()["log_level"];
 					}
@@ -364,8 +368,6 @@ function run(dry){
 	);
 }
 
-// argsObj contains every dynamic vars avaliable in current config with inputs
-var argsObj = {config:null, command: null, action: null};
 
 function execCommandRoot(command, callback){
 	var cmds = deployer.config.project.commands;
@@ -476,7 +478,7 @@ function execCommandGroup(command, prefix, callback){
 								});
 
 								async.each(ret, function(elem,cb1){
-									requestPrompt("Please provide a value for action argument \"" + elem + "\": ", function(val){
+									requestPrompt("Please provide a value for action argument \"" + elem + "\" in action \"" + action.action + "\": ", function(val){
 										argsObjAction["action"][elem] = val;
 										cb1();
 									});
