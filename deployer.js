@@ -427,7 +427,7 @@ function execCommandRoot(command, callback){
 			var arguments = merge(deployer.config.arguments, true);
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
 				// Filter to take config args
-				return transformArguments(arguments, cmd.arguments, function(childArguments){
+				return transformArguments(arguments, cmd.arguments, function(err, childArguments){
 					return execCommandGroup(cmd, childArguments, "", callback);
 				});
 			} else {
