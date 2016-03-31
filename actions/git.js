@@ -28,6 +28,7 @@ module.exports = {
 	 * @tutorial git-process
      */
 	process: function(config, cb){
+		console.log("In git",config);
 		var repoPath = path.resolve(config.path ? config.path : ".");
 		git.Repository.open(repoPath).done(function(repository){
 			var signature = git.Signature.default(repository);//.create(ret.name,ret.email,(new Date()).getTime(), 0);

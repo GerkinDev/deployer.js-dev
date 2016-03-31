@@ -27,6 +27,7 @@ module.exports = {
      * @returns {undefined}
      */
 	process: function(config, cb){
+		console.log("In JSDoc",config);
 		var reformatedFiles = reformatFiles(deployer.config.files);
 		var selectors = Object.keys(config.selection)
 		for(var i = 0, j = selectors.length; i < j; i++){

@@ -31,7 +31,7 @@ module.exports = {
 	 * @description Browse each file in `files`, check if they changed, then rewrite them by changing their version header 
 	 */
 	process: function(config, cb){
-		console.log(config);
+		console.log("In files-version",config);
 		var reformatedFiles = reformatFiles(deployer.config.files);
 		var selectors = Object.keys(config.selection)
 		for(var i = 0, j = selectors.length; i < j; i++){

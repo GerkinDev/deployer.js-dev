@@ -1,262 +1,257 @@
 {
-    "project": {
-        "arguments": {
-            "project_name": "deployer.js",
-            "author": "Gerkin",
-            "documentation": {
-                "base": {
-                    "url": "http://deployer.gerkindevelopment.net",
-                    "path": "/mnt/workdata/nodejs/documentation/deployer.js/"
-                },
-                "format": [
-                    "%BASE%",
-                    "%VERSION_MINOR%",
-                    "%TYPE%"
-                ],
-                "resources": {
-                    "url": "http://deployer.gerkindevelopment.net/resources",
-                    "path": "/mnt/workdata/nodejs/documentation/deployer.js/resources/"
-                }
-            },
-            "company": {
-                "start": "2015",
-                "name": "GerkinDevelopment"
-            }
-        },
-        "commands": {
-            "_default": {
-                "awake": true,
-                "command_group": false,
-                "mode": "serie",
-                "actions": [
-                    {
-                        "action": "exec",
-                        "data": {
-                            "command": "echo \"Welcome!\""
-                        }
-                    }
-                ]
-            },
-            "release": {
-                "arguments": [
-                    "version"
-                ],
-                "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
-                "command_group": true,
-                "mode": "serie",
-                "actions": [
-                    {
-                        "action": "git",
-                        "data": {
-                            "actions": [
-                                {
-                                    "action": "commit",
-                                    "data": {
-                                        "message": "Pre-process release v%version%"
-                                    }
-                                }
-                            ]
-                        },
-                        "arguments": {
-                            "version": {
-                                "type": "command_arg",
-                                "index": 0
-                            }
-                        }
-                    },
-                    {
-                        "action": "files-version",
-                        "data": {
-                            "selection": {
-                                "\\.(js)$": true,
-                                "\\.min\\.(js)$": false,
-                                "^\\.\\/node_modules($|\\/)": false,
-                                "^\\.\\/templates($|\\/)": false
-                            },
-                            "setDiffs": {
-                                "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
-                            },
-                            "targetVersion": "%version%"
-                        },
-                        "arguments": {
-                            "version": {
-                                "type": "command_arg",
-                                "index": 0
-                            }
-                        }
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "jsdoc",
-                                "data": {
-                                    "private": true,
-                                    "selection": {
-                                        "\\.(js)$": true,
-                                        "\\.min\\.(js)$": false,
-                                        "^\\.\\/node_modules($|\\/)": false,
-                                        "^\\.\\/templates($|\\/)": false,
-                                        "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
-                                    },
-                                    "template": "default",
-                                    "template.bck": "gerkindevelopment",
-                                    "typepath": "javascript",
-                                    "destinationPath": "%basePath%%version%"
-                                },
-                                "arguments": {
-                                    "basePath": {
-                                        "type": "config",
-                                        "value": "documentation.base.path"
-                                    },
-                                    "version": {
-                                        "type": "command_arg",
-                                        "index": 0
-                                    }
-                                }
-                            },
-                            {
-                                "action": "ithoughts-index-doc",
-                                "data": {
-                                    "template": "ithoughts-index-doc",
-                                    "head_links": {
-                                        "GerkinDevelopment": "https://www.gerkindevelopment.net/",
-                                        "Back to Documentation Index": "/"
-                                    },
-                                    "doc_links": [
-                                        {
-                                            "labels": {
-                                                "main": "JavaScript",
-                                                "sub": "Node.js"
-                                            },
-                                            "image": "/images/serverside.jpg",
-                                            "link": "/javascript/index.html"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "action": "version-history",
-                                "data": {
-                                    "template": "ithoughts-index-doc"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "git",
-                                "data": {
-                                    "actions": [
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "Release version %VERSION%"
-                                            }
-                                        },
-                                        {
-                                            "action": "tag",
-                                            "data": {
-                                                "label": "v%VERSION%",
-                                                "message": "Release version %VERSION%"
-                                            }
-                                        },
-                                        {
-                                            "action": "push"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "action": "git",
-                                "data": {
-                                    "path": "/mnt/workdata/nodejs/documentation/deployer.js",
-                                    "actions": [
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "Release version %VERSION%"
-                                            }
-                                        },
-                                        {
-                                            "action": "tag",
-                                            "data": {
-                                                "label": "v%VERSION%",
-                                                "message": "Release version %VERSION%"
-                                            }
-                                        },
-                                        {
-                                            "action": "push"
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "versions": {
-            "0.1": "http://deployer.gerkindevelopment.net/0.1",
-            "0.2": "http://deployer.gerkindevelopment.net/0.2"
-        },
-        "checksums": {
-            "./deployer.js": {
-                "sha1": "4d45d0aacc846be800980ff06684ce1c07ce82fd",
-                "md5": "f92fba1c0ec82bc3dc13c20b94606ca7"
-            },
-            "./utils.js": {
-                "sha1": "2097e2d4a8ed4fb8ee8711aa02ac42090d3ba552",
-                "md5": "0284ef23754039d9dbf5538d249dbc68"
-            },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
-            },
-            "./actions/exec.js": {
-                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
-                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
-            },
-            "./actions/files-version.js": {
-                "sha1": "914d040e4f835eac646de710c99f743676dd8a4a",
-                "md5": "8ca504ab3cc58cff4027f865ebde4ac4"
-            },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "b01f6cb32f4e6fa80a27b70b5448133a2f8d5add",
-                "md5": "3da33575243bc3a6711fe26fe74d4660"
-            },
-            "./actions/git.js": {
-                "sha1": "c09e44e841a68ec14e743305d3e1165519a843ec",
-                "md5": "bd26380411c182e15849ba15563449b2"
-            },
-            "./actions/jsdoc.js": {
-                "sha1": "52e9b0fa0c1044e013cd3c2b1f3c0dfa06f9ca55",
-                "md5": "77aa31046ccc148548997b30ee9be7c0"
-            },
-            "./actions/phpdoc.js": {
-                "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
-                "md5": "d046aa174ba15913a0ce1014c4483dea"
-            },
-            "./actions/minify.js": {
-                "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
-                "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
-            },
-            "./actions/svn.js": {
-                "sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
-                "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
-            },
-            "./actions/version-history.js": {
-                "sha1": "63fe215de2cba527600ed35447debde75d930aa8",
-                "md5": "05149b6dd88a46b6a72af8343a92961b"
-            },
-            "./actions/wordpress-upgrade.js": {
-                "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
-                "md5": "97caeba96628a00a6e62e916541f893e"
-            }
-        }
-    }
+	"project": {
+		"arguments": {
+			"project_name": "deployer.js",
+			"author": "Gerkin",
+			"documentation": {
+				"base": {
+					"url": "http://deployer.gerkindevelopment.net",
+					"path": "/mnt/workdata/nodejs/documentation/deployer.js/"
+				},
+				"format": [
+					"%BASE%",
+					"%VERSION_MINOR%",
+					"%TYPE%"
+				],
+				"resources": {
+					"url": "http://deployer.gerkindevelopment.net/resources",
+					"path": "/mnt/workdata/nodejs/documentation/deployer.js/resources/"
+				}
+			},
+			"company": {
+				"start": "2015",
+				"name": "GerkinDevelopment"
+			}
+		},
+		"commands": {
+			"_default": {
+				"awake": true,
+				"command_group": false,
+				"mode": "serie",
+				"actions": [
+					{
+						"action": "exec",
+						"data": {
+							"command": "echo \"Welcome!\""
+						}
+					}
+				]
+			},
+			"release": {
+				"arguments": [
+					"version"
+				],
+				"description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
+				"command_group": true,
+				"mode": "serie",
+				"actions": [
+					{
+						"action": "git",
+						"data": {
+							"actions": [
+								{
+									"action": "commit",
+									"data": {
+										"message": "Pre-process release v%version%"
+									}
+								}
+							]
+						},
+						"arguments": {
+							"version": {
+								"type": "command_arg",
+								"index": 0
+							}
+						}
+					},
+					{
+						"action": "files-version",
+						"data": {
+							"selection": {
+								"\\.(js)$": true,
+								"\\.min\\.(js)$": false,
+								"^\\.\\/node_modules($|\\/)": false,
+								"^\\.\\/templates($|\\/)": false
+							},
+							"setDiffs": {
+								"/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
+							},
+							"targetVersion": "%version%"
+						},
+						"arguments": {
+							"version": {
+								"type": "command_arg",
+								"index": 0
+							}
+						}
+					},
+					{
+						"command_group": true,
+						"mode": "parallel",
+						"actions": [
+							{
+								"action": "jsdoc",
+								"data": {
+									"private": true,
+									"selection": {
+										"\\.(js)$": true,
+										"\\.min\\.(js)$": false,
+										"^\\.\\/node_modules($|\\/)": false,
+										"^\\.\\/templates($|\\/)": false,
+										"^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+									},
+									"template": "default",
+									"template.bck": "gerkindevelopment",
+									"typepath": "javascript"
+								},
+								"arguments": {
+									"destinationPath":{
+										"type":"placeholder",
+										"value": "%basePath%%version%"
+									}
+								}
+							},
+							{
+								"action": "ithoughts-index-doc",
+								"data": {
+									"template": "ithoughts-index-doc",
+									"head_links": {
+										"GerkinDevelopment": "https://www.gerkindevelopment.net/",
+										"Back to Documentation Index": "/"
+									},
+									"doc_links": [
+										{
+											"labels": {
+												"main": "JavaScript",
+												"sub": "Node.js"
+											},
+											"image": "/images/serverside.jpg",
+											"link": "/javascript/index.html"
+										}
+									]
+								}
+							},
+							{
+								"action": "version-history",
+								"data": {
+									"template": "ithoughts-index-doc"
+								}
+							}
+						]
+					},
+					{
+						"command_group": true,
+						"mode": "parallel",
+						"actions": [
+							{
+								"action": "git",
+								"data": {
+									"actions": [
+										{
+											"action": "commit",
+											"data": {
+												"message": "Release version %VERSION%"
+											}
+										},
+										{
+											"action": "tag",
+											"data": {
+												"label": "v%VERSION%",
+												"message": "Release version %VERSION%"
+											}
+										},
+										{
+											"action": "push"
+										}
+									]
+								}
+							},
+							{
+								"action": "git",
+								"data": {
+									"path": "/mnt/workdata/nodejs/documentation/deployer.js",
+									"actions": [
+										{
+											"action": "commit",
+											"data": {
+												"message": "Release version %VERSION%"
+											}
+										},
+										{
+											"action": "tag",
+											"data": {
+												"label": "v%VERSION%",
+												"message": "Release version %VERSION%"
+											}
+										},
+										{
+											"action": "push"
+										}
+									]
+								}
+							}
+						]
+					}
+				]
+			}
+		},
+		"versions": {
+			"0.1": "http://deployer.gerkindevelopment.net/0.1",
+			"0.2": "http://deployer.gerkindevelopment.net/0.2"
+		},
+		"checksums": {
+			"./deployer.js": {
+				"sha1": "007ce0feb043c9d443bac18662b2a089042d5927",
+				"md5": "ddc95113853ca97b4890e70f3b4675b7"
+			},
+			"./utils.js": {
+				"sha1": "2097e2d4a8ed4fb8ee8711aa02ac42090d3ba552",
+				"md5": "0284ef23754039d9dbf5538d249dbc68"
+			},
+			"./actions/cp.js": {
+				"sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+				"md5": "0ae00440c639bc77903768836adc897d"
+			},
+			"./actions/exec.js": {
+				"sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
+				"md5": "9b32c3376f72e73d6a1858f2fedaae30"
+			},
+			"./actions/files-version.js": {
+				"sha1": "914d040e4f835eac646de710c99f743676dd8a4a",
+				"md5": "8ca504ab3cc58cff4027f865ebde4ac4"
+			},
+			"./actions/git.js": {
+				"sha1": "c09e44e841a68ec14e743305d3e1165519a843ec",
+				"md5": "bd26380411c182e15849ba15563449b2"
+			},
+			"./actions/jsdoc.js": {
+				"sha1": "52e9b0fa0c1044e013cd3c2b1f3c0dfa06f9ca55",
+				"md5": "77aa31046ccc148548997b30ee9be7c0"
+			},
+			"./actions/ithoughts-index-doc.js": {
+				"sha1": "b01f6cb32f4e6fa80a27b70b5448133a2f8d5add",
+				"md5": "3da33575243bc3a6711fe26fe74d4660"
+			},
+			"./actions/minify.js": {
+				"sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
+				"md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
+			},
+			"./actions/phpdoc.js": {
+				"sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
+				"md5": "d046aa174ba15913a0ce1014c4483dea"
+			},
+			"./actions/svn.js": {
+				"sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
+				"md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
+			},
+			"./actions/version-history.js": {
+				"sha1": "63fe215de2cba527600ed35447debde75d930aa8",
+				"md5": "05149b6dd88a46b6a72af8343a92961b"
+			},
+			"./actions/wordpress-upgrade.js": {
+				"sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
+				"md5": "97caeba96628a00a6e62e916541f893e"
+			}
+		}
+	}
 }

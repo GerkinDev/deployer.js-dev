@@ -223,9 +223,9 @@ getModuleVersion = function(moduleName, callback){
 			var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
 			if(version[1] && content.indexOf(version) < content.indexOf("*/")){
 				deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
-			} else {
-				deployer.config.moduleVersion[moduleName] = "unknown";
-			}
+			} else {replacePlaceHolders
+			deployer.config.moduleVersion[moduleName] = "unknown";
+				   }
 		}
 		callback();
 	});
@@ -248,4 +248,22 @@ requestPrompt = function(question, callback){
 	} else {
 		enqueuedPrompts.push({question: question, cb: callback});
 	}
+}
+
+transformArguments = function(parent, newArgs){
+	newArgs = replacePlaceHolders(newArgs,parent);
+	var arguments = merge.recursive(parent, true);
+	for(var i in newArgs){
+		var newArg = newArgs[i];
+		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
+			switch(newArg.type){
+				case "regex_replace":{
+					arguments[i] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
+				}
+			}
+		} else {
+			arguments[i] = newArg
+		}
+	}
+	return arguments;
 }
