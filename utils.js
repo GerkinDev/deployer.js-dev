@@ -254,18 +254,18 @@ transformArguments = function(parent, newArgs, callback){
 	newArgs = replacePlaceHolders(newArgs,parent);
 	var arguments = merge.recursive(parent, true);
 	console.log(newArgs);
-	async.forEachOf(newArgs, function(key, newArg, cb){
+	async.forEachOf(newArgs, function(newArg, key, cb){
 		console.log("Handling", key, newArg);
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
 				case "regex_replace":{
-					arguments[k] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
+					arguments[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
 					return cb();
 				} break;
 
 				case "prompt":{
-					return requestPrompt("Please provide a value for argument \"" + elem + "\: ", function(val){
-						argumentsChild[elem] = val;
+					return requestPrompt("Please provide a value for argument \"" + key + "\: ", function(val){
+						arguments[key] = val;
 						return cb();
 					});
 				} break;
