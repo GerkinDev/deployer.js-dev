@@ -423,8 +423,6 @@ function execCommandGroup(command, prefix, callback){
 				// argsObjAction contains args for specific action.
 				var argsObjAction = merge(argsObj, true);
 
-				var timestart = (new Date()).getTime();
-				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
 				if(action.command_group){
 					execCommandGroup(action, prefix + index, callback);
 				} else {
@@ -435,6 +433,17 @@ function execCommandGroup(command, prefix, callback){
 						if(handler.process){					
 							// Prepare required arguments
 							var actionDatas = merge(action.data, true);
+
+							// Call it when args are OK
+							function execAction(){
+								var timestart = (new Date()).getTime();
+								deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
+								return handler.process(actionDatas, function(){
+									deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
+									return cb();
+								});
+							}
+
 							if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
 								var ret;
 								if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
@@ -448,24 +457,31 @@ function execCommandGroup(command, prefix, callback){
 								}
 								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
 
-								// Auto map
-								console.log(argsObjAction, action.arguments);
-								var argsAction = {};
-								for(var argName in action.arguments){
-									var aarg = action.arguments[argName];
-									switch(aarg.type){
-										case "command_arg":{
-											argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
+								argsObjAction["action"] = {};
+
+								async.each(ret, function(elem,cb1){
+									requestPrompt("Please provide a value for action argument \"" + elem + "\": ", function(val){
+										argsObjAction["action"][elem] = val;
+										cb1();
+									});
+								}, function(){
+									// Auto map
+									var argsAction = {};
+									for(var argName in action.arguments){
+										var aarg = action.arguments[argName];
+										switch(aarg.type){
+											case "command_arg":{
+												argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
+											}
 										}
 									}
-								}
-								console.log(argsAction);
-								actionDatas = replacePlaceHolders(actionDatas, argsAction);
+									console.log("Dump all",argsAction,argsObjAction);
+									actionDatas = replacePlaceHolders(actionDatas, argsAction);
+									execAction();
+								});
+							} else {
+								execAction();
 							}
-							return handler.process(actionDatas, function(){
-								deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
-								return cb();
-							});
 						} else {
 							var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
 							deployer.log.error(err)
