@@ -424,15 +424,15 @@ function execCommandRoot(command, callback){
 		var cmd = cmds[command];
 		deployer.log.verbose('Command "' + command + '" config:',cmd);
 		if(cmd.command_group){
-			var arguments = merge.recursive(deployer.config.project.arguments, true);
-			deployer.log.always("Arguments from config:", arguments);
+			var args = merge.recursive(deployer.config.project.arguments, true);
+			deployer.log.always("Arguments from config:", args);
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Object"){ // If this command requires global arguments
 				// Filter to take config args
-				return transformArguments(arguments, cmd.arguments, function(err, childArguments){
+				return transformArguments(args, cmd.arguments, function(err, childArguments){
 					return execCommandGroup(cmd, childArguments, "", callback);
 				});
 			} else {
-				return execCommandGroup(cmd, arguments, "", callback);
+				return execCommandGroup(cmd, args, "", callback);
 			}
 		}
 	} else {
@@ -444,9 +444,9 @@ function execCommandRoot(command, callback){
 	}
 }
 
-function execCommandGroup(command, arguments, prefix, callback){
+function execCommandGroup(command, args, prefix, callback){
 	console.log("Command:",command);
-	console.log("Arguments:",arguments);
+	console.log("Arguments:",args);
 	var act = (command.actions.length > 0);
 	var mod = (["serie","parallel"].indexOf(command.mode) > -1);
 	if(act ^ mod){
@@ -465,7 +465,7 @@ function execCommandGroup(command, arguments, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 
-				transformArguments(arguments,action.arguments, function(err,argumentsChild){
+				transformArguments(args,action.arguments, function(err,argumentsChild){
 					console.log("ArgumentsChild",argumentsChild);
 					if(action.command_group){
 						execCommandGroup(action, argumentsChild, prefix + index, callback);
