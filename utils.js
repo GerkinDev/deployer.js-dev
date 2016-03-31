@@ -168,7 +168,7 @@ function deepReplacePlaceholder(prefix, value, replacements){
 			value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
 		} else {
 			console.log("Going depth into replace placeholder");
-			value = deepReplacePlaceholder(replacementKey + ".", value, replacement);
+			value = deepReplacePlaceholder(prefix+replacementKey + ".", value, replacement);
 		}
 	}
 	return value;
