@@ -98,7 +98,7 @@
                                     "destinationPath": {
                                         "type": "regex_replace",
                                         "value": "%version%",
-                                        "search": "/(\\d+)\\.(\\d+)\\.(\\d+)/",
+                                        "search": "(\\d+)\\.(\\d+)\\.(\\d+)",
                                         "replacement": "$3$2$1"
                                     }
                                 }
@@ -197,32 +197,32 @@
                 "md5": "1b90578bc930b7f36ab87108ad5bb44e"
             },
             "./utils.js": {
-                "md5": "07deadd43246877d687e25b855d6dd62",
-                "sha1": "7b5573f903e74a7fefa7618e581113781b78246d"
-            },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
+                "sha1": "7727f3fb4ce508b76affa59167bc11c5cf3fcef2",
+                "md5": "ff6396cf24758e7ef68713dfb94ac4c4"
             },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
                 "md5": "9b32c3376f72e73d6a1858f2fedaae30"
             },
-            "./actions/files-version.js": {
-                "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
-                "md5": "f65316784a518f3a242c680f213cfe3c"
+            "./actions/cp.js": {
+                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+                "md5": "0ae00440c639bc77903768836adc897d"
             },
             "./actions/git.js": {
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "dc607446d675ed6290b8ad7344f993add5c7328b",
-                "md5": "7ae13cf7124426bf9f68793a828acb2c"
+            "./actions/files-version.js": {
+                "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
+                "md5": "f65316784a518f3a242c680f213cfe3c"
             },
             "./actions/jsdoc.js": {
                 "sha1": "03732ef599353e0a9a7d5f63347466ebd5edcbbf",
                 "md5": "a438968f4e1074e07ddfac932b66c87a"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "dc607446d675ed6290b8ad7344f993add5c7328b",
+                "md5": "7ae13cf7124426bf9f68793a828acb2c"
             },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
