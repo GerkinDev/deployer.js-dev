@@ -153,14 +153,23 @@ replacePlaceHolders = function(obj, args){
 		}
 		return ret;
 	} else if(typeof obj == "string"){
-		var argsKeys = Object.keys(args);
-		for(var i = 0, j = argsKeys.length; i < j; i++){
-			obj = obj.replace(new RegExp("([^\\\\]|^)%"+argsKeys[i]+"%", "gm"), "$1"+args[argsKeys[i]]);
-		}
-		return obj;
+		return deepReplacePlaceholder("", obj, args);
 	} else {
 		return obj;
 	}
+}
+function deepReplacePlaceholder(prefix, value, replacements){
+	var replacementsKeys = Object.keys(replacements);
+	for(var i = 0, j = replacementsKeys.length; i < j; i++){
+		var replacementKey = replacementsKeys[i];
+		var replacement = replacements[replacementKey];
+		if(replacement.constructor.name == "String"){
+			value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
+		} else {
+			value = deepReplacePlaceholder(replacementKey + ".", value, replacement);
+		}
+	}
+	return value;
 }
 
 mkdir = function(path, root) {
