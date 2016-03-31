@@ -250,20 +250,29 @@ requestPrompt = function(question, callback){
 	}
 }
 
-transformArguments = function(parent, newArgs){
+transformArguments = function(parent, newArgs, callback){
 	newArgs = replacePlaceHolders(newArgs,parent);
 	var arguments = merge.recursive(parent, true);
-	for(var i in newArgs){
-		var newArg = newArgs[i];
+	async.forEachOf(newArgs, function(key, newArg, cb){
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
 				case "regex_replace":{
-					arguments[i] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
-				}
+					arguments[k] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
+					return cb();
+				} break;
+
+				case "prompt":{
+					return requestPrompt("Please provide a value for argument \"" + elem + "\: ", function(val){
+						argumentsChild[elem] = val;
+						return cb();
+					});
+				} break;
 			}
 		} else {
-			arguments[i] = newArg
+			arguments[key] = newArg;
+			return cb();
 		}
-	}
-	return arguments;
+	}, function(err){
+		callback(err,arguments);
+	});
 }

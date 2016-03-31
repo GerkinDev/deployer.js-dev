@@ -478,71 +478,72 @@ function execCommandGroup(command, arguments, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 
-				var argumentsChild = transformArguments(arguments,command.arguments);
-				console.log("ArgumentsChild",argumentsChild);
-				if(action.command_group){
-					execCommandGroup(action, argumentsChild, prefix + index, callback);
-				} else {
-					deployer.log.silly("Action: ", JSON.stringify(action));
-					var handler = require("./actions/" + action.action + ".js");
-					// If the handler exists and can process
-					if(handler){
-						if(handler.process){					
-							// Prepare required arguments
+				transformArguments(arguments,command.arguments, function(err,argumentsChild){
+					console.log("ArgumentsChild",argumentsChild);
+					if(action.command_group){
+						execCommandGroup(action, argumentsChild, prefix + index, callback);
+					} else {
+						deployer.log.silly("Action: ", JSON.stringify(action));
+						var handler = require("./actions/" + action.action + ".js");
+						// If the handler exists and can process
+						if(handler){
+							if(handler.process){					
+								// Prepare required arguments
 
-							// Call it when args are OK
-							function execAction(){
-								var timestart = (new Date()).getTime();
-								deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
-								var actionDatas = replacePlaceHolders(action.data, argumentsChild);
-								return handler.process(actionDatas, function(){
-									deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
-									return cb();
-								});
-							}
-
-							if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
-								var ret;
-								if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
-									ret = handler.arguments(action.data);// ... execute
-								} else { // ..., else,
-									ret = handler.arguments; // Simply get them
-								}
-								if(typeof ret != "undefined" && ret != null){ // If this action needs arguments
-									if(ret.constructor.name != "Array") // Force cast it to array
-										ret = [ret];
-								}
-								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
-								console.log(argumentsChild);
-
-
-								ret = ret.filter(function(elem){
-									return Object.keys(argumentsChild).indexOf(elem) == -1;
-								});
-
-								async.each(ret, function(elem,cb1){
-									requestPrompt("Please provide a value for action argument \"" + elem + "\" in action \"" + action.action + "\": ", function(val){
-										argumentsChild[elem] = val;
-										cb1();
+								// Call it when args are OK
+								function execAction(){
+									var timestart = (new Date()).getTime();
+									deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
+									var actionDatas = replacePlaceHolders(action.data, argumentsChild);
+									return handler.process(actionDatas, function(){
+										deployer.log.info("====> Finished action " + index + ": " + action.action + " after " + ((new Date()).getTime() - timestart) + "ms");
+										return cb();
 									});
-								}, function(){
-									console.log("Dump all",argumentsChild);
+								}
+
+								if(typeof handler.arguments != "undefined" && handler.arguments != null){ // If there are some args...
+									var ret;
+									if(handler.arguments.constructor.name == "Function"){ // ... and this is a function...
+										ret = handler.arguments(action.data);// ... execute
+									} else { // ..., else,
+										ret = handler.arguments; // Simply get them
+									}
+									if(typeof ret != "undefined" && ret != null){ // If this action needs arguments
+										if(ret.constructor.name != "Array") // Force cast it to array
+											ret = [ret];
+									}
+									deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
+									console.log(argumentsChild);
+
+
+									ret = ret.filter(function(elem){
+										return Object.keys(argumentsChild).indexOf(elem) == -1;
+									});
+
+									async.each(ret, function(elem,cb1){
+										requestPrompt("Please provide a value for action argument \"" + elem + "\" in action \"" + action.action + "\": ", function(val){
+											argumentsChild[elem] = val;
+											cb1();
+										});
+									}, function(){
+										console.log("Dump all",argumentsChild);
+										execAction();
+									});
+								} else {
 									execAction();
-								});
+								}
 							} else {
-								execAction();
+								var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+								deployer.log.error(err)
+								return cb(err)
 							}
 						} else {
-							var err = 'Action "' +action.action+'" has no method '+colour.italic("process")+'!';
+							var err = 'Action "' +action.action+'" not found!';
 							deployer.log.error(err)
 							return cb(err)
 						}
-					} else {
-						var err = 'Action "' +action.action+'" not found!';
-						deployer.log.error(err)
-						return cb(err)
 					}
-				}
+				});
 			}, function(err){
 				if(err)
 					deployer.log.error(err);
