@@ -273,6 +273,7 @@ transformArguments = function(parent, newArgs, callback){
 			return cb();
 		}
 	}, function(err){
+		console.log("TransformArguments:", arguments);
 		callback(err,arguments);
 	});
 }
