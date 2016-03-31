@@ -94,14 +94,14 @@
                                     "template.bck": "gerkindevelopment",
                                     "typepath": "javascript"
                                 },
-								"arguments": {
-									"destinationPath": {
-										"type": "regex_replace",
-										"value": "%version%",
-										"mask": "//",
-										"replacement": "$1"
-									}
-								}
+                                "arguments": {
+                                    "destinationPath": {
+                                        "type": "regex_replace",
+                                        "value": "%version%",
+                                        "search": "//",
+                                        "replacement": "$1"
+                                    }
+                                }
                             },
                             {
                                 "action": "ithoughts-index-doc",
@@ -197,8 +197,8 @@
                 "md5": "1b90578bc930b7f36ab87108ad5bb44e"
             },
             "./utils.js": {
-                "sha1": "0d2d0902d026e0deab4237cc0c36aa55e9ce5d82",
-                "md5": "201d06da72437196100993157b768aa0"
+                "md5": "07deadd43246877d687e25b855d6dd62",
+                "sha1": "7b5573f903e74a7fefa7618e581113781b78246d"
             },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
