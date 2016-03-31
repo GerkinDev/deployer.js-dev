@@ -56,12 +56,6 @@
 									}
 								}
 							]
-						},
-						"arguments": {
-							"version": {
-								"type": "command_arg",
-								"index": 0
-							}
 						}
 					},
 					{
@@ -77,12 +71,6 @@
 								"/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
 							},
 							"targetVersion": "%version%"
-						},
-						"arguments": {
-							"version": {
-								"type": "command_arg",
-								"index": 0
-							}
 						}
 					},
 					{
@@ -103,12 +91,6 @@
 									"template": "default",
 									"template.bck": "gerkindevelopment",
 									"typepath": "javascript"
-								},
-								"arguments": {
-									"destinationPath":{
-										"type":"placeholder",
-										"value": "%basePath%%version%"
-									}
 								}
 							},
 							{
