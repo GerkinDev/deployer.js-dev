@@ -422,7 +422,6 @@ function execCommandGroup(command, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 				var argsObjAction = merge(argsObj, true);
-				argsObjAction["action"] = merge(argsObjAction["command"], true);
 
 				if(action.command_group){
 					execCommandGroup(action, prefix + index, callback);
@@ -461,22 +460,23 @@ function execCommandGroup(command, prefix, callback){
 
 								argsObjAction["action"] = {};
 
+								// Auto map
+								var argsAction = {};
+								for(var argName in action.arguments){
+									var aarg = action.arguments[argName];
+									switch(aarg.type){
+										case "command_arg":{
+											argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
+										}
+									}
+								}
+
 								async.each(ret, function(elem,cb1){
 									requestPrompt("Please provide a value for action argument \"" + elem + "\": ", function(val){
 										argsObjAction["action"][elem] = val;
 										cb1();
 									});
 								}, function(){
-									// Auto map
-									var argsAction = {};
-									for(var argName in action.arguments){
-										var aarg = action.arguments[argName];
-										switch(aarg.type){
-											case "command_arg":{
-												argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
-											}
-										}
-									}
 									console.log("Dump all",argsAction,argsObjAction);
 									actionDatas = replacePlaceHolders(actionDatas, argsAction);
 									execAction();
