@@ -104,5 +104,6 @@ module.exports = {
 				}
 			})
 		});
-	}
+	},
+	arguments: "destinationPath"
 }
