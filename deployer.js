@@ -456,6 +456,7 @@ function execCommandGroup(command, prefix, callback){
 										ret = [ret];
 								}
 								deployer.log.verbose("Action " + action.action + " requires following args: ", ret);
+								console.log(argsObjAction);
 
 								argsObjAction["action"] = {};
 
