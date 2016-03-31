@@ -471,6 +471,10 @@ function execCommandGroup(command, prefix, callback){
 									}
 								}
 
+								ret = ret.filter(function(elem){
+									return argsAction.indexOf(elem) == -1;
+								});
+
 								async.each(ret, function(elem,cb1){
 									requestPrompt("Please provide a value for action argument \"" + elem + "\": ", function(val){
 										argsObjAction["action"][elem] = val;
