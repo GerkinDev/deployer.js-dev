@@ -164,6 +164,7 @@ function deepReplacePlaceholder(prefix, value, replacements){
 		var replacementKey = replacementsKeys[i];
 		var replacement = replacements[replacementKey];
 		if(replacement.constructor.name == "String"){
+			console.log(prefix+replacementKey, replacement);
 			value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
 		} else {
 			console.log("Going depth into replace placeholder");
