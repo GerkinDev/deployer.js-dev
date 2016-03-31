@@ -255,6 +255,7 @@ transformArguments = function(parent, newArgs, callback){
 	var arguments = merge.recursive(parent, true);
 	console.log(newArgs);
 	async.forEachOf(newArgs, function(key, newArg, cb){
+		console.log("Handling", key, newArg);
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
 				case "regex_replace":{
