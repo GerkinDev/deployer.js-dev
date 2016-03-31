@@ -468,7 +468,7 @@ function execCommandGroup(command, prefix, args, callback){
 									var aarg = action.arguments[argName];
 									switch(aarg.type){
 										case "command_arg":{
-											argsAction[argName] = argsObjAction["command"][command.arguments[aarg.index]];
+											argsAction[argName] = argsObjAction["command"][argsObjAction[aarg.index]];
 										}
 									}
 								}
