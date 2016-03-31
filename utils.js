@@ -258,6 +258,7 @@ transformArguments = function(parent, newArgs, callback){
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
 				case "regex_replace":{
+					console.log(newArg.value.match(new RegExp(newArg.search)));
 					args[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
 					return cb();
 				} break;
