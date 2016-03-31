@@ -425,6 +425,7 @@ function execCommandRoot(command, callback){
 		deployer.log.verbose('Command "' + command + '" config:',cmd);
 		if(cmd.command_group){
 			var arguments = merge.recursive(deployer.config.arguments, true);
+			deployer.log.always("Arguments from config:", arguments);
 			if(typeof cmd.arguments != "undefined" && cmd.arguments != null && cmd.arguments.constructor.name == "Array"){ // If this command requires global arguments
 				// Filter to take config args
 				return transformArguments(arguments, cmd.arguments, function(err, childArguments){
