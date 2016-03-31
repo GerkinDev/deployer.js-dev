@@ -98,8 +98,8 @@
                                     "destinationPath": {
                                         "type": "regex_replace",
                                         "value": "%version%",
-                                        "search": "//",
-                                        "replacement": "$1"
+                                        "search": "/(\\d+)\\.(\\d+)\\.(\\d+)/",
+                                        "replacement": "$3$2$1"
                                     }
                                 }
                             },
