@@ -465,7 +465,7 @@ function execCommandGroup(command, arguments, prefix, callback){
 			async[mode](command.actions, function(action,index,cb){
 				// argsObjAction contains args for specific action.
 
-				transformArguments(arguments,command.arguments, function(err,argumentsChild){
+				transformArguments(arguments,action.arguments, function(err,argumentsChild){
 					console.log("ArgumentsChild",argumentsChild);
 					if(action.command_group){
 						execCommandGroup(action, argumentsChild, prefix + index, callback);
