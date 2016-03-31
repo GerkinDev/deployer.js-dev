@@ -426,7 +426,7 @@ function execCommandGroup(command, prefix, callback){
 				var timestart = (new Date()).getTime();
 				deployer.log.info("====> Starting action " + prefix + index + ": " + action.action);
 				if(action.command_group){
-					execCommandGroup(action.actions, prefix + index, callback);
+					execCommandGroup(action, prefix + index, callback);
 				} else {
 					deployer.log.silly("Action: ", JSON.stringify(action));
 					var handler = require("./actions/" + action.action + ".js");
