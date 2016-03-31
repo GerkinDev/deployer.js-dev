@@ -472,7 +472,7 @@ function execCommandGroup(command, prefix, callback){
 								}
 
 								ret = ret.filter(function(elem){
-									return argsAction.indexOf(elem) == -1;
+									return Object.keys(argsAction).indexOf(elem) == -1;
 								});
 
 								async.each(ret, function(elem,cb1){
