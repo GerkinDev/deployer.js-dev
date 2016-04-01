@@ -227,24 +227,24 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "c9b821afeac2a23b058e6db28f99f74722425549",
-                "md5": "e579dfd6f42cd48f3ea7c114c050e32e"
-            },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
+                "sha1": "c6d6c56c6c89f1cb8fdd826e9a77cd94890aada2",
+                "md5": "6aabb79819e8cb4e922ffaf2d3c77809"
             },
             "./utils.js": {
                 "sha1": "828f5c2c707e519835bf5ea996b6e1007180930b",
                 "md5": "6da897da3cd2107f01bcd8b9b94e58b8"
             },
-            "./actions/exec.js": {
-                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
-                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
-            },
             "./actions/files-version.js": {
                 "sha1": "b7b4f335e10c9997bd99cb21edb2385a1956921b",
                 "md5": "9e7dac278cbaa22393b48a3060b40576"
+            },
+            "./actions/cp.js": {
+                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+                "md5": "0ae00440c639bc77903768836adc897d"
+            },
+            "./actions/exec.js": {
+                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
+                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
             },
             "./actions/git.js": {
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
@@ -254,13 +254,13 @@
                 "md5": "2dbfd360ed6c71bd8104382b0143155d",
                 "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
             },
-            "./actions/jsdoc.js": {
-                "sha1": "05d8ec9533dea0cc409986867f764212ae547bb9",
-                "md5": "7f283cc7c491a422d84cd165f0bad363"
-            },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
                 "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "05d8ec9533dea0cc409986867f764212ae547bb9",
+                "md5": "7f283cc7c491a422d84cd165f0bad363"
             },
             "./actions/phpdoc.js": {
                 "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
