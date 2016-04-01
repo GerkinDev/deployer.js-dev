@@ -44,7 +44,7 @@ module.exports = {
 			resources: config.resourcesUrl
 		}
 		var content = swig.renderFile(templatePath, templateArgs);
-		var output = composeUrl({base: "path"}, 0, 1) + "/index.php";
+		var output = config.basePath + "/index.php";
 		async.waterfall([
 			function(cb1){
 				fs.writeFile(path.resolve(output), content, function(err){
