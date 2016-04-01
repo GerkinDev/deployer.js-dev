@@ -164,10 +164,8 @@ function deepReplacePlaceholder(prefix, value, replacements){
 		var replacementKey = replacementsKeys[i];
 		var replacement = replacements[replacementKey];
 		if(replacement.constructor.name == "String"){
-			console.log(prefix+replacementKey, replacement);
 			value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
 		} else {
-			console.log("Going depth into replace placeholder");
 			value = deepReplacePlaceholder(prefix+replacementKey + ".", value, replacement);
 		}
 	}
@@ -265,11 +263,9 @@ transformArguments = function(parent, newArgs, callback){
 	newArgs = replacePlaceHolders(newArgs,parent);
 	var args = merge(parent, true);
 	async.forEachOf(newArgs, function(newArg, key, cb){
-		console.log("Handling", key, newArg);
 		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
 			switch(newArg.type){
 				case "regex_replace":{
-					console.log(newArg.value.match(new RegExp(newArg.search)));
 					args[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
 					return cb();
 				} break;
@@ -286,7 +282,6 @@ transformArguments = function(parent, newArgs, callback){
 			return cb();
 		}
 	}, function(err){
-		console.log("TransformArguments:", args);
 		callback(err,args);
 	});
 }

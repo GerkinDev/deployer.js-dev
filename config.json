@@ -255,8 +255,8 @@
                 "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
             },
             "./actions/jsdoc.js": {
-                "sha1": "100757d7da58d8114601babfb294b2645ebe9ee5",
-                "md5": "cf9e19a1acecd838226c82f5f4fd2c95"
+                "sha1": "8b19a3af8265817e246f66d53c6bd07bc90c44cf",
+                "md5": "3b6d1e2a73202087ab9e6df933b56aa9"
             },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
