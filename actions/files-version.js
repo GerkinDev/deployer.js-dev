@@ -243,7 +243,7 @@ function checkHeaderDatas(infos, file, config, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				requestPrompt("Please provide a file description: ", function(value){
+				return requestPrompt("Please provide a file description: ", function(value){
 					infos["fd"]["file"] = value;
 					cb1();
 				});
@@ -264,8 +264,8 @@ function checkHeaderDatas(infos, file, config, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				requestPrompt("Please give the URL to the license: ", function(url){
-					requestPrompt("Please provide the license name: ", function(name){
+				return requestPrompt("Please give the URL to the license: ", function(url){
+					return requestPrompt("Please provide the license name: ", function(name){
 						infos["legal"]["license"] = url + " " + name;
 						cb1();
 					});
@@ -280,7 +280,7 @@ function checkHeaderDatas(infos, file, config, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				requestPrompt("Please provide a package name: ", function(name){
+				return requestPrompt("Please provide a package name: ", function(name){
 					infos["legal"]["package"] = name;
 					cb1();
 				});
