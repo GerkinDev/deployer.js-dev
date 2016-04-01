@@ -71,7 +71,7 @@ module.exports = {
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
 						deployer.log.silly("FILES-VERSION => File " + file + " is new");
-						return fileChanged(file, config.arguments.version, function(err, newChecksums){
+						return fileChanged(file, config.version, function(err, newChecksums){
 							if(err){
 								deployer.log.error(err)
 								return cb1(err);
