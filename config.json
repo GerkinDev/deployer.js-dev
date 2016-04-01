@@ -102,7 +102,8 @@
                                         "value": "%version%",
                                         "search": "^(\\d+)\\.(\\d+).*",
                                         "replacement": "$1.$2"
-                                    }
+                                    },
+                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript"
                                 }
                             },
                             {
@@ -261,13 +262,13 @@
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
                 "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
             },
-            "./actions/phpdoc.js": {
-                "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
-                "md5": "d046aa174ba15913a0ce1014c4483dea"
-            },
             "./actions/svn.js": {
                 "sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
                 "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
+                "md5": "d046aa174ba15913a0ce1014c4483dea"
             },
             "./actions/version-history.js": {
                 "md5": "f9fb07a10afd73e4b4193af6d5f4bd7d",
