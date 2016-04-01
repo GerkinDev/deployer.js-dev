@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
+ * @version 0.2.1
  */
 
 const swig = require("swig");
@@ -40,7 +41,7 @@ module.exports = {
 				version: config.version_minor,
 				url: config.versionUrl
 			},
-			resources: deployer.config.project.documentation.resources.url
+			resources: config.resourcesUrl
 		}
 		var content = swig.renderFile(templatePath, templateArgs);
 		var output = composeUrl({base: "path"}, 0, 1) + "/index.php";

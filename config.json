@@ -145,10 +145,11 @@
                                 "action": "version-history",
                                 "data": {
                                     "template": "ithoughts-index-doc",
-									"version_minor": "%version_minor%",
-									"versionUrl": "documentation.base.url%/%version_minor%",
-									"project_name": "%project_name%",
-									"author":"%author%"
+                                    "version_minor": "%version_minor%",
+                                    "versionUrl": "documentation.base.url%/%version_minor%",
+                                    "project_name": "%project_name%",
+                                    "author": "%author%",
+                                    "resourcesUrl": "%documentation.base.url%/resources"
                                 },
                                 "arguments": {
                                     "version_minor": {
@@ -230,13 +231,13 @@
                 "sha1": "61dbadcdcc04d0cbe2f34417988b52bcb9e829f7",
                 "md5": "76a8a7b00b2706f31663654e4181a251"
             },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
-            },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
                 "md5": "9b32c3376f72e73d6a1858f2fedaae30"
+            },
+            "./actions/cp.js": {
+                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+                "md5": "0ae00440c639bc77903768836adc897d"
             },
             "./actions/files-version.js": {
                 "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
@@ -267,8 +268,8 @@
                 "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
             },
             "./actions/version-history.js": {
-                "sha1": "63fe215de2cba527600ed35447debde75d930aa8",
-                "md5": "05149b6dd88a46b6a72af8343a92961b"
+                "sha1": "4ff3e4117212d58a37b7a3edf5bcad884984990f",
+                "md5": "a335fb9758ac97c7702ebea43a9de19a"
             },
             "./actions/wordpress-upgrade.js": {
                 "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
