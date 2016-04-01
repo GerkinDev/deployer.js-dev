@@ -144,6 +144,7 @@
                             {
                                 "action": "version-history",
                                 "data": {
+									"basePath": "%documentation.base.path%",
                                     "template": "ithoughts-index-doc",
                                     "version_minor": "%version_minor%",
                                     "versionUrl": "documentation.base.url%/%version_minor%",
