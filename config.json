@@ -144,7 +144,19 @@
                             {
                                 "action": "version-history",
                                 "data": {
-                                    "template": "ithoughts-index-doc"
+                                    "template": "ithoughts-index-doc",
+									"version_minor": "%version_minor%",
+									"versionUrl": "documentation.base.url%/%version_minor%",
+									"project_name": "%project_name%",
+									"author":"%author%"
+                                },
+                                "arguments": {
+                                    "version_minor": {
+                                        "type": "regex_replace",
+                                        "value": "%version%",
+                                        "search": "^(\\d+)\\.(\\d+)",
+                                        "replacement": "$1.$2"
+                                    }
                                 }
                             }
                         ]
@@ -235,8 +247,8 @@
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
             "./actions/ithoughts-index-doc.js": {
-                "sha1": "84002cc476b5afc186eb83f572b1ffdc0552c2dd",
-                "md5": "66e1c4d609584a6212e488d87da091a4"
+                "md5": "2dbfd360ed6c71bd8104382b0143155d",
+                "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
             },
             "./actions/jsdoc.js": {
                 "sha1": "f35b22d123913ceed0ca4cb89db25689917e668a",

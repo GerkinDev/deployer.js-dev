@@ -28,8 +28,8 @@ module.exports = {
 	process: function(config, cb){
 		var templatePath = path.resolve(deployer.config.base_path,"templates/" + config.template + "/versionner.swig.php");
 		var templateArgs = {
-			title: deployer.config.project.project_name,
-			author: deployer.config.project.author,
+			title: config.project_name,
+			author: config.author,
 			now: new Date(),
 			head_links: config.head_links,
 			base_url: {
@@ -37,8 +37,8 @@ module.exports = {
 			},
 			versions: deployer.config.version_history,
 			current: {
-				version: deployer.config.minor_version,
-				url: composeUrl({base:"url"},0,2)
+				version: config.version_minor,
+				url: config.versionUrl
 			},
 			resources: deployer.config.project.documentation.resources.url
 		}
