@@ -252,7 +252,7 @@ requestPrompt = function(question, callback){
 			runningPromp = null;
 			if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
 				var newPrompt = enqueuedPrompts[0];
-				enqueuedPrompts.slice(1);
+				enqueuedPrompts = enqueuedPrompts.slice(1);
 				return requestPrompt(newPrompt.question, newPrompt.cb); // Execute the next prompt
 			}
 		})
