@@ -250,21 +250,21 @@
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
-            "./actions/ithoughts-index-doc.js": {
-                "md5": "2dbfd360ed6c71bd8104382b0143155d",
-                "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
-            },
             "./actions/jsdoc.js": {
                 "sha1": "05d8ec9533dea0cc409986867f764212ae547bb9",
                 "md5": "7f283cc7c491a422d84cd165f0bad363"
             },
-            "./actions/phpdoc.js": {
-                "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
-                "md5": "d046aa174ba15913a0ce1014c4483dea"
+            "./actions/ithoughts-index-doc.js": {
+                "md5": "2dbfd360ed6c71bd8104382b0143155d",
+                "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
             },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
                 "md5": "124e3ceae0549f8bf86b1e8da0b2f6a1"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "8d39e35182e169dcbbe0a1a65ff0e3d8458bf725",
+                "md5": "d046aa174ba15913a0ce1014c4483dea"
             },
             "./actions/svn.js": {
                 "sha1": "9ab9f1f183d28722b755b9c7c3eb54761dda1c96",
@@ -277,18 +277,6 @@
             "./actions/wordpress-upgrade.js": {
                 "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
                 "md5": "97caeba96628a00a6e62e916541f893e"
-            },
-            "./%destinationPath%/scripts/linenumber.js": {
-                "sha1": "4354d6843ab5291f8bc1913ebc31930c3f36524b",
-                "md5": "ce0f9506e13bdecba486ffa410c26a7a"
-            },
-            "./%destinationPath%/scripts/prettify/lang-css.js": {
-                "sha1": "dd304e4f9e176e60dbb5490c73d92a28cb00c35b",
-                "md5": "cf1a2bd837d395eaf706c41845d08074"
-            },
-            "./%destinationPath%/scripts/prettify/prettify.js": {
-                "sha1": "3729f589964e6bc382c9b2130f93dc29fd8f29c1",
-                "md5": "10ae04832e92b99b60541ee069fb3be3"
             }
         }
     },

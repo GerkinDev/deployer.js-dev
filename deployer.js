@@ -532,6 +532,7 @@ function execCommandGroup(command, args, prefix, callback){
 					}
 				});
 			}, function(err){
+				console.log("Ended level " + prefix);
 				if(err)
 					deployer.log.error(err);
 				callback(err);
