@@ -11,7 +11,6 @@
  */
 
 const checksum = require('checksum');
-const readline = require('readline');
 
 /**
  * @todo description {@link deployer}
@@ -237,10 +236,6 @@ function makeChecksums(file, cb){
 
 function checkHeaderDatas(infos, file, cb){
 	var headWasLogged = false;
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout
-	});
 	async.series([
 		function(cb1){
 			if(!infos["fd"]["file"]){
