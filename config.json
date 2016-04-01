@@ -94,8 +94,8 @@
                                     "template": "default",
                                     "template.bck": "gerkindevelopment",
                                     "typepath": "javascript",
-                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript",
-                                    "basePath": "%documentation.base.path%/%version_minor%/javascript"
+                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
+                                    "basePath": "%documentation.base.path%/%version_minor%/javascript/"
                                 },
                                 "arguments": {
                                     "version_minor": {
@@ -292,5 +292,5 @@
             }
         }
     },
-	"dirty": true
+    "dirty": true
 }
