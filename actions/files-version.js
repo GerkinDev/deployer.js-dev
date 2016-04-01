@@ -264,14 +264,20 @@ function checkHeaderDatas(infos, file, config, cb){
 					console.log("==> For file " + file);
 					headWasLogged = true;
 				}
-				return requestPrompt("Please give the URL to the license: ", function(url){
-					return requestPrompt("Please provide the license name: ", function(name){
-						console.log("End name/url");
-						console.log(url, name);
-						console.trace();
-						infos["legal"]["license"] = url + " " + name;
-						cb1();
-					});
+				async.series({
+					url:function(cb2){
+						return requestPrompt("Please give the URL to the license: ", function(url){
+							cb2(null, url);
+						});
+					},
+					name:function(cb2){
+						return requestPrompt("Please give the name of the license: ", function(name){
+							cb2(null,name);
+						});
+					}
+				}, function(err, data){					
+					infos["legal"]["license"] = data.url + " " + data.name;
+					cb1();
 				});
 			} else {
 				cb1();
