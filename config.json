@@ -92,7 +92,8 @@
                                     },
                                     "template": "default",
                                     "template.bck": "gerkindevelopment",
-                                    "typepath": "javascript"
+                                    "typepath": "javascript",
+									"destinationPath": "%destinationPath%"
                                 },
                                 "arguments": {
                                     "destinationPath": {
