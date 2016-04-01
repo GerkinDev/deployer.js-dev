@@ -35,7 +35,7 @@ module.exports = {
 			var signature = git.Signature.default(repository);//.create(ret.name,ret.email,(new Date()).getTime(), 0);
 			async.eachSeries(config.actions, function(action, cb1){
 				return getArgsRuntime(action, function(err, args){
-					var keysData = Object.keys(action.data);
+					var keysData = (action.data && action.data.constructor == Object ? Object.keys(action.data) : []);
 					var missingArgs = args.filter( function( el ) {
 						return keysData.indexOf( el ) < 0;
 					} );
