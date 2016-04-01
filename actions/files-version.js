@@ -304,7 +304,6 @@ function checkHeaderDatas(infos, file, cb){
 			}
 		},
 	], function(){
-		rl.close();
 		cb(infos);
 	});
 }
