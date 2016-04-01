@@ -213,17 +213,17 @@
                 "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
                 "md5": "f65316784a518f3a242c680f213cfe3c"
             },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "dc607446d675ed6290b8ad7344f993add5c7328b",
-                "md5": "7ae13cf7124426bf9f68793a828acb2c"
-            },
             "./actions/git.js": {
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "dc607446d675ed6290b8ad7344f993add5c7328b",
+                "md5": "7ae13cf7124426bf9f68793a828acb2c"
+            },
             "./actions/jsdoc.js": {
-                "sha1": "03732ef599353e0a9a7d5f63347466ebd5edcbbf",
-                "md5": "a438968f4e1074e07ddfac932b66c87a"
+                "sha1": "f62dbbbbc739fecbccb31487767821ce4fad11f5",
+                "md5": "0daca5656c99fc86a81132c28909e560"
             },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
