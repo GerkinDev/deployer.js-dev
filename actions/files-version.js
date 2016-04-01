@@ -244,6 +244,7 @@ function checkHeaderDatas(infos, file, cb){
 					headWasLogged = true;
 				}
 				requestPrompt("Please provide a file description: ", function(value){
+					console.log("cb");
 					infos["fd"]["file"] = value;
 					cb1();
 				});
