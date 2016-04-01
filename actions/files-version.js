@@ -259,7 +259,7 @@ function checkHeaderDatas(infos, file, cb){
 		function(cb1){
 			if(!infos["legal"]["copyright"]){
 				var y = (new Date()).getFullYear();
-				infos["legal"]["copyright"] = y + " " + deployer.config.project.company.name
+				infos["legal"]["copyright"] = y + " " + config.companyName
 			}
 			cb1();
 		},

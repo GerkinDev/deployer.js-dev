@@ -72,7 +72,8 @@
                             "setDiffs": {
                                 "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
                             },
-                            "targetVersion": "%version%"
+                            "targetVersion": "%version%",
+							"companyName": "%company.name%"
                         }
                     },
                     {
