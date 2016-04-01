@@ -1,3 +1,12 @@
+/**
+ * @file aze
+ *
+ * @copyright 2016 GerkinDevelopment
+ * @license aze aze
+ * @package aze
+ *
+ */
+
 /*global document */
 (function() {
     var source = document.getElementsByClassName('prettyprint source linenums');

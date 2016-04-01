@@ -73,7 +73,7 @@
                                 "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
                             },
                             "targetVersion": "%version%",
-							"companyName": "%company.name%"
+                            "companyName": "%company.name%"
                         }
                     },
                     {
@@ -231,8 +231,8 @@
                 "md5": "1b90578bc930b7f36ab87108ad5bb44e"
             },
             "./utils.js": {
-                "sha1": "61dbadcdcc04d0cbe2f34417988b52bcb9e829f7",
-                "md5": "76a8a7b00b2706f31663654e4181a251"
+                "sha1": "91a30f4208c9f5796b0ed22d9f69f48359ad8e25",
+                "md5": "4856d09bdf84df9b9c5210ae831c1935"
             },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
@@ -243,8 +243,8 @@
                 "md5": "9b32c3376f72e73d6a1858f2fedaae30"
             },
             "./actions/files-version.js": {
-                "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
-                "md5": "f65316784a518f3a242c680f213cfe3c"
+                "sha1": "b7b4f335e10c9997bd99cb21edb2385a1956921b",
+                "md5": "9e7dac278cbaa22393b48a3060b40576"
             },
             "./actions/git.js": {
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
@@ -271,12 +271,24 @@
                 "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
             },
             "./actions/version-history.js": {
-                "md5": "f9fb07a10afd73e4b4193af6d5f4bd7d",
-                "sha1": "8de7f0ce3694574b6053faf2e24c621be022195f"
+                "sha1": "c2c35fe40ae88f56582e8a820d8d526e21cd1db1",
+                "md5": "0382953b92e2079430756a998533a2ec"
             },
             "./actions/wordpress-upgrade.js": {
                 "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
                 "md5": "97caeba96628a00a6e62e916541f893e"
+            },
+            "./%destinationPath%/scripts/linenumber.js": {
+                "sha1": "4354d6843ab5291f8bc1913ebc31930c3f36524b",
+                "md5": "ce0f9506e13bdecba486ffa410c26a7a"
+            },
+            "./%destinationPath%/scripts/prettify/lang-css.js": {
+                "sha1": "dd304e4f9e176e60dbb5490c73d92a28cb00c35b",
+                "md5": "cf1a2bd837d395eaf706c41845d08074"
+            },
+            "./%destinationPath%/scripts/prettify/prettify.js": {
+                "sha1": "3729f589964e6bc382c9b2130f93dc29fd8f29c1",
+                "md5": "10ae04832e92b99b60541ee069fb3be3"
             }
         }
     }
