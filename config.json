@@ -94,7 +94,7 @@
                                     "template": "default",
                                     "template.bck": "gerkindevelopment",
                                     "typepath": "javascript",
-                                    "destinationPath": "%destinationPath%",
+                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript",
                                     "basePath": "%documentation.base.path%%version_minor%/javascript"
                                 },
                                 "arguments": {
@@ -282,13 +282,13 @@
                 "sha1": "4354d6843ab5291f8bc1913ebc31930c3f36524b",
                 "md5": "ce0f9506e13bdecba486ffa410c26a7a"
             },
-            "./%destinationPath%/scripts/prettify/lang-css.js": {
-                "sha1": "dd304e4f9e176e60dbb5490c73d92a28cb00c35b",
-                "md5": "cf1a2bd837d395eaf706c41845d08074"
-            },
             "./%destinationPath%/scripts/prettify/prettify.js": {
                 "sha1": "3729f589964e6bc382c9b2130f93dc29fd8f29c1",
                 "md5": "10ae04832e92b99b60541ee069fb3be3"
+            },
+            "./%destinationPath%/scripts/prettify/lang-css.js": {
+                "sha1": "dd304e4f9e176e60dbb5490c73d92a28cb00c35b",
+                "md5": "cf1a2bd837d395eaf706c41845d08074"
             }
         }
     }
