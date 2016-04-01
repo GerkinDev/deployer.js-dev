@@ -136,7 +136,7 @@
                                     "version_minor": {
                                         "type": "regex_replace",
                                         "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+)",
+                                        "search": "^(\\d+)\\.(\\d+).*",
                                         "replacement": "$1.$2"
                                     }
                                 }
@@ -144,10 +144,10 @@
                             {
                                 "action": "version-history",
                                 "data": {
-									"basePath": "%documentation.base.path%",
+                                    "basePath": "%documentation.base.path%",
                                     "template": "ithoughts-index-doc",
                                     "version_minor": "%version_minor%",
-                                    "versionUrl": "documentation.base.url%/%version_minor%",
+                                    "versionUrl": "%documentation.base.url%/%version_minor%",
                                     "project_name": "%project_name%",
                                     "author": "%author%",
                                     "resourcesUrl": "%documentation.base.url%/resources"
@@ -156,7 +156,7 @@
                                     "version_minor": {
                                         "type": "regex_replace",
                                         "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+)",
+                                        "search": "^(\\d+)\\.(\\d+).*",
                                         "replacement": "$1.$2"
                                     }
                                 }
@@ -221,7 +221,8 @@
         },
         "versions": {
             "0.1": "http://deployer.gerkindevelopment.net/0.1",
-            "0.2": "http://deployer.gerkindevelopment.net/0.2"
+            "0.2": "http://deployer.gerkindevelopment.net/0.2",
+            "0.2.1": "documentation.base.url%/0.2.1"
         },
         "checksums": {
             "./deployer.js": {
@@ -269,8 +270,8 @@
                 "md5": "d811c0dcf6f9844e3f95bf3bd250ae03"
             },
             "./actions/version-history.js": {
-                "sha1": "e936fe0468b1c6f4ede908335084cdcdcdb442d7",
-                "md5": "76cf335bac31b72ef719966f646780ed"
+                "md5": "f9fb07a10afd73e4b4193af6d5f4bd7d",
+                "sha1": "8de7f0ce3694574b6053faf2e24c621be022195f"
             },
             "./actions/wordpress-upgrade.js": {
                 "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
