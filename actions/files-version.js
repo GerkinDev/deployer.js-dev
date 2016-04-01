@@ -70,7 +70,7 @@ module.exports = {
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
 						deployer.log.silly("FILES-VERSION => File " + file + " is new");
-						return fileChanged(file, config.version, function(err, newChecksums){
+						return fileChanged(file, config.version,config, function(err, newChecksums){
 							if(err){
 								deployer.log.error(err)
 								return cb1(err);
@@ -97,7 +97,7 @@ module.exports = {
 						}
 						if(changed){
 							deployer.log.silly("FILES-VERSION => File " + file + " changed");
-							return fileChanged(file, config.targetVersion, function(err, newChecksums){
+							return fileChanged(file, config.targetVersion,config, function(err, newChecksums){
 								if(err){
 									deployer.log.error(err)
 									checksums[file] = {};
@@ -123,7 +123,7 @@ module.exports = {
 	arguments: "version"
 }
 
-function fileChanged(file, version, cb){
+function fileChanged(file, version,config, cb){
 	var regexHeader = new RegExp((file.match(/\.php$/) ? "<\\?php[\\n\\s]*(?:.*\\n)?" : "^") + "(\\/\\*\\*\\n(?:\\s*\\*\\s*(?:@?.*)?\\n)*\\s*\\*\\/)");
 	var filepath = path.resolve(".", file);
 	fs.readFile(filepath, "UTF-8", function(err, content){
