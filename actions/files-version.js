@@ -191,7 +191,7 @@ function fileChanged(file, version, cb){
 				}
 			}
 		}
-		checkHeaderDatas(infos, file, function(infosMod){
+		checkHeaderDatas(infos, file,config, function(infosMod){
 			infosMod["version"]["version"] = version;
 			if(Object.keys(infosMod["other"]).length == 0)
 				delete infosMod["other"];
@@ -234,7 +234,7 @@ function makeChecksums(file, cb){
 	}, cb);
 }
 
-function checkHeaderDatas(infos, file, cb){
+function checkHeaderDatas(infos, file, config, cb){
 	var headWasLogged = false;
 	async.series([
 		function(cb1){
@@ -244,7 +244,6 @@ function checkHeaderDatas(infos, file, cb){
 					headWasLogged = true;
 				}
 				requestPrompt("Please provide a file description: ", function(value){
-					console.log("cb");
 					infos["fd"]["file"] = value;
 					cb1();
 				});
