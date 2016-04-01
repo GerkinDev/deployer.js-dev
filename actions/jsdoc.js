@@ -74,6 +74,7 @@ module.exports = {
 				"recurse": true,                  // same as -r
 			}
 		};
+		console.log("DestinationPath ",config.destinationPath);
 		if(config.template)
 			root.opts.template = "templates/" + config.template;
 		if(config.tutorials)
