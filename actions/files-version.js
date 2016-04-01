@@ -266,7 +266,8 @@ function checkHeaderDatas(infos, file, config, cb){
 				}
 				return requestPrompt("Please give the URL to the license: ", function(url){
 					return requestPrompt("Please provide the license name: ", function(name){
-						console.log("End name/url",stack.trace())
+						console.log("End name/url");
+					console.trace();
 						infos["legal"]["license"] = url + " " + name;
 						cb1();
 					});
