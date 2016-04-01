@@ -94,7 +94,10 @@ module.exports = {
 			var process = child_process.spawn("jsdoc", args);
 			process.stdout.on("data", function(data){
 				deployer.log.verbose("JSDOC =>", data.toString("UTF-8").slice(0,-1));
-			})
+			});
+			process.stderr.on("data", function(data){
+				deployer.log.error("JSDOC =>", data.toString("UTF-8").slice(0,-1));
+			});
 			process.on("exit", function(exitCode){
 				deployer.log.info("JSDOC => Process JSDOC exited with code " + exitCode);
 				if(!deployer.config.dirty){
