@@ -468,7 +468,7 @@ function execCommandGroup(command, args, prefix, callback){
 				transformArguments(args,action.arguments, function(err,argumentsChild){
 					console.log("ArgumentsChild",argumentsChild);
 					if(action.command_group){
-						execCommandGroup(action, argumentsChild, prefix + index, callback);
+						execCommandGroup(action, argumentsChild, prefix + index, cb);
 					} else {
 						deployer.log.silly("Action: ", JSON.stringify(action));
 						var handler = require("./actions/" + action.action + ".js");

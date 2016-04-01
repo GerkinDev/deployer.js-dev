@@ -227,16 +227,16 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "a0f17edad3871e52909ce7be2e406713fbac8dc7",
-                "md5": "1b90578bc930b7f36ab87108ad5bb44e"
-            },
-            "./utils.js": {
-                "sha1": "828f5c2c707e519835bf5ea996b6e1007180930b",
-                "md5": "6da897da3cd2107f01bcd8b9b94e58b8"
+                "sha1": "c9b821afeac2a23b058e6db28f99f74722425549",
+                "md5": "e579dfd6f42cd48f3ea7c114c050e32e"
             },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
                 "md5": "0ae00440c639bc77903768836adc897d"
+            },
+            "./utils.js": {
+                "sha1": "828f5c2c707e519835bf5ea996b6e1007180930b",
+                "md5": "6da897da3cd2107f01bcd8b9b94e58b8"
             },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
@@ -250,13 +250,13 @@
                 "sha1": "fe1c6cec7c1f5c5f48f14b2c0f1f0180e7a882e2",
                 "md5": "6da96497cc78cc7a63145626938b4f55"
             },
-            "./actions/jsdoc.js": {
-                "sha1": "05d8ec9533dea0cc409986867f764212ae547bb9",
-                "md5": "7f283cc7c491a422d84cd165f0bad363"
-            },
             "./actions/ithoughts-index-doc.js": {
                 "md5": "2dbfd360ed6c71bd8104382b0143155d",
                 "sha1": "91f4e1f7c1ee8218fe1921e96d3b393c700aeaf0"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "05d8ec9533dea0cc409986867f764212ae547bb9",
+                "md5": "7f283cc7c491a422d84cd165f0bad363"
             },
             "./actions/minify.js": {
                 "sha1": "649a2e760e4955c30b3277618a3da9977cb27d3c",
