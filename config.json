@@ -174,14 +174,14 @@
                                         {
                                             "action": "commit",
                                             "data": {
-                                                "message": "Release version %VERSION%"
+                                                "message": "Release version %version%"
                                             }
                                         },
                                         {
                                             "action": "tag",
                                             "data": {
-                                                "label": "v%VERSION%",
-                                                "message": "Release version %VERSION%"
+                                                "label": "v%version%",
+                                                "message": "Release version %version%"
                                             }
                                         },
                                         {
@@ -198,14 +198,14 @@
                                         {
                                             "action": "commit",
                                             "data": {
-                                                "message": "Release version %VERSION%"
+                                                "message": "Release version %version%"
                                             }
                                         },
                                         {
                                             "action": "tag",
                                             "data": {
-                                                "label": "v%VERSION%",
-                                                "message": "Release version %VERSION%"
+                                                "label": "v%version%",
+                                                "message": "Release version %version%"
                                             }
                                         },
                                         {
@@ -233,13 +233,13 @@
                 "sha1": "61dbadcdcc04d0cbe2f34417988b52bcb9e829f7",
                 "md5": "76a8a7b00b2706f31663654e4181a251"
             },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
-            },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
                 "md5": "9b32c3376f72e73d6a1858f2fedaae30"
+            },
+            "./actions/cp.js": {
+                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+                "md5": "0ae00440c639bc77903768836adc897d"
             },
             "./actions/files-version.js": {
                 "sha1": "d5dfa3ccdd579d197a846430847cb08dfea9f067",
