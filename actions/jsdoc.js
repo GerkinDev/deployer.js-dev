@@ -40,6 +40,7 @@ module.exports = {
 			reformatedFiles = checkFiles(reformatedFiles, regex, config.selection[selector]);
 		}
 		var filesArray = filesStructToArray(reformatedFiles);
+		console.log(filesArray);
 		var l = filesArray.length;
 		if(l == 0){
 			deployer.log.info("JSDOC => No files to document with jsdoc");
