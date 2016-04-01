@@ -231,8 +231,8 @@
                 "md5": "1b90578bc930b7f36ab87108ad5bb44e"
             },
             "./utils.js": {
-                "sha1": "91a30f4208c9f5796b0ed22d9f69f48359ad8e25",
-                "md5": "4856d09bdf84df9b9c5210ae831c1935"
+                "sha1": "828f5c2c707e519835bf5ea996b6e1007180930b",
+                "md5": "6da897da3cd2107f01bcd8b9b94e58b8"
             },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
@@ -291,5 +291,6 @@
                 "md5": "10ae04832e92b99b60541ee069fb3be3"
             }
         }
-    }
+    },
+	"dirty": true
 }
