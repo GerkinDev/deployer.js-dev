@@ -313,7 +313,6 @@ function run(dry){
 		if(dry){
 			dryHelp();
 		} else {
-			var exit = false;
 			var initialCmd = deployer.config.project.commands[deployer.config.action];
 			if(initialCmd){
 				if(initialCmd.awake){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
@@ -334,6 +333,7 @@ function runPermanentCli(){
 
 	// This callback will be assigned later. It is called by every innerCLI action
 	var clicb = null;
+	var exit = false;
 
 	innerCli.command("help [command]").description("Output the help. [command] is optionnal.").action(function(askedCmd){
 		if(typeof askedCmd == "undefined"){
