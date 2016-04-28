@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 const randomstring = require("randomstring");
@@ -28,18 +28,7 @@ module.exports = {
      */
 	process: function(config, cb){
 		console.log("In JSDoc",config);
-		var reformatedFiles = reformatFiles(deployer.files);
-		var selectors = Object.keys(config.selection)
-		for(var i = 0, j = selectors.length; i < j; i++){
-			var selector = selectors[i];
-			try{
-				var regex = new RegExp(selector);
-			} catch(e){
-				deployer.log.error(e);
-			}
-			reformatedFiles = checkFiles(reformatedFiles, regex, config.selection[selector]);
-		}
-		var filesArray = filesStructToArray(reformatedFiles);
+		var filesArray = filesFromSelectors(config.selection);
 		console.log(filesArray);
 		var l = filesArray.length;
 		if(l == 0){

@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 throwError = function(error, critical){
@@ -32,256 +32,260 @@ throwError = function(error, critical){
  * @returns {undefined}
  */
 getFilesRec = function(path, cb){
-	var out = [];
-	var dirs = {};
-	fs.readdir(path, function(err, files){
-		if(err){
-			throwError(err);
-		}
-		async.each(files, function(file, cb1){
-			// Used with fs
-			var filepath = path + "/" + file;
-			// Used for regex match
-			var transformedPath = filepath.replace(process.cwd(), '.');
-			fs.stat(filepath, function(err, stat){
-				if(err){
-					throwError(err);
-				} else {
-					if(stat.isDirectory()){
+    var out = [];
+    var dirs = {};
+    fs.readdir(path, function(err, files){
+        if(err){
+            throwError(err);
+        }
+        async.each(files, function(file, cb1){
+            // Used with fs
+            var filepath = path + "/" + file;
+            // Used for regex match
+            var transformedPath = filepath.replace(process.cwd(), '.');
+            fs.stat(filepath, function(err, stat){
+                if(err){
+                    throwError(err);
+                } else {
+                    if(stat.isDirectory()){
 
-						var isOk = true;
-						for(var i = 0, j = deployer.config.excludeExplore.length && isOk; i < j; i++){
-							var excludedPath = deployer.config.excludeExplore[i];
-							if(transformedPath.match(new RegExp(excludedPath))){
-								isOk = false;
-							}
-						}
-						if(isOk){
-							getFilesRec(filepath, function(err, subfiles){
-								if(err){
-									throwError(err);
-								}
-								dirs[file] = subfiles;
-								cb1()
-							});
-						} else {
-							cb1();
-						}
-					} else {
-						out.push(file);
-						cb1();
-					}
-				}
-			});
-		}, function(err){
-			if(Object.keys(dirs).length > 0){
-				out.push(dirs);
-			}
-			cb(err, out);
-		});
-	})
+                        var isOk = true;
+                        for(var i = 0, j = deployer.config.excludeExplore.length && isOk; i < j; i++){
+                            var excludedPath = deployer.config.excludeExplore[i];
+                            if(transformedPath.match(new RegExp(excludedPath))){
+                                isOk = false;
+                            }
+                        }
+                        if(isOk){
+                            getFilesRec(filepath, function(err, subfiles){
+                                if(err){
+                                    throwError(err);
+                                }
+                                dirs[file] = subfiles;
+                                return cb1()
+                            });
+                        } else {
+                            return cb1();
+                        }
+                    } else {
+                        out.push(file);
+                        return cb1();
+                    }
+                }
+            });
+        }, function(err){
+            if(Object.keys(dirs).length > 0){
+                out.push(dirs);
+            }
+            return cb(err, out);
+        });
+    })
 }
 
 checkFiles = function(files, regex, status, basePath, force){
-	if(typeof basePath == "undefined"){
-		basePath = ".";
-	}
-	if(typeof force == "undefined"){
-		force = false;
-	}
-	for(var file in files){
-		var match = (basePath + "/" + file).match(regex);
-		if(force || match){
-			if(typeof files[file] == "boolean"){
-				files[file] = status
-			} else {
-				files[file].included = status;
-			}
-		}
-		if(typeof files[file] != "boolean"){
-			files[file].files = checkFiles(files[file].files, regex, status, basePath + "/" + file, force || match);
-		}
-	}
-	return files;
+    if(typeof basePath == "undefined"){
+        basePath = ".";
+    }
+    if(typeof force == "undefined"){
+        force = false;
+    }
+    for(var file in files){
+        var match = (basePath + "/" + file).match(regex);
+        if(force || match){
+            if(typeof files[file] == "boolean"){
+                files[file] = status
+            } else {
+                files[file].included = status;
+            }
+        }
+        if(typeof files[file] != "boolean"){
+            files[file].files = checkFiles(files[file].files, regex, status, basePath + "/" + file, force || match);
+        }
+    }
+    return files;
+}
+
+filesFromSelectors = function(selectors){
+    var reformatedFiles = reformatFiles(deployer.files);
+    var selectorsK = Object.keys(selectors)
+    for(var i = 0, j = selectorsK.length; i < j; i++){
+        var selector = selectorsK[i];
+        try{
+            var regex = new RegExp(selector);
+        } catch(e){
+            deployer.log.error(e);
+        }
+        reformatedFiles = checkFiles(reformatedFiles, regex, selectors[selector]);
+    }
+    var filesArray = filesStructToArray(reformatedFiles);
+
+    return filesArray;
 }
 
 reformatFiles = function(files){
-	var ret = {};
-	for(var i = 0, j = files.length; i < j; i++){
-		if(typeof files[i] === "object"){
-			for(var k = Object.keys(files[i]), l = 0, m = k.length; l < m; l++){
-				ret[k[l]] = {included: false, files: reformatFiles(files[i][k[l]])};
-			}
-		} else {
-			ret[files[i]] = false;
-		}
-	}
-	return ret;
+    var ret = {};
+    for(var i = 0, j = files.length; i < j; i++){
+        if(typeof files[i] === "object"){
+            for(var k = Object.keys(files[i]), l = 0, m = k.length; l < m; l++){
+                ret[k[l]] = {included: false, files: reformatFiles(files[i][k[l]])};
+            }
+        } else {
+            ret[files[i]] = false;
+        }
+    }
+    return ret;
 }
 
 filesStructToArray = function(files, basepath){
-	if(typeof basepath == "undefined"){
-		basepath = ".";
-	}
-	var ret = [];
-	for(var file in files){
-		var filepath = basepath + "/" + file;
-		if(typeof files[file] == "boolean"){
-			if(files[file]){
-				ret.push(filepath);
-			}
-		} else {
-			ret = ret.concat(filesStructToArray(files[file].files, filepath));
-		}
-	}
-	return ret;
+    if(typeof basepath == "undefined"){
+        basepath = ".";
+    }
+    var ret = [];
+    for(var file in files){
+        var filepath = basepath + "/" + file;
+        if(typeof files[file] == "boolean"){
+            if(files[file]){
+                ret.push(filepath);
+            }
+        } else {
+            ret = ret.concat(filesStructToArray(files[file].files, filepath));
+        }
+    }
+    return ret;
 }
 
 replacePlaceHolders = function(obj, args){
-	if(obj == null){
-		return obj;
-	} else if(typeof obj == "object" && obj != null && obj.constructor != Array){
-		var ret = {};
-		for(var i in obj){
-			ret[i] = replacePlaceHolders(obj[i],args);
-		}
-		return ret;
-	} else if(obj.constructor == Array){
-		var ret = [];
-		for(var i = 0, j = obj.length; i < j; i++){
-			ret.push(replacePlaceHolders(obj[i],args));
-		}
-		return ret;
-	} else if(typeof obj == "string"){
-		return deepReplacePlaceholder("", obj, args);
-	} else {
-		return obj;
-	}
+    if(obj == null){
+        return obj;
+    } else if(typeof obj == "object" && obj != null && obj.constructor != Array){
+        var ret = {};
+        for(var i in obj){
+            ret[i] = replacePlaceHolders(obj[i],args);
+        }
+        return ret;
+    } else if(obj.constructor == Array){
+        var ret = [];
+        for(var i = 0, j = obj.length; i < j; i++){
+            ret.push(replacePlaceHolders(obj[i],args));
+        }
+        return ret;
+    } else if(typeof obj == "string"){
+        return deepReplacePlaceholder("", obj, args);
+    } else {
+        return obj;
+    }
 }
 function deepReplacePlaceholder(prefix, value, replacements){
-	var replacementsKeys = Object.keys(replacements);
-	for(var i = 0, j = replacementsKeys.length; i < j; i++){
-		var replacementKey = replacementsKeys[i];
-		var replacement = replacements[replacementKey];
-		if(replacement.constructor.name == "String"){
-			value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
-		} else {
-			value = deepReplacePlaceholder(prefix+replacementKey + ".", value, replacement);
-		}
-	}
-	return value;
+    var replacementsKeys = Object.keys(replacements);
+    for(var i = 0, j = replacementsKeys.length; i < j; i++){
+        var replacementKey = replacementsKeys[i];
+        var replacement = replacements[replacementKey];
+        if(replacement.constructor.name == "String"){
+            value = value.replace(new RegExp("([^\\\\]|^)%"+prefix+replacementKey+"%", "gm"), "$1"+replacement);
+        } else {
+            value = deepReplacePlaceholder(prefix+replacementKey + ".", value, replacement);
+        }
+    }
+    return value;
 }
 
 mkdir = function(path, root) {
 
-	var dirs = path.split('/'), dir = dirs.shift(), root = (root || '') + dir + '/';
+    var dirs = path.split('/'), dir = dirs.shift(), root = (root || '') + dir + '/';
 
-	try { fs.mkdirSync(root); }
-	catch (e) {
-		//dir wasn't made, something went wrong
-		if(!fs.statSync(root).isDirectory()) throw new Error(e);
-	}
+    try { fs.mkdirSync(root); }
+    catch (e) {
+        //dir wasn't made, something went wrong
+        if(!fs.statSync(root).isDirectory()) throw new Error(e);
+    }
 
-	return !dirs.length || mkdir(dirs.join('/'), root);
-}
-
-composeUrl = function(args, from, to){
-	var composed = deployer.config.project.documentation.format.slice(from, to).join("/");
-	if(args.base == "url"){
-		composed = composed.replace("%BASE%", deployer.config.project.documentation.base.url)
-	} else if(args.base == "path"){
-		composed = composed.replace("%BASE%", deployer.config.project.documentation.base.path);
-	}
-	if(args.type){
-		composed = composed.replace("%TYPE%", args.type);
-	}
-	return composed;
+    return !dirs.length || mkdir(dirs.join('/'), root);
 }
 
 readLocalConfigFile = function(cb){
-	var file = path.resolve(".", deployer.config.configFile);
-	fs.readFile(file, 'UTF-8', function(err, filecontent){
-		if(err){
-			return cb(err);
-		}
-		try{
-			var configFile = JSON.parse(filecontent);
-		} catch(e) {
-			deployer.log.warn("Invalid JSON file " + file,e);
-			return cb(e);
-		}
-		return cb(null,configFile);
-	});
+    var file = path.resolve(".", deployer.config.configFile);
+    return fs.readFile(file, 'UTF-8', function(err, filecontent){
+        if(err){
+            return cb(err);
+        }
+        try{
+            var configFile = JSON.parse(filecontent);
+        } catch(e) {
+            deployer.log.warn("Invalid JSON file " + file,e);
+            return cb(e);
+        }
+        return cb(null,configFile);
+    });
 }
 
 writeLocalConfigFile = function(filecontent, cb){
-	var file = path.resolve(".", deployer.config.configFile);
-	fs.writeFile(file, JSON.stringify(filecontent,null,4), function(err){
-		cb(err);
-	});
+    var file = path.resolve(".", deployer.config.configFile);
+    fs.writeFile(file, JSON.stringify(filecontent,null,4), function(err){
+        return cb(err);
+    });
 }
 
 getModuleVersion = function(moduleName, callback){
-	if(!deployer.config.moduleVersion)
-		deployer.config.moduleVersion = {};
-	fs.readFile(path.resolve(moduleName.match(/\.js$/) ? moduleName : moduleName + ".js"), "UTF-8", function(err, content){
-		if(err){
-			deployer.log.error("Could not find module \"" + moduleName + "\"");
-			deployer.config.moduleVersion[moduleName] = "unknown"
-		} else {
-			var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
-			if(version[1] && content.indexOf(version) < content.indexOf("*/")){
-				deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
-			} else {replacePlaceHolders
-			deployer.config.moduleVersion[moduleName] = "unknown";
-				   }
-		}
-		callback();
-	});
+    if(!deployer.config.moduleVersion)
+        deployer.config.moduleVersion = {};
+    return fs.readFile(path.resolve(moduleName.match(/\.js$/) ? moduleName : moduleName + ".js"), "UTF-8", function(err, content){
+        if(err){
+            deployer.log.error("Could not find module \"" + moduleName + "\"");
+            deployer.config.moduleVersion[moduleName] = "unknown"
+        } else {
+            var version = content.match(/^\/\*\*(?:\s*\*\s*(?:(@version.*)|.*)?)+\//m);
+            if(version[1] && content.indexOf(version) < content.indexOf("*/")){
+                deployer.config.moduleVersion[moduleName] = version[1].replace(/@version\s+/,"");
+            } else {replacePlaceHolders
+            deployer.config.moduleVersion[moduleName] = "unknown";
+                   }
+        }
+        return callback();
+    });
 }
 
 var enqueuedPrompts = [];
 var runningPromp = null;
 requestPrompt = function(question, callback){
-	if(runningPromp == null){
-		runningPromp = {question: question, cb: callback};
-		rl.question(question, function(value){
-			runningPromp.cb(value); // Call this prompt request callback
-			runningPromp = null;
-			if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
-				var newPrompt = enqueuedPrompts[0];
-				enqueuedPrompts = enqueuedPrompts.slice(1);
-				return requestPrompt(newPrompt.question, newPrompt.cb); // Execute the next prompt
-			}
-		})
-	} else {
-		enqueuedPrompts.push({question: question, cb: callback});
-	}
+    if(runningPromp == null){
+        runningPromp = {question: question, cb: callback};
+        return rl.question(question, function(value){
+            runningPromp.cb(value); // Call this prompt request callback
+            runningPromp = null;
+            if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
+                var newPrompt = enqueuedPrompts[0];
+                enqueuedPrompts = enqueuedPrompts.slice(1);
+                return requestPrompt(newPrompt.question, newPrompt.cb); // Execute the next prompt
+            }
+        });
+    } else {
+        enqueuedPrompts.push({question: question, cb: callback});
+    }
 }
 
 transformArguments = function(parent, newArgs, callback){
-	newArgs = replacePlaceHolders(newArgs,parent);
-	var args = merge(parent, true);
-	async.forEachOf(newArgs, function(newArg, key, cb){
-		if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
-			switch(newArg.type){
-				case "regex_replace":{
-					args[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
-					return cb();
-				} break;
+    newArgs = replacePlaceHolders(newArgs,parent);
+    var args = merge(parent, true);
+    return async.forEachOf(newArgs, function(newArg, key, cb){
+        if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
+            switch(newArg.type){
+                case "regex_replace":{
+                    args[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
+                    return cb();
+                } break;
 
-				case "prompt":{
-					return requestPrompt("Please provide a value for argument \"" + key + "\": ", function(val){
-						args[key] = val;
-						return cb();
-					});
-				} break;
-			}
-		} else {
-			args[key] = newArg;
-			return cb();
-		}
-	}, function(err){
-		callback(err,args);
-	});
+                case "prompt":{
+                    return requestPrompt("Please provide a value for argument \"" + key + "\": ", function(val){
+                        args[key] = val;
+                        return cb();
+                    });
+                } break;
+            }
+        } else {
+            args[key] = newArg;
+            return cb();
+        }
+    }, function(err){
+        return callback(err,args);
+    });
 }

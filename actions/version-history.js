@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 const swig = require("swig");
@@ -27,7 +27,7 @@ module.exports = {
      * @returns {undefined}
      */
 	process: function(config, cb){
-		var templatePath = path.resolve(deployer.config.base_path,"templates/" + config.template + "/versionner.swig.php");
+		var templatePath = path.resolve(deployer.config.base_path,"templates/" + config.template + "/version-history/index.php.swig");
 		var templateArgs = {
 			title: config.project_name,
 			author: config.author,

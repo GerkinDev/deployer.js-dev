@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.1
+ * @version 0.2.2
  */
 
 const checksum = require('checksum');
@@ -31,22 +31,11 @@ module.exports = {
 	 */
 	process: function(config, cb){
 		console.log("In files-version",config);
-		var reformatedFiles = reformatFiles(deployer.files);
-		var selectors = Object.keys(config.selection)
-		for(var i = 0, j = selectors.length; i < j; i++){
-			var selector = selectors[i];
-			try{
-				var regex = new RegExp(selector);
-			} catch(e){
-				deployer.log.error(e);
-			}
-			reformatedFiles = checkFiles(reformatedFiles, regex, config.selection[selector]);
-		}
-		var filesArray = filesStructToArray(reformatedFiles);
+        var filesArray = filesFromSelectors(config.selection);
 
 		var checksums = {};
 
-		async.each(filesArray, function(file, cb1){
+		return async.each(filesArray, function(file, cb1){
 			var filepath = path.resolve(".", file);
 			makeChecksums(filepath, function(err, returns){
 				checksums[file] = returns
@@ -66,7 +55,7 @@ module.exports = {
 					return cb("FILES-VERSION => Could not read config file");
 
 				var filesChecked = [];
-				async.forEachOfSeries(checksums, function(checksum, file, cb1){
+				return async.forEachOfSeries(checksums, function(checksum, file, cb1){
 					var localConfigChecksum = (localConfig.project.checksums ? localConfig.project.checksums[file] : false);
 					if(!localConfigChecksum){
 						deployer.log.silly("FILES-VERSION => File " + file + " is new");
@@ -115,7 +104,7 @@ module.exports = {
 				}, function(err){
 					// Rewrite checksums
 					localConfig.project.checksums = checksums;
-					return writeLocalConfigFile(localConfig, cb);
+					return writeLocalConfigFile(localConfig, function(){cb()});
 				});
 			});
 		});

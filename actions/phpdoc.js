@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
+ * @version 0.2.2
  */
 
 const xmlbuilder = require('xmlbuilder');
@@ -29,18 +30,7 @@ module.exports = {
      * @returns {undefined}
      */
 	process: function(config, cb){
-		var reformatedFiles = reformatFiles(deployer.config.files);
-		var selectors = Object.keys(config.selection)
-		for(var i = 0, j = selectors.length; i < j; i++){
-			var selector = selectors[i];
-			try{
-				var regex = new RegExp(selector);
-			} catch(e){
-				deployer.log.error(e);
-			}
-			reformatedFiles = checkFiles(reformatedFiles, regex, config.selection[selector]);
-		}
-		var filesArray = filesStructToArray(reformatedFiles);
+		var filesArray = filesFromSelectors(config.selection);
 		var l = filesArray.length;
 		if(l == 0){
 			deployer.log.info("PHPDOC => No files to document with phpdoc");

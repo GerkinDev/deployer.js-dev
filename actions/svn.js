@@ -7,6 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
+ * @version 0.2.2
  */
 
 const SVN = require('node.svn');
@@ -28,9 +29,9 @@ module.exports = {
 	 */
 	process: function(config, cb){
 		var repoPath = path.resolve(config.path ? config.path : ".");
-		const svn = new SVN(repoPath);
-		async.eachSeries(config.actions, function(action, cb1){
-			const actionPath = action.data.path ? action.data.path : ".";
+		var svn = new SVN(repoPath);
+		return async.eachSeries(config.actions, function(action, cb1){
+			var actionPath = action.data.path ? action.data.path : ".";
 			switch(action.action){
 				case "commit":{
 					deployer.log.silly('SVN => Prepare commit with message "' + action.data.message + '"');
@@ -62,7 +63,7 @@ module.exports = {
 			if(err)
 				deployer.log.error("SVN => Error: ",err);
 			deployer.log.verbose("SVN => Command returned", out);
-			cb(err);
+			return cb();
 		});
 	}
 }
