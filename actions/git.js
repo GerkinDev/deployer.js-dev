@@ -102,7 +102,7 @@ module.exports = {
 											callbacks: {
 												credentials: function(url, userName) {
 													var creds = git.Cred.sshKeyFromAgent(userName);
-                                                    console.log(creds);
+                                                    console.log(userName,creds);
 													return creds;
 												}
 											}
