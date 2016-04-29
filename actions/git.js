@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.1
+ * @version 0.2.3
  */
 
 const git = require("nodegit");
@@ -41,9 +41,12 @@ module.exports = {
 					} );
 					deployer.log.info("Missing args", missingArgs);
 					async.each(missingArgs, function(arg,cb2){
-						requestPrompt("Please provide a value for \""+arg+"\" in git: ", cb2);
-					}, function(vals){
-						console.log(vals);
+						requestPrompt("Please provide a value for \""+arg+"\" in git: ", function(val){
+                            action.data[arg] = val;
+                            cb2();
+                        });
+					}, function(){
+                        console.log(action.data)
 						switch(action.action){
 							case "commit":{
 								deployer.log.silly('GIT => Prepare commit');

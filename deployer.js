@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.2
+ * @version 0.2.3
  */
 
 /**
@@ -308,6 +308,7 @@ function run(dry){
                     return runPermanentCli();
                 } else {
                     return execCommandRoot(deployer.config.action, function(){
+                        rl.close();
                     });
                 }
             } else {
@@ -467,7 +468,7 @@ function execCommandRoot(command, callback){
                 return execCommandGroup(cmd, args, "", callback);
             }
         } else {
-            deployer.log.warning("=========Lonely action");
+            deployer.log.warn("=========Lonely action");
         }
     } else {
         deployer.log.error('Command "' + command + '" is not configured.');
@@ -507,7 +508,11 @@ function execCommandGroup(command, args, prefix, callback){
                 prefix += ".";
 
             var mode = command.mode == "serie" ? "forEachOfSeries" : "forEachOf";
-            deployer.log.silly("==> Starting level " + prefix);
+            if(prefix === ""){
+                deployer.log.silly("==> Starting root level");
+            } else {
+                deployer.log.silly("==> Starting level " + prefix);
+            }
             return async[mode](command.actions, function(action,index,cb){
                 // argsObjAction contains args for specific action.
 
@@ -590,7 +595,11 @@ function execCommandGroup(command, args, prefix, callback){
                     }
                 });
             }, function(err){
-                deployer.log.silly("==> Ended level " + prefix);
+                if(prefix === ""){
+                    deployer.log.silly("==> Ended root level");
+                } else {
+                    deployer.log.silly("==> Ended level " + prefix);
+                }
                 if(err)
                     deployer.log.error(err);
                 return callback(err);

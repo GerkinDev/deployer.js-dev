@@ -77,6 +77,9 @@
                 "arguments": {
                     "version": {
                         "type": "prompt"
+                    },
+                    "versionMessage": {
+                        "type": "prompt"
                     }
                 },
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
@@ -84,13 +87,13 @@
                 "mode": "serie",
                 "actions": [
                     {
-                        "action": "svn",
+                        "action": "git",
                         "data": {
                             "actions": [
                                 {
-                                    "action": "commit",
+                                    "action":"commit",
                                     "data": {
-                                        "message": "Pre-process release v%version%"
+                                        "message": "Pre-process version %version%"
                                     }
                                 }
                             ]
@@ -202,23 +205,26 @@
                         ]
                     },
                     {
-                        "action": "svn",
+                        "action": "git",
                         "data": {
                             "actions": [
                                 {
                                     "action": "commit",
-                                    "test": "",
                                     "data": {
-                                        "message": "Release version %version%"
+                                        "message": "%versionMessage%"
                                     }
+                                },
+                                {
+                                    "action":"tag",
+                                    "data": {
+                                        "label": "v%version%",
+                                        "message": "%versionMessage%"
+                                    }
+                                },
+                                {
+                                    "action":"push"
                                 }
                             ]
-                        }
-                    },
-                    {
-                        "action": "exec",
-                        "data": {
-                            "command": "echo \"Welcome!\""
                         }
                     }
                 ]
@@ -230,28 +236,28 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "bbf02dda1d63ab6f101efc16afdc802828a3eecc",
-                "md5": "6b9c673629379eb699dd0cef655eb6d9"
+                "sha1": "547026d9caab0a6ac84247ad289629c304ba3aaa",
+                "md5": "848fe5addd692be1293c6b403962ea62"
             },
             "./utils.js": {
                 "sha1": "1a942dfdfd2e00213953d1f5557eac4c7909874f",
                 "md5": "e604ab20ce489a67d676ce6d040900be"
             },
-            "./actions/exec.js": {
-                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
-                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
-            },
             "./actions/cp.js": {
                 "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
                 "md5": "0ae00440c639bc77903768836adc897d"
+            },
+            "./actions/exec.js": {
+                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
+                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
             },
             "./actions/files-version.js": {
                 "md5": "fb4aaede1920602aaf1eda07c0631e16",
                 "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
             },
             "./actions/git.js": {
-                "md5": "fa5bd4f98e5b9c7f87e5ab62716fc996",
-                "sha1": "2300564b954b62b241503b9d42b26f668182bcee"
+                "sha1": "2c30f4899429d527465e4fd4b78aee6228c0f5e3",
+                "md5": "cdb323df7a9813a2e267c7fb241aad1f"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
