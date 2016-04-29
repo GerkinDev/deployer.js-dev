@@ -256,8 +256,8 @@
                 "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
             },
             "./actions/git.js": {
-                "sha1": "2c30f4899429d527465e4fd4b78aee6228c0f5e3",
-                "md5": "cdb323df7a9813a2e267c7fb241aad1f"
+                "sha1": "e7aec47ca748de5ba3424e27c80b4d9134683efa",
+                "md5": "1eca257b0f0877a7b80b07a0c45a0bb8"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
@@ -267,13 +267,13 @@
                 "sha1": "f24381fe374cc8b3ca545b584dc7da489728b310",
                 "md5": "609ac84c06f5d123d24d52e0d1495241"
             },
-            "./actions/minify.js": {
-                "md5": "cf28b0cd020add1d29ca9b915314ccb5",
-                "sha1": "4a7b4c79c7e9f468883653e6b28014bdf4361aef"
-            },
             "./actions/less-compile.js": {
                 "sha1": "92275fdd5241524736a9dd4fbb70894b5738f7e8",
                 "md5": "5d78037522cc1c5f28d3ed5f3df62e8b"
+            },
+            "./actions/minify.js": {
+                "md5": "cf28b0cd020add1d29ca9b915314ccb5",
+                "sha1": "4a7b4c79c7e9f468883653e6b28014bdf4361aef"
             },
             "./actions/phpdoc.js": {
                 "sha1": "7562bfbeca63fcc20e244e10b8d76c50e71bee47",
