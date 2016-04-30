@@ -262,7 +262,7 @@
         },
         "versions": {
             "0.1": "http://documentation-nodejs.loc/deployer.js/0.1",
-            "0.2": "http://documentation-nodejs.loc/deployer.js/0.2"
+            "0.2": "http://deployer.gerkindevelopment.net/0.2"
         },
         "checksums": {
             "./deployer.js": {
@@ -286,8 +286,8 @@
                 "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
             },
             "./actions/git.js": {
-                "sha1": "85ae57a4b0cccb220120addb96c80341132cc42b",
-                "md5": "d91cfe1a51123b0d680d011c79e32ef7"
+                "md5": "864c3f3b21bcebb20a079f259e79422a",
+                "sha1": "ad1cb81b48d6ca7791e5737530a72f981dd04baf"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
