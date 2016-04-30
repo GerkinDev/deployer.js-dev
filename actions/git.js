@@ -106,55 +106,18 @@ module.exports = {
                                                     var creds;
                                                     if(userName != ""){
                                                         deployer.log.silly('Using username "'+userName+'"');
+                                                        creds = git.Cred.sshKeyFromAgent(userName);
+                                                        return creds;
                                                     } else {
-                                                        deployer.log.silly('No username detected');
+                                                        deployer.log.silly('No username detected. Maybe you are trying to push to a non-ssh remote (' + url + '). Currently, only SSH remotes are handled.');
+                                                        return {};
                                                     }
-                                                    creds = git.Cred.sshKeyFromAgent(userName);
-                                                    console.log(url,userName,creds);
-                                                    if(creds == {}){
-                                                        deployer.log.silly('No creds retrieved. Need to generate');
-                                                        //Cred.userpassPlaintextNew(username, password);
-                                                    } else {
-                                                        deployer.log.silly('Creds ok!');
-                                                    }
-                                                    return creds;
                                                 }
                                             }
                                         });
                                     } else {
                                         throw 'Remote "origin" not found';
                                     }
-                                }).catch(function(){
-                                    console.log("Failed, try login");  
-                                    var logdata = {};
-                                    async.each(["username","password"], function(arg,cb3){
-                                        requestPrompt("Logging in - "+arg+": ", function(val){
-                                            logdata[arg] = val;
-                                            cb3();
-                                        });
-                                    }, function(){
-                                        console.log(logdata);
-                                        var branch = (action.data && action.data.branch) ? action.data.branch : "master";
-                                        console.log(remote, branch)
-                                        try{
-                                        if(typeof rem != "undefined" && rem != null && rem) {
-                                            return rem.push([
-                                                "refs/heads/"+branch+":refs/heads/"+branch
-                                            ],{
-                                                callbacks: {
-                                                    credentials: function(url) {NodeGit.Cred.userpassPlaintextNew(GITHUB_TOKEN, "x-oauth-basic");
-                                                        console.log(url);
-                                                        var creds = git.Cred.userpassPlaintextNew(logdata.username, logdata.password);
-                                                        console.log(creds);
-                                                        return creds;
-                                                    }
-                                                }
-                                            });
-                                        } else {
-                                            throw 'Remote "origin" not found';
-                                        }
-                                        } catch(e){console.log(e);}
-                                    });
                                 }).done(function(){
                                     deployer.log.info("GIT => Pushed to repository");
                                     return cb1();

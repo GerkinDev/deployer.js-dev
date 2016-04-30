@@ -5,7 +5,7 @@
             "author": "Gerkin",
             "documentation": {
                 "base": {
-                    "url": "http://documentation-nodejs.loc/deployer.js",
+                    "url": "http://deployer.gerkindevelopment.net/",
                     "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js/"
                 },
                 "format": [
@@ -14,7 +14,7 @@
                     "%TYPE%"
                 ],
                 "resources": {
-                    "url": "http://documentation-nodejs.loc/deployer.js/resources",
+                    "url": "http://deployer.gerkindevelopment.net/resources/",
                     "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js/resources/"
                 }
             },
@@ -117,7 +117,7 @@
                     },
                     {
                         "command_group": true,
-                        "mode": "serie",
+                        "mode": "parallel",
                         "actions": [
                             {
                                 "action": "jsdoc",
@@ -168,7 +168,7 @@
                                     "version": "%version_minor%",
                                     "company_start": "%company.start%",
                                     "root": "%documentation.base.url%",
-                                    "baseUrl": "%documentation.base.url%/%version_minor%",
+                                    "baseUrl": "%documentation.base.url%%version_minor%",
                                     "basePath": "%documentation.base.path%%version_minor%",
                                     "resourcesUrl": "../resources",
                                     "resourcesPath": "%documentation.base.path%resources"
@@ -188,7 +188,7 @@
                                     "basePath": "%documentation.base.path%",
                                     "template": "gerkindevelopment",
                                     "version_minor": "%version_minor%",
-                                    "versionUrl": "%documentation.base.url%/%version_minor%",
+                                    "versionUrl": "%documentation.base.url%%version_minor%",
                                     "project_name": "%project_name%",
                                     "author": "%author%",
                                     "resourcesUrl": "./resources"
@@ -205,27 +205,57 @@
                         ]
                     },
                     {
-                        "action": "git",
-                        "data": {
-                            "actions": [
-                                {
-                                    "action": "commit",
-                                    "data": {
-                                        "message": "%versionMessage%"
-                                    }
-                                },
-                                {
-                                    "action": "tag",
-                                    "data": {
-                                        "label": "v%version%",
-                                        "message": "%versionMessage%"
-                                    }
-                                },
-                                {
-                                    "action": "push"
+                        "command_group": true,
+                        "mode": "parallel",
+                        "actions": [
+                            {
+                                "action": "git",
+                                "data": {
+                                    "actions": [
+                                        {
+                                            "action": "commit",
+                                            "data": {
+                                                "message": "%versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action": "tag",
+                                            "data": {
+                                                "label": "v%version%",
+                                                "message": "%versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action": "push"
+                                        }
+                                    ]
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                "action": "git",
+                                "data": {
+                                    "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js",
+                                    "actions": [
+                                        {
+                                            "action": "commit",
+                                            "data": {
+                                                "message": "%versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action": "tag",
+                                            "data": {
+                                                "label": "v%version%",
+                                                "message": "%versionMessage%"
+                                            }
+                                        },
+                                        {
+                                            "action": "push"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
                     }
                 ]
             }
