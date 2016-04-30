@@ -239,13 +239,13 @@
                 "sha1": "547026d9caab0a6ac84247ad289629c304ba3aaa",
                 "md5": "848fe5addd692be1293c6b403962ea62"
             },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
-            },
             "./utils.js": {
                 "sha1": "1a942dfdfd2e00213953d1f5557eac4c7909874f",
                 "md5": "e604ab20ce489a67d676ce6d040900be"
+            },
+            "./actions/cp.js": {
+                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
+                "md5": "0ae00440c639bc77903768836adc897d"
             },
             "./actions/exec.js": {
                 "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
@@ -256,8 +256,8 @@
                 "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
             },
             "./actions/git.js": {
-                "sha1": "17744d2ab9540081679e7ee0e9aa2a790beba2d6",
-                "md5": "4f7e5757d1bfa365b5c6ec169ff64168"
+                "sha1": "85ae57a4b0cccb220120addb96c80341132cc42b",
+                "md5": "d91cfe1a51123b0d680d011c79e32ef7"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
