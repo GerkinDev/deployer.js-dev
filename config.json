@@ -256,8 +256,8 @@
                 "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
             },
             "./actions/git.js": {
-                "md5": "26d579a1b0be0509eda09bb6f0500fca",
-                "sha1": "0dcc6aec557e750af25867097153e4029a0afd33"
+                "sha1": "13df66e0d1b249bb55be4cda3926a714785b1446",
+                "md5": "31f9a07d03d653f8217549d77fd02be8"
             },
             "./actions/ithoughts-index-doc.js": {
                 "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
