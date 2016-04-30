@@ -136,6 +136,7 @@ module.exports = {
                                         console.log(logdata);
                                         var branch = (action.data && action.data.branch) ? action.data.branch : "master";
                                         console.log(remote, branch)
+                                        try{
                                         if(typeof rem != "undefined" && rem != null && rem) {
                                             return rem.push([
                                                 "refs/heads/"+branch+":refs/heads/"+branch
@@ -152,6 +153,7 @@ module.exports = {
                                         } else {
                                             throw 'Remote "origin" not found';
                                         }
+                                        } catch(e){console.log(e);}
                                     });
                                 }).done(function(){
                                     deployer.log.info("GIT => Pushed to repository");
