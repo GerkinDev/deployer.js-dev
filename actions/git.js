@@ -92,8 +92,10 @@ module.exports = {
 
 							case "push":{
 								deployer.log.silly('GIT => Prepare pushing');
+                                var remote;
 								return repository.getRemote("origin", function(){
-								}).then(function(remote){
+								}).then(function(rem){
+                                    remote = rem;
 									var branch = (action.data && action.data.branch) ? action.data.branch : "master";
 									if(typeof remote != "undefined" && remote != null && remote) {
 										return remote.push([
@@ -122,7 +124,9 @@ module.exports = {
 									} else {
 										throw 'Remote "origin" not found';
 									}
-								}).done(function(){
+								}).catch(function(){
+                                    console.log("Failed, try login");
+                                }).done(function(){
 									deployer.log.info("GIT => Pushed to repository");
 									return cb1();
 								},function(error){
