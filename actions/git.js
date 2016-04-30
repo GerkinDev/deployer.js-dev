@@ -101,8 +101,20 @@ module.exports = {
 										],{
 											callbacks: {
 												credentials: function(url, userName) {
-													var creds = git.Cred.sshKeyFromAgent(userName);
+													var creds;
+                                                    if(userName != ""){
+                                                        deployer.log.silly('Using username "'+userName+'"');
+                                                    } else {
+                                                        deployer.log.silly('No username detected');
+                                                    }
+                                                    creds = git.Cred.sshKeyFromAgent(userName);
                                                     console.log(userName,creds);
+                                                    if(creds == {}){
+                                                        deployer.log.silly('No creds retrieved. Need to generate');
+                                                        //Cred.userpassPlaintextNew(username, password);
+                                                    } else {
+                                                        deployer.log.silly('Creds ok!');
+                                                    }
 													return creds;
 												}
 											}
