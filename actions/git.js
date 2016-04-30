@@ -110,7 +110,7 @@ module.exports = {
                                                         deployer.log.silly('No username detected');
                                                     }
                                                     creds = git.Cred.sshKeyFromAgent(userName);
-                                                    console.log(userName,creds);
+                                                    console.log(url,userName,creds);
                                                     if(creds == {}){
                                                         deployer.log.silly('No creds retrieved. Need to generate');
                                                         //Cred.userpassPlaintextNew(username, password);
@@ -134,8 +134,23 @@ module.exports = {
                                         });
                                     }, function(){
                                         console.log(logdata);
-                                        var creds = git.Cred.userpassPlaintextNew(logdata.username, logdata.password);
-                                        console.log(creds);
+                                        var branch = (action.data && action.data.branch) ? action.data.branch : "master";
+                                        if(typeof rem != "undefined" && rem != null && rem) {
+                                            return rem.push([
+                                                "refs/heads/"+branch+":refs/heads/"+branch
+                                            ],{
+                                                callbacks: {
+                                                    credentials: function(url) {
+                                                        console.log(url);
+                                                        var creds = git.Cred.userpassPlaintextNew(logdata.username, logdata.password);
+                                                        console.log(creds);
+                                                        return creds;
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            throw 'Remote "origin" not found';
+                                        }
                                     });
                                 }).done(function(){
                                     deployer.log.info("GIT => Pushed to repository");
