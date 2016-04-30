@@ -127,14 +127,15 @@ module.exports = {
                                 }).catch(function(){
                                     console.log("Failed, try login");  
                                     var logdata = {};
-                                    async.each(["username","password"], function(arg,cb2){
+                                    async.each(["username","password"], function(arg,cb3){
                                         requestPrompt("Logging in - "+arg+": ", function(val){
                                             logdata[arg] = val;
-                                            cb2();
+                                            cb3();
                                         });
                                     }, function(){
                                         console.log(logdata);
                                         var branch = (action.data && action.data.branch) ? action.data.branch : "master";
+                                        console.log(remote, branch)
                                         if(typeof rem != "undefined" && rem != null && rem) {
                                             return rem.push([
                                                 "refs/heads/"+branch+":refs/heads/"+branch
