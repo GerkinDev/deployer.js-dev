@@ -142,7 +142,7 @@ module.exports = {
                                                 "refs/heads/"+branch+":refs/heads/"+branch
                                             ],{
                                                 callbacks: {
-                                                    credentials: function(url) {
+                                                    credentials: function(url) {NodeGit.Cred.userpassPlaintextNew(GITHUB_TOKEN, "x-oauth-basic");
                                                         console.log(url);
                                                         var creds = git.Cred.userpassPlaintextNew(logdata.username, logdata.password);
                                                         console.log(creds);
