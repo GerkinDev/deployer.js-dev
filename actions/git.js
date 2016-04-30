@@ -92,10 +92,9 @@ module.exports = {
 
                             case "push":{
                                 deployer.log.silly('GIT => Prepare pushing');
-                                var remote;
+                                var urlRemote;
                                 return repository.getRemote("origin", function(){
-                                }).then(function(rem){
-                                    remote = rem;
+                                }).then(function(remote){
                                     var branch = (action.data && action.data.branch) ? action.data.branch : "master";
                                     if(typeof remote != "undefined" && remote != null && remote) {
                                         return remote.push([
@@ -104,12 +103,13 @@ module.exports = {
                                             callbacks: {
                                                 credentials: function(url, userName) {
                                                     var creds;
+                                                    urlRemote = url;
                                                     if(userName != ""){
-                                                        deployer.log.silly('Using username "'+userName+'"');
+                                                        deployer.log.info('Using username "'+userName+'" on remote @ "'+urlRemote+'"');
                                                         creds = git.Cred.sshKeyFromAgent(userName);
                                                         return creds;
                                                     } else {
-                                                        deployer.log.silly('No username detected. Maybe you are trying to push to a non-ssh remote (' + url + '). Currently, only SSH remotes are handled.');
+                                                        deployer.log.warn('No username detected on remote @ "'+urlRemote+'". Maybe you are trying to push to a non-ssh remote (' + url + '). Currently, only SSH remotes are handled.');
                                                         return {};
                                                     }
                                                 }
@@ -119,7 +119,7 @@ module.exports = {
                                         throw 'Remote "origin" not found';
                                     }
                                 }).done(function(){
-                                    deployer.log.info("GIT => Pushed to repository");
+                                    deployer.log.info("GIT => Pushed to repository at \""+urlRemote+"\"");
                                     return cb1();
                                 },function(error){
                                     deployer.log.error('GIT => Error while pushing', error);

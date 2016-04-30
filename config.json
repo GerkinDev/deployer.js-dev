@@ -261,7 +261,7 @@
             }
         },
         "versions": {
-            "0.1": "http://documentation-nodejs.loc/deployer.js/0.1",
+            "0.1": "http://deployer.gerkindevelopment.net/0.1",
             "0.2": "http://deployer.gerkindevelopment.net/0.2"
         },
         "checksums": {
