@@ -282,8 +282,8 @@
                 "md5": "9b32c3376f72e73d6a1858f2fedaae30"
             },
             "./actions/files-version.js": {
-                "md5": "fb4aaede1920602aaf1eda07c0631e16",
-                "sha1": "5705cc3bc1d5c1ecd3c2ca72db2810d1c3cd580d"
+                "sha1": "53d83f678894a77392b23830625d88f1e852a876",
+                "md5": "ca1a5ad076f0e4c4e2865d96015ac6af"
             },
             "./actions/git.js": {
                 "sha1": "5314aa8afea9d31669b9086f83e2cd3172cf0eed",
