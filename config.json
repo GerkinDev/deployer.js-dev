@@ -265,6 +265,62 @@
             "0.2": "http://deployer.gerkindevelopment.net/0.2"
         },
         "checksums": {
+            "./deployer.js": {
+                "sha1": "547026d9caab0a6ac84247ad289629c304ba3aaa",
+                "md5": "848fe5addd692be1293c6b403962ea62"
+            },
+            "./utils.js": {
+                "sha1": "1462df22fa72e4e8a9c598f45075249ce383e67f",
+                "md5": "8220c12a89222d60dd83702a4fcc9a32"
+            },
+            "./actions/cp.js": {
+                "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
+                "md5": "5b4c213f092065c81cdcfdb1c384c6fc"
+            },
+            "./actions/exec.js": {
+                "md5": "a9bd9116e7ca2f47a4c7e7fe58ec99ac",
+                "sha1": "0a6c7996064348252bcfa22cf659932b8212f932"
+            },
+            "./actions/files-version.js": {
+                "sha1": "877b00c2d40ce3e5e67948a2cf129a165bc07713",
+                "md5": "7511218858600a49cb6b8604df145aed"
+            },
+            "./actions/git.js": {
+                "sha1": "5314aa8afea9d31669b9086f83e2cd3172cf0eed",
+                "md5": "9b2182f4e2b1c359b54d7f7ef48ff246"
+            },
+            "./actions/ithoughts-index-doc.js": {
+                "sha1": "9092db23df67398c84c54350d930db39082c6ad1",
+                "md5": "c7b56186910d99cd8429e57a1353da16"
+            },
+            "./actions/jsdoc.js": {
+                "sha1": "b4a8a9afa8f8c4b8c5a82920a26206a3a5ba21a1",
+                "md5": "1fb47d2fb3442bd239f8014232741401"
+            },
+            "./actions/less-compile.js": {
+                "sha1": "06a6e9fcc090d35101ee3a27f35e0ed2769ad2d4",
+                "md5": "b5c8e35627b49a5a05afaefc02ece9e2"
+            },
+            "./actions/minify.js": {
+                "sha1": "051c571b95a430ac160da15b4d26080618e27a1e",
+                "md5": "47472f9a6e51e066412ae017de9adcac"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "0842a03e6ec4cd5a5877aa324b4b642ad6c85566",
+                "md5": "4f56836fe4e72fa7483a1c8a497f6166"
+            },
+            "./actions/svn.js": {
+                "sha1": "36b5741341e4eb96ba93523ade81389b4239d5c1",
+                "md5": "aa7bda30cba3d38f0fce925636827d6c"
+            },
+            "./actions/version-history.js": {
+                "sha1": "60dcd3282e4caf80b00bdaa3b8b9ada0f13fb26f",
+                "md5": "1fd94699c9a52420c1ae84b2f840359b"
+            },
+            "./actions/wordpress-upgrade.js": {
+                "sha1": "0bc8b6a65bb11b96d99ab4361f72995cb1eb067c",
+                "md5": "375f91a2176abd3090837c7e64913223"
+            }
         }
     },
     "dirty": true
