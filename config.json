@@ -301,13 +301,9 @@
                 "sha1": "92275fdd5241524736a9dd4fbb70894b5738f7e8",
                 "md5": "5d78037522cc1c5f28d3ed5f3df62e8b"
             },
-            "./actions/minify.js": {
-                "md5": "cf28b0cd020add1d29ca9b915314ccb5",
-                "sha1": "4a7b4c79c7e9f468883653e6b28014bdf4361aef"
-            },
             "./actions/phpdoc.js": {
-                "sha1": "7562bfbeca63fcc20e244e10b8d76c50e71bee47",
-                "md5": "ac016675bec17298b25ea2a433b21601"
+                "sha1": "0842a03e6ec4cd5a5877aa324b4b642ad6c85566",
+                "md5": "4f56836fe4e72fa7483a1c8a497f6166"
             },
             "./actions/svn.js": {
                 "sha1": "b1d0ce8edd1d80e64499987ee0baa1aa895d18ef",
@@ -320,6 +316,10 @@
             "./actions/wordpress-upgrade.js": {
                 "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
                 "md5": "97caeba96628a00a6e62e916541f893e"
+            },
+            "./actions/minify.js": {
+                "md5": "cf28b0cd020add1d29ca9b915314ccb5",
+                "sha1": "4a7b4c79c7e9f468883653e6b28014bdf4361aef"
             }
         }
     },
