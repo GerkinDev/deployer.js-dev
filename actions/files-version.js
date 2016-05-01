@@ -186,7 +186,9 @@ function fileChanged(file, version,config, cb){
             if(Object.keys(infosMod["other"]).length == 0)
                 delete infosMod["other"];
             var docblock = "/**";
+        console.log(infosMod);
             for(var type in infosMod){
+        console.log(type);
                 docblock += "\n";
                 for(var data in infosMod[type]){
                     if(infosMod[type][data]){
