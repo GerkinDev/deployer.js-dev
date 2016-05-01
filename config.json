@@ -265,62 +265,6 @@
             "0.2": "http://deployer.gerkindevelopment.net/0.2"
         },
         "checksums": {
-            "./deployer.js": {
-                "sha1": "547026d9caab0a6ac84247ad289629c304ba3aaa",
-                "md5": "848fe5addd692be1293c6b403962ea62"
-            },
-            "./utils.js": {
-                "sha1": "1a942dfdfd2e00213953d1f5557eac4c7909874f",
-                "md5": "e604ab20ce489a67d676ce6d040900be"
-            },
-            "./actions/cp.js": {
-                "sha1": "917a16ffc00d932979d41e3683594ed0e51de0e6",
-                "md5": "0ae00440c639bc77903768836adc897d"
-            },
-            "./actions/exec.js": {
-                "sha1": "4ce3cc25cfb8eb06cea43f56cd3e53feb7bc8a29",
-                "md5": "9b32c3376f72e73d6a1858f2fedaae30"
-            },
-            "./actions/files-version.js": {
-                "sha1": "53d83f678894a77392b23830625d88f1e852a876",
-                "md5": "ca1a5ad076f0e4c4e2865d96015ac6af"
-            },
-            "./actions/git.js": {
-                "sha1": "5314aa8afea9d31669b9086f83e2cd3172cf0eed",
-                "md5": "9b2182f4e2b1c359b54d7f7ef48ff246"
-            },
-            "./actions/ithoughts-index-doc.js": {
-                "sha1": "eb6243c8aba488a5d3188700bf58a7497bfb8cb3",
-                "md5": "81917be22287e1eb21773f53f46e38b9"
-            },
-            "./actions/jsdoc.js": {
-                "sha1": "f24381fe374cc8b3ca545b584dc7da489728b310",
-                "md5": "609ac84c06f5d123d24d52e0d1495241"
-            },
-            "./actions/less-compile.js": {
-                "sha1": "92275fdd5241524736a9dd4fbb70894b5738f7e8",
-                "md5": "5d78037522cc1c5f28d3ed5f3df62e8b"
-            },
-            "./actions/phpdoc.js": {
-                "sha1": "0842a03e6ec4cd5a5877aa324b4b642ad6c85566",
-                "md5": "4f56836fe4e72fa7483a1c8a497f6166"
-            },
-            "./actions/svn.js": {
-                "sha1": "b1d0ce8edd1d80e64499987ee0baa1aa895d18ef",
-                "md5": "8f1f5f042ce58d195f22abc695b93001"
-            },
-            "./actions/version-history.js": {
-                "md5": "af5c7261c52781b0909ea5c9d067b1dc",
-                "sha1": "19f7f9d48f6243d3addb0790839a985fe5f325fe"
-            },
-            "./actions/wordpress-upgrade.js": {
-                "sha1": "06a82e9da4a7d1f5da8ed7396f5da1658eaca16c",
-                "md5": "97caeba96628a00a6e62e916541f893e"
-            },
-            "./actions/minify.js": {
-                "md5": "cf28b0cd020add1d29ca9b915314ccb5",
-                "sha1": "4a7b4c79c7e9f468883653e6b28014bdf4361aef"
-            }
         }
     },
     "dirty": true
