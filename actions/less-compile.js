@@ -24,18 +24,16 @@ module.exports = {
         if(config.browsers)
             plugins.push(new LessPluginAutoPrefix({browsers: config.browsers}));
         fs.readFile(file, "UTF-8", function(err, filecontent){
-            console.log(err,filecontent);
             less.render(filecontent,{
                 plugins:plugins,
                 filename:file
             },function (e, output) {
                 outputName = file.replace(new RegExp(config.from), config.to); 
-                console.log(e, output, outputName);
+                deployer.log.info(file + " changed. Recompiling to CSS to " + outputName);
                 fs.writeFile(outputName, output.css, function(){
                     cb(config, file);
                 });
             });
         });
-        console.log("Compile " + file, config);
     }
 }

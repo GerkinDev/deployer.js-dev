@@ -44,7 +44,7 @@ module.exports = {
 						if(matched){
 							var matched = matched[0];
 							versions[file] = matched.replace(regex, "$2");
-							fileContents[file] = out.replace(regex, "$1" + deployer.config.version);
+							fileContents[file] = out.replace(regex, "$1" + config.targetVersion);
 							return cb1();
 						} else {
 							return cb1("WORDPRESS-UPGRADE => \"Stable tag\" not found in \"readme.txt\"");
@@ -53,10 +53,10 @@ module.exports = {
 				});
 			},
 			function(cb1){
-				var file = new RegExp(deployer.config.project.project_name.replace(/[\W]/g, ".?") + "\\.php", "i");
-				for(var i = 0, j = deployer.config.files.length; i < j && file.constructor.name != "String"; i++){
-					if(deployer.config.files[i].match && deployer.config.files[i].match(file))
-						file = deployer.config.files[i];
+				var file = new RegExp(config.projectName.replace(/[\W]/g, ".?") + "\\.php", "i");
+				for(var i = 0, j = deployer.files.length; i < j && file.constructor.name != "String"; i++){
+					if(deployer.files[i].match && deployer.files[i].match(file))
+						file = deployer.files[i];
 				}
 				if(file.constructor.name != "String"){
 					return cb1("WORDPRESS-UPGRADE => Could not find which file is the main file.");

@@ -54,6 +54,7 @@ module.exports = {
      */
     processSingle: function(config, file,cb){
         outputName = file.replace(new RegExp(config.from), config.to); 
+        deployer.log.info(file + " changed. Minifying to " + outputName);
         minifier.minify(file, {
             output: outputName,
             uglify:{

@@ -29,12 +29,6 @@
                 "command_group": false,
                 "actions": [
                     {
-                        "action": "exec",
-                        "data": {
-                            "command": "echo \"Welcome!\""
-                        }
-                    },
-                    {
                         "action": "less-compile",
                         "data": {
                             "browsers": [
@@ -42,7 +36,7 @@
                                 "IE 8",
                                 "last 2 versions"
                             ],
-                            "from": "^(.*)\\.less$",
+                            "from": "^(\\.\\/templates.*)\\.less$",
                             "to": "$1.css"
                         },
                         "events": {
@@ -53,7 +47,7 @@
                         "next": {
                             "action": "minify",
                             "data": {
-                                "from": "^(.*)(\\.(?:cs|j)s)$",
+                                "from": "^(\\.\\/templates.*)(\\.(?:cs|j)s)$",
                                 "to": "$1.min$2"
                             }
                         }
@@ -61,7 +55,7 @@
                     {
                         "action": "minify",
                         "data": {
-                            "from": "^(.*)(\\.(?:cs|j)s)$",
+                            "from": "^(\\.\\/templates.*)(\\.(?:cs|j)s)$",
                             "to": "$1.min$2"
                         },
                         "events": {

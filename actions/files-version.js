@@ -117,7 +117,6 @@ function fileChanged(file, version,config, cb){
     var filepath = path.resolve(".", file);
     fs.readFile(filepath, "UTF-8", function(err, content){
         var header = content.match(regexHeader);
-        console.log(header);
         var infos = {
             fd:{
                 file: false,
@@ -181,15 +180,12 @@ function fileChanged(file, version,config, cb){
                 }
             }
         }
-        console.log(infos);
         checkHeaderDatas(infos, file,config, function(infosMod){
             infosMod["version"]["version"] = version;
             if(Object.keys(infosMod["other"]).length == 0)
                 delete infosMod["other"];
             var docblock = "/**";
-        console.log(infosMod);
             for(var type in infosMod){
-        console.log(type);
                 docblock += "\n";
                 for(var data in infosMod[type]){
                     if(infosMod[type][data]){
@@ -205,7 +201,6 @@ function fileChanged(file, version,config, cb){
                 var isPhp = !!file.match(/\.php$/);
                 content = content.replace(new RegExp("(" + (isPhp ? "<\\?php" : "^") + ")"), "$1" + (isPhp ? "\n\n" : "") + docblock + "\n\n");
             }
-            console.log(content);
             return fs.writeFile(filepath, content, function(err){
                 if(err){
                     deployer.log.warn("FILES-VERSION => Error while rewriting " + file + "");
@@ -292,7 +287,7 @@ function checkHeaderDatas(infos, file, config, cb){
             }
         },
         function(cb1){
-            if(!infos["legal"]["package"]){
+            if(!infos["legal"]["author"]){
                 if(!headWasLogged){
                     console.log("==> For file " + file);
                     headWasLogged = true;
