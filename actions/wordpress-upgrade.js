@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPL v3
  * @package deployer.js
  *
- * @version 0.2.3
+ * @version 2.5.0
  */
 
 const randomstring = require("randomstring");
