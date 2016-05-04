@@ -73,7 +73,7 @@ module.exports = {
 						if(matched){
 							var matched = matched[0];
 							versions[file] = matched.replace(regex, "$2");
-							fileContents[file] = out.replace(regex, "$1" + deployer.config.version);
+							fileContents[file] = out.replace(regex, "$1" + config.targetVersion);
 							return cb1();
 						} else {
 							return cb1("WORDPRESS-UPGRADE => \"Version\" not found in \"" + file + "\"");
@@ -94,7 +94,7 @@ module.exports = {
 					for(var i = 0, j = args.length; i < j; i++){
 						args[i] = args[i].replace(/%FILE%/g, swapPath);
 					}
-					textEditor(swapPath, "\n\n# Please enter changelog for version "+deployer.config.version+"\n# Lines beginning with # will be ignored.\n# Empty message will abort publication\n# " + config.command.closeMessage, {bin: config.command.bin, args: args}, function(err, content){
+					textEditor(swapPath, "\n\n# Please enter changelog for version "+config.targetVersion+"\n# Lines beginning with # will be ignored.\n# Empty message will abort publication\n# " + config.command.closeMessage, {bin: config.command.bin, args: args}, function(err, content){
 						if(err)
 							deployer.log.error("WORDPRESS-UPGRADE => Error while executing text editor for changelog...", err);
 						content = content.replace(/^[\t\f ]*#.*$/gm, "").replace(/[\r\n]+([\r\n])/g, "$1");
@@ -113,7 +113,7 @@ module.exports = {
 					for(var i = 0, j = args.length; i < j; i++){
 						args[i] = args[i].replace(/%FILE%/g, swapPath);
 					}
-					textEditor(swapPath, "\n\n# Please enter Upgrade Notice for version "+deployer.config.version+"\n# Lines beginning with # will be ignored.\n# " + config.command.closeMessage, {bin: config.command.bin, args: args}, function(err, content){
+					textEditor(swapPath, "\n\n# Please enter Upgrade Notice for version "+config.targetVersion+"\n# Lines beginning with # will be ignored.\n# " + config.command.closeMessage, {bin: config.command.bin, args: args}, function(err, content){
 						if(err)
 							deployer.log.error("WORDPRESS-UPGRADE => Error while executing text editor for changelog...", err);
 						content = content.replace(/^[\t\f ]*#.*$/gm, "").replace(/[\r\n]+([\r\n])/g, "$1");
@@ -132,7 +132,7 @@ module.exports = {
 						var fp = path.resolve(".", file);
 						var content = fileContents[file];
 						if(file.match(/readme\.txt$/)){
-							var version_header = "= " + deployer.config.version + " =\n";
+							var version_header = "= " + config.targetVersion + " =\n";
 							var version_headers = [];
 							var index = -1;
 							while((index = content.indexOf(version_header, index + 1)) >= 0){
@@ -156,7 +156,7 @@ module.exports = {
 							} else {
 								// If no Changelog header
 								deployer.log.silly("WORDPRESS-UPGRADE => Did not found Changelog version header");
-								content = content.replace(/(== Changelog ==)/, "$1\n\n= " + deployer.config.version + " =\n" + out.changelog);
+								content = content.replace(/(== Changelog ==)/, "$1\n\n= " + config.targetVersion + " =\n" + out.changelog);
 							}
 
 							if((indexOf.changelog > indexOf.upgrade_notice && (idx = version_headers.filter(function(elem){
@@ -170,7 +170,7 @@ module.exports = {
 							} else {
 								// If no Upgrade Notice header
 								deployer.log.silly("WORDPRESS-UPGRADE => Did not found Upgrade Notice version header");
-								content = content.replace(/(== Upgrade Notice ==)/, "$1\n\n= " + deployer.config.version + " =\n" + out.upgrade_notice);
+								content = content.replace(/(== Upgrade Notice ==)/, "$1\n\n= " + config.targetVersion + " =\n" + out.upgrade_notice);
 							}
 						}
 						fs.writeFile(fp, content, function(err){

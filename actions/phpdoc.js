@@ -44,7 +44,7 @@ module.exports = {
         root.ele("author", config.author);
         {
             var parser = root.ele("parser");
-            parser.ele("target", "output");
+            parser.ele("target", "/tmp");
             parser.ele("encoding", "utf8");
 
             var parserExtension = parser.ele("extensions")
@@ -68,8 +68,8 @@ module.exports = {
                 logging: {
                     level: "quiet",
                     paths: {
-                        default: path.resolve(".", "logs/phpdoc/{DATE}.log"),
-                        errors: path.resolve(".", "logs/phpdoc/{DATE}.error.log"),
+                        default: "/tmp/phpdoc/{DATE}.log",
+                        errors: "/tmp/phpdoc/{DATE}.error.log",
                     }
                 }
             });

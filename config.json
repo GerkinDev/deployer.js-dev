@@ -41,7 +41,10 @@
                         },
                         "events": {
                             "onchange": {
-                                "\\.less€$": true
+                                "selection": {
+                                    "\\.less€$": true
+                                },
+                                "warmup": false
                             }
                         },
                         "next": {
@@ -60,12 +63,205 @@
                         },
                         "events": {
                             "onchange": {
-                                "\\.(cs|j)s€$": true,
-                                "\\.min\\.(cs|j)s$": false
+                                "selection": {
+                                    "\\.(cs|j)s€$": true,
+                                    "\\.min\\.(cs|j)s$": false
+                                },
+                                "warmup": false
                             }
                         }
                     }
                 ]
+            },
+            "documentate": {
+                "arguments": {
+                    "version": {
+                        "type": "prompt"
+                    }
+                },
+                "command_group": true,
+                "mode": "parallel",
+                "actions": [
+                    {
+                        "action": "jsdoc",
+                        "data": {
+                            "private": true,
+                            "selection": {
+                                "\\.(js)$": true,
+                                "\\.min\\.(js)$": false,
+                                "^\\.\\/node_modules($|\\/)": false,
+                                "^\\.\\/templates($|\\/)": false,
+                                "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+                            },
+                            "template": "default",
+                            "template.bck": "gerkindevelopment",
+                            "typepath": "javascript",
+                            "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
+                            "basePath": "%documentation.base.path%%version_minor%/javascript/"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    },
+                    {
+                        "action": "ithoughts-index-doc",
+                        "data": {
+                            "template": "gerkindevelopment",
+                            "head_links": {
+                                "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                "Back to Documentation Index": "/"
+                            },
+                            "doc_links": [
+                                {
+                                    "labels": {
+                                        "main": "JavaScript",
+                                        "sub": "Node.js"
+                                    },
+                                    "image": "/images/serverside.jpg",
+                                    "link": "javascript/index.html"
+                                }
+                            ],
+                            "project_name": "%project_name%",
+                            "author": "%author%",
+                            "version": "%version_minor%",
+                            "company_start": "%company.start%",
+                            "root": "%documentation.base.url%",
+                            "baseUrl": "%documentation.base.url%%version_minor%",
+                            "basePath": "%documentation.base.path%%version_minor%",
+                            "resourcesUrl": "../resources",
+                            "resourcesPath": "%documentation.base.path%resources"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    },
+                    {
+                        "action": "version-history",
+                        "data": {
+                            "basePath": "%documentation.base.path%",
+                            "template": "gerkindevelopment",
+                            "version_minor": "%version_minor%",
+                            "versionUrl": "%documentation.base.url%%version_minor%",
+                            "project_name": "%project_name%",
+                            "author": "%author%",
+                            "resourcesUrl": "./resources"
+                        },
+                        "arguments": {
+                            "version_minor": {
+                                "type": "regex_replace",
+                                "value": "%version%",
+                                "search": "^(\\d+)\\.(\\d+).*",
+                                "replacement": "$1.$2"
+                            }
+                        }
+                    }
+                ]
+            },
+            "documentate2": {
+                "arguments": {
+                    "version": {
+                        "type": "prompt"
+                    }
+                },
+                "command_group": true,
+                "actionGroup": {
+                    "mode": "parallel",
+                    "actions": [
+                        {
+                            "action": "jsdoc",
+                            "data": {
+                                "private": true,
+                                "selection": {
+                                    "\\.(js)$": true,
+                                    "\\.min\\.(js)$": false,
+                                    "^\\.\\/node_modules($|\\/)": false,
+                                    "^\\.\\/templates($|\\/)": false,
+                                    "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+                                },
+                                "template": "default",
+                                "template.bck": "gerkindevelopment",
+                                "typepath": "javascript",
+                                "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
+                                "basePath": "%documentation.base.path%%version_minor%/javascript/"
+                            },
+                            "arguments": {
+                                "version_minor": {
+                                    "type": "regex_replace",
+                                    "value": "%version%",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
+                            }
+                        },
+                        {
+                            "action": "ithoughts-index-doc",
+                            "data": {
+                                "template": "gerkindevelopment",
+                                "head_links": {
+                                    "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                    "Back to Documentation Index": "/"
+                                },
+                                "doc_links": [
+                                    {
+                                        "labels": {
+                                            "main": "JavaScript",
+                                            "sub": "Node.js"
+                                        },
+                                        "image": "/images/serverside.jpg",
+                                        "link": "javascript/index.html"
+                                    }
+                                ],
+                                "project_name": "%project_name%",
+                                "author": "%author%",
+                                "version": "%version_minor%",
+                                "company_start": "%company.start%",
+                                "root": "%documentation.base.url%",
+                                "baseUrl": "%documentation.base.url%%version_minor%",
+                                "basePath": "%documentation.base.path%%version_minor%",
+                                "resourcesUrl": "../resources",
+                                "resourcesPath": "%documentation.base.path%resources"
+                            },
+                            "arguments": {
+                                "version_minor": {
+                                    "type": "regex_replace",
+                                    "value": "%version%",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
+                            }
+                        },
+                        {
+                            "action": "version-history",
+                            "data": {
+                                "basePath": "%documentation.base.path%",
+                                "template": "gerkindevelopment",
+                                "version_minor": "%version_minor%",
+                                "versionUrl": "%documentation.base.url%%version_minor%",
+                                "project_name": "%project_name%",
+                                "author": "%author%",
+                                "resourcesUrl": "./resources"
+                            },
+                            "arguments": {
+                                "version_minor": {
+                                    "type": "regex_replace",
+                                    "value": "%version%",
+                                    "search": "^(\\d+)\\.(\\d+).*",
+                                    "replacement": "$1.$2"
+                                }
+                            }
+                        }
+                    ]
+                }
             },
             "release": {
                 "arguments": {
@@ -78,186 +274,187 @@
                 },
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",
                 "command_group": true,
-                "mode": "serie",
-                "actions": [
-                    {
-                        "action": "git",
-                        "data": {
+                "actionGroup": {
+                    "mode": "serie",
+                    "actions": [
+                        {
+                            "action": "git",
+                            "data": {
+                                "actions": [
+                                    {
+                                        "action": "commit",
+                                        "data": {
+                                            "message": "Pre-process version %version%"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": "files-version",
+                            "data": {
+                                "selection": {
+                                    "\\.(js)$": true,
+                                    "\\.min\\.(js)$": false,
+                                    "^\\.\\/node_modules($|\\/)": false,
+                                    "^\\.\\/templates($|\\/)": false
+                                },
+                                "setDiffs": {
+                                    "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
+                                },
+                                "targetVersion": "%version%",
+                                "companyName": "%company.name%"
+                            }
+                        },
+                        {
+                            "command_group": true,
+                            "mode": "parallel",
                             "actions": [
                                 {
-                                    "action": "commit",
+                                    "action": "jsdoc",
                                     "data": {
-                                        "message": "Pre-process version %version%"
+                                        "private": true,
+                                        "selection": {
+                                            "\\.(js)$": true,
+                                            "\\.min\\.(js)$": false,
+                                            "^\\.\\/node_modules($|\\/)": false,
+                                            "^\\.\\/templates($|\\/)": false,
+                                            "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
+                                        },
+                                        "template": "default",
+                                        "template.bck": "gerkindevelopment",
+                                        "typepath": "javascript",
+                                        "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
+                                        "basePath": "%documentation.base.path%%version_minor%/javascript/"
+                                    },
+                                    "arguments": {
+                                        "version_minor": {
+                                            "type": "regex_replace",
+                                            "value": "%version%",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                },
+                                {
+                                    "action": "ithoughts-index-doc",
+                                    "data": {
+                                        "template": "gerkindevelopment",
+                                        "head_links": {
+                                            "GerkinDevelopment": "https://www.gerkindevelopment.net/",
+                                            "Back to Documentation Index": "/"
+                                        },
+                                        "doc_links": [
+                                            {
+                                                "labels": {
+                                                    "main": "JavaScript",
+                                                    "sub": "Node.js"
+                                                },
+                                                "image": "/images/serverside.jpg",
+                                                "link": "javascript/index.html"
+                                            }
+                                        ],
+                                        "project_name": "%project_name%",
+                                        "author": "%author%",
+                                        "version": "%version_minor%",
+                                        "company_start": "%company.start%",
+                                        "root": "%documentation.base.url%",
+                                        "baseUrl": "%documentation.base.url%%version_minor%",
+                                        "basePath": "%documentation.base.path%%version_minor%",
+                                        "resourcesUrl": "../resources",
+                                        "resourcesPath": "%documentation.base.path%resources"
+                                    },
+                                    "arguments": {
+                                        "version_minor": {
+                                            "type": "regex_replace",
+                                            "value": "%version%",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                },
+                                {
+                                    "action": "version-history",
+                                    "data": {
+                                        "basePath": "%documentation.base.path%",
+                                        "template": "gerkindevelopment",
+                                        "version_minor": "%version_minor%",
+                                        "versionUrl": "%documentation.base.url%%version_minor%",
+                                        "project_name": "%project_name%",
+                                        "author": "%author%",
+                                        "resourcesUrl": "./resources"
+                                    },
+                                    "arguments": {
+                                        "version_minor": {
+                                            "type": "regex_replace",
+                                            "value": "%version%",
+                                            "search": "^(\\d+)\\.(\\d+).*",
+                                            "replacement": "$1.$2"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "command_group": true,
+                            "mode": "parallel",
+                            "actions": [
+                                {
+                                    "action": "git",
+                                    "data": {
+                                        "actions": [
+                                            {
+                                                "action": "commit",
+                                                "data": {
+                                                    "message": "%versionMessage%"
+                                                }
+                                            },
+                                            {
+                                                "action": "tag",
+                                                "data": {
+                                                    "label": "v%version%",
+                                                    "message": "%versionMessage%"
+                                                }
+                                            },
+                                            {
+                                                "action": "push"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "action": "git",
+                                    "data": {
+                                        "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js",
+                                        "actions": [
+                                            {
+                                                "action": "commit",
+                                                "data": {
+                                                    "message": "%versionMessage%"
+                                                }
+                                            },
+                                            {
+                                                "action": "tag",
+                                                "data": {
+                                                    "label": "v%version%",
+                                                    "message": "%versionMessage%"
+                                                }
+                                            },
+                                            {
+                                                "action": "push"
+                                            }
+                                        ]
                                     }
                                 }
                             ]
                         }
-                    },
-                    {
-                        "action": "files-version",
-                        "data": {
-                            "selection": {
-                                "\\.(js)$": true,
-                                "\\.min\\.(js)$": false,
-                                "^\\.\\/node_modules($|\\/)": false,
-                                "^\\.\\/templates($|\\/)": false
-                            },
-                            "setDiffs": {
-                                "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
-                            },
-                            "targetVersion": "%version%",
-                            "companyName": "%company.name%"
-                        }
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "jsdoc",
-                                "data": {
-                                    "private": true,
-                                    "selection": {
-                                        "\\.(js)$": true,
-                                        "\\.min\\.(js)$": false,
-                                        "^\\.\\/node_modules($|\\/)": false,
-                                        "^\\.\\/templates($|\\/)": false,
-                                        "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
-                                    },
-                                    "template": "default",
-                                    "template.bck": "gerkindevelopment",
-                                    "typepath": "javascript",
-                                    "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                                    "basePath": "%documentation.base.path%%version_minor%/javascript/"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            },
-                            {
-                                "action": "ithoughts-index-doc",
-                                "data": {
-                                    "template": "gerkindevelopment",
-                                    "head_links": {
-                                        "GerkinDevelopment": "https://www.gerkindevelopment.net/",
-                                        "Back to Documentation Index": "/"
-                                    },
-                                    "doc_links": [
-                                        {
-                                            "labels": {
-                                                "main": "JavaScript",
-                                                "sub": "Node.js"
-                                            },
-                                            "image": "/images/serverside.jpg",
-                                            "link": "javascript/index.html"
-                                        }
-                                    ],
-                                    "project_name": "%project_name%",
-                                    "author": "%author%",
-                                    "version": "%version_minor%",
-                                    "company_start": "%company.start%",
-                                    "root": "%documentation.base.url%",
-                                    "baseUrl": "%documentation.base.url%%version_minor%",
-                                    "basePath": "%documentation.base.path%%version_minor%",
-                                    "resourcesUrl": "../resources",
-                                    "resourcesPath": "%documentation.base.path%resources"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            },
-                            {
-                                "action": "version-history",
-                                "data": {
-                                    "basePath": "%documentation.base.path%",
-                                    "template": "gerkindevelopment",
-                                    "version_minor": "%version_minor%",
-                                    "versionUrl": "%documentation.base.url%%version_minor%",
-                                    "project_name": "%project_name%",
-                                    "author": "%author%",
-                                    "resourcesUrl": "./resources"
-                                },
-                                "arguments": {
-                                    "version_minor": {
-                                        "type": "regex_replace",
-                                        "value": "%version%",
-                                        "search": "^(\\d+)\\.(\\d+).*",
-                                        "replacement": "$1.$2"
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "command_group": true,
-                        "mode": "parallel",
-                        "actions": [
-                            {
-                                "action": "git",
-                                "data": {
-                                    "actions": [
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "%versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "tag",
-                                            "data": {
-                                                "label": "v%version%",
-                                                "message": "%versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "push"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "action": "git",
-                                "data": {
-                                    "path": "/mnt/mutualized/work/nodejs/documentation/deployer.js",
-                                    "actions": [
-                                        {
-                                            "action": "commit",
-                                            "data": {
-                                                "message": "%versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "tag",
-                                            "data": {
-                                                "label": "v%version%",
-                                                "message": "%versionMessage%"
-                                            }
-                                        },
-                                        {
-                                            "action": "push"
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-                ]
+                    ]
+                }
             }
         },
         "versions": {
             "0.1": "http://deployer.gerkindevelopment.net/0.1",
-            "0.2": "http://deployer.gerkindevelopment.net/0.2",
-            "2.5": "http://deployer.gerkindevelopment.net/2.5"
+            "0.2": "http://deployer.gerkindevelopment.net/0.2"
         },
         "checksums": {
             "./deployer.js": {

@@ -32,7 +32,7 @@ module.exports = {
 		if(!config.command){
 			return cb("No command given for action exec!");
 		}
-		const process = exec(config.command);
+		const process = exec(config.command, {cwd: path.resolve(".")});
 		process.stdout.on('data', function(data){
 			deployer.log.verbose(data);
 		});

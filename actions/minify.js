@@ -49,10 +49,12 @@ module.exports = {
 
     /**
      * @description Minifies a single file. Triggered by listen
-     * @param {object} config [[Description]]
+     * @param {object}   config Configuration of this object
      * @param {string}   file   File path
+     * @param {Function} cb     Callback to call after the end of the action
+     * @param {Function} endcb  Callback to call after the end of the chain of singleProcess actions
      */
-    processSingle: function(config, file,cb){
+    processSingle: function(config, file,cb, endcb){
         outputName = file.replace(new RegExp(config.from), config.to); 
         deployer.log.info(file + " changed. Minifying to " + outputName);
         minifier.minify(file, {
@@ -63,6 +65,6 @@ module.exports = {
                 hoist_vars: true
             }
         });
-        cb(config, file);
+        cb(config, file, endcb);
     }
 };

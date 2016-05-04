@@ -289,3 +289,7 @@ transformArguments = function(parent, newArgs, callback){
         return callback(err,args);
     });
 }
+
+is_na = function(val){
+    return (val === null) || (typeof val === "undefined");
+}

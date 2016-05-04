@@ -34,6 +34,8 @@ const spawnargs = require('spawn-args');
 
 require('./utils.js');
 
+var Command = require('./objects/command.js');
+
 var init = true;
 process.on('uncaughtException', function (error) {
     deployer.log.error(error.stack);
@@ -87,8 +89,13 @@ deployer = {
                 }
             }
         },
-    },
-    config: {
+    }
+};
+
+var actionObjects;
+
+function load(){
+    deployer.config = {
         loglevel: "silly",
         excludeExplore: [
             "^.\\/node_modules($|\\/.+)"
@@ -102,55 +109,59 @@ deployer = {
         },
         action: "_default"
     }
-};
+    actionObjects = {};
 
-/**
- * @todo Describe options
- */
+    /**
+     * @todo Describe options
+     */
 
-getModuleVersion("deployer", function(){
-    cli.version(deployer.config.moduleVersion.deployer);
-    cli.option('-d, --dump_config', 'Dump the compiled config file', false);
-    cli.option('-l, --log_level <level>', 'Set the log level', /^(silly|verbose|info|warn|error|silent)$/i, false);
-    cli.option('-g, --global_config_file <path>', 'Will use the file <path> as global base config file', /.*\.json(?![^a-zA-Z])$/, "config.global.json");
-    cli.option('-c, --config_file <path>', 'Will use the project file <path>', /.*\.json(?![^a-zA-Z])$/, "deployer_config.json");
-    cli.command('dry-run').description("Get help for commands available with current config").action(function(){
-        handleCli(deployer.config);
-        deployer.config.action = null;
-        return run(true);
-    });
-    cli.command('help').description("Get help for commands & options").action(function(){
-        handleCli(deployer.config);
-        deployer.config.action = null;
-        cli.outputHelp();
-    });
-    cli.command('*').description("The name of the command you want to use").action(function(action){
-        handleCli(deployer.config);
-        deployer.config.action = action;
-        return run();
-    });
-    cli.parse(process.argv);
+    getModuleVersion("deployer", function(){
+        cli.version(deployer.config.moduleVersion.deployer);
+        cli.option('-d, --dump_config', 'Dump the compiled config file', false);
+        cli.option('-l, --log_level <level>', 'Set the log level', /^(silly|verbose|info|warn|error|silent)$/i, false);
+        cli.option('-g, --global_config_file <path>', 'Will use the file <path> as global base config file', /.*\.json(?![^a-zA-Z])$/, "config.global.json");
+        cli.option('-c, --config_file <path>', 'Will use the project file <path>', /.*\.json(?![^a-zA-Z])$/, "deployer_config.json");
+        cli.command('dry-run').description("Get help for commands available with current config").action(function(){
+            handleCli(deployer.config);
+            deployer.config.action = null;
+            return run(true);
+        });
+        cli.command('help').description("Get help for commands & options").action(function(){
+            handleCli(deployer.config);
+            deployer.config.action = null;
+            cli.outputHelp();
+        });
+        cli.command('*').description("The name of the command you want to use").action(function(action){
+            handleCli(deployer.config);
+            deployer.config.action = action;
+            return run();
+        });
+        cli.parse(process.argv);
 
-    if(cli.args.length == 0){ // Nothing was given
-        handleCli(deployer.config);
-        return run();
-    }
-});
+        if(cli.args.length == 0){ // Nothing was given
+            handleCli(deployer.config);
+            return run();
+        }
+    });
+}
+load();
 
 /**
  * Put command-line options into the program config
  * @author Gerkin
- * @param {object} obj Config obj to override
- * @returns {undefined}
+ * @param   {object}    conf Base configuration
+ * @returns {object} Configuration modified by commandline args
  */
-function handleCli(obj){
-    obj.configFile = cli.opts()["config_file"];
-    obj.globalConfigFile = cli.opts()["global_config_file"];
+function handleCli(conf){
+    conf.configFile = cli.opts()["config_file"];
+    conf.globalConfigFile = cli.opts()["global_config_file"];
     if(cli.opts()["log_level"]){
-        obj.loglevel = cli.opts()["log_level"];
+        conf.loglevel = cli.opts()["log_level"];
     }
+    conf.dump = cli.opts()["dump_config"];
+
     init = false;
-    return obj;
+    return conf;
 }
 
 /**
@@ -266,6 +277,10 @@ function dryHelp(){
     helpCli.help(reformatHelp);
 }
 
+function endProgram(){
+    rl.close();
+}
+
 /**
  * Launch the program
  * @author Gerkin
@@ -286,7 +301,7 @@ function run(dry){
                 if(err){
                     deployer.log.error(err);
                 }
-                if(cli.opts()["dump_config"])
+                if(deployer.config["dump_config"] === true)
                     deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
                 return cb();
             });
@@ -298,6 +313,16 @@ function run(dry){
             });
         }
     ], function(err){
+        // Parse commands
+        for(var command in deployer.config.project.commands){
+            try{
+                actionObjects[command] = new Command(deployer.config.project.commands[command]);
+                console.log(actionObjects[command]);
+            } catch(e){
+                deployer.log.error("Error while parsing command \"" + command + "\": " + e);
+            }
+        }
+
         if(dry){
             return dryHelp();
         } else {
@@ -307,9 +332,11 @@ function run(dry){
                     // Create the inner CLI
                     return runPermanentCli();
                 } else {
-                    return execCommandRoot(deployer.config.action, function(){
+                    console.log(actionObjects, deployer.config.action);
+                    actionObjects[deployer.config.action].execute(endProgram);
+                    /*return execCommandRoot(deployer.config.action, function(){
                         rl.close();
-                    });
+                    });*/
                 }
             } else {
                 deployer.log.error('Tried to launch Deployer with unexistent action "' + deployer.config.action + '"');
@@ -341,6 +368,7 @@ function runPermanentCli(){
             return clicb();
         }
     });
+    innerCli.command("reload").description("Reload the configuration file. Use if changed on the fly").action(load);
     innerCli.on("*", function(c){
         console.log();
         deployer.log.info("Command " + colour.red(c) + " does not exist");
@@ -414,7 +442,12 @@ function execCommandRoot(command, callback){
     if(cmds[command]){
         deployer.log.silly('Running command "' + command + '".');
         var cmd = cmds[command];
-        deployer.log.verbose('Command "' + command + '" config:',cmd);
+
+        // If called with -d/--dump_config
+        if(deployer.config["dump_config"] === true)
+            deployer.log.verbose('Command "' + command + '" config:',cmd);
+
+        // If the command is a listener
         if(cmd.awake){
             var deletedIndex = [];
             for(var i = 0, j = cmd.actions.length; i < j; i++){
@@ -429,7 +462,8 @@ function execCommandRoot(command, callback){
 
                     if(typeof fctL == "function"){
                         for(var event in action.events){
-                            var eventFiles = filesFromSelectors(action.events[event]);
+                            var eventConf = action.events[event];
+                            var eventFiles = filesFromSelectors(eventConf["selection"]);
                             console.log("For event ",event,eventFiles);
                             for(var k = 0, l = eventFiles.length; k < l; k++){
                                 switch(event){
@@ -439,9 +473,13 @@ function execCommandRoot(command, callback){
                                             var fn = filenameL;
                                             var conf = action.data;
                                             var fct = fctL;
-                                            return function(){
-                                                return fct(conf,fn, nextSingleProcess);
+                                            var singleProcess = function(callback){
+                                                return fct(conf,fn, nextSingleProcess,callback);
                                             }
+                                            if(eventConf.warmup === true){
+                                                singleProcess();
+                                            }
+                                            return singleProcess;
                                         })());
                                     } break;
                                 }
@@ -454,8 +492,7 @@ function execCommandRoot(command, callback){
                     console.log(action, "is runnable action");
                 }
             }
-        }
-        if(cmd.command_group){
+        } else if(cmd.command_group){ // If this is not a listener, this may be a command group
             deployer.log.silly("Command group:", cmd);
             var args = merge.recursive(deployer.config.project.arguments, true);
             deployer.log.always("Arguments from config:", args);
@@ -467,8 +504,8 @@ function execCommandRoot(command, callback){
             } else {
                 return execCommandGroup(cmd, args, "", callback);
             }
-        } else {
-            deployer.log.warn("=========Lonely action");
+        } else { // This is neither a listener nor a command group: what is it?
+            deployer.log.warn("Action \"" + command + "\" can't be identified neither as a listener nor as a command group...");
         }
     } else {
         deployer.log.error('Command "' + command + '" is not configured.');
@@ -479,15 +516,18 @@ function execCommandRoot(command, callback){
     }
 }
 
-function nextSingleProcess(config,filename){
+function nextSingleProcess(config,filename,callback){
     if(config.next && config.next.action){
         var action = config.next
         var handler = require("./actions/" + action.action + ".js");
         var fct = handler.processSingle;
 
         if(typeof fct == "function"){
-            return fct(action.data, filename, nextSingleProcess);
+            return fct(action.data, filename, nextSingleProcess,callback);
         }
+    } else { // If this was the last action, call the callback
+        if(typeof callback == "function")
+            callback();
     }
 }
 

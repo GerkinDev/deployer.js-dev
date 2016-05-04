@@ -19,7 +19,14 @@ const LessPluginAutoPrefix = require('less-plugin-autoprefix'),
  * @requires fs
  */
 module.exports = {
-    processSingle: function(config, file, cb){
+    /**
+     * Compiles the given less file to an unminified, prefixed (if plugin included) CSS file
+     * @param {object}   config Config of the action
+     * @param {string}   file   Path of the file to process relative to the project root directory
+     * @param {Function} cb     Callback to call after the end of the action
+     * @param {Function} endcb  Callback to call after the end of the chain of singleProcess actions
+     */
+    processSingle: function(config, file, cb, endcb){
         var plugins = [];
         if(config.browsers)
             plugins.push(new LessPluginAutoPrefix({browsers: config.browsers}));
@@ -31,7 +38,7 @@ module.exports = {
                 outputName = file.replace(new RegExp(config.from), config.to); 
                 deployer.log.info(file + " changed. Recompiling to CSS to " + outputName);
                 fs.writeFile(outputName, output.css, function(){
-                    cb(config, file);
+                    cb(config, file, endcb);
                 });
             });
         });
