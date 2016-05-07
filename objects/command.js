@@ -1,3 +1,5 @@
+'use strict';
+
 var ActionGroup = require("./actiongroup.js");
 var Breadcrumb = require("./breadcrumb.js");
 
@@ -90,7 +92,8 @@ Command.Type = {
 }
 
 Command.prototype.execute = function(next){
-    this.actionGroup.execute(new Breadcrumb(), next)
+    var breadcrumb = new Breadcrumb();
+    this.actionGroup.execute(breadcrumb.startTimer(), next);
 }
 
 module.exports = Command;

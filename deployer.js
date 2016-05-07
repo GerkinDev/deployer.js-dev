@@ -35,6 +35,7 @@ const spawnargs = require('spawn-args');
 require('./utils.js');
 
 var Command = require('./objects/command.js');
+var Arguments = require('./objects/arguments.js');
 
 var init = true;
 process.on('uncaughtException', function (error) {
@@ -118,6 +119,7 @@ function load(){
     getModuleVersion("deployer", function(){
         cli.version(deployer.config.moduleVersion.deployer);
         cli.option('-d, --dump_config', 'Dump the compiled config file', false);
+        //cli.option('-t, --terminal', 'Run into console', false);
         cli.option('-l, --log_level <level>', 'Set the log level', /^(silly|verbose|info|warn|error|silent)$/i, false);
         cli.option('-g, --global_config_file <path>', 'Will use the file <path> as global base config file', /.*\.json(?![^a-zA-Z])$/, "config.global.json");
         cli.option('-c, --config_file <path>', 'Will use the project file <path>', /.*\.json(?![^a-zA-Z])$/, "deployer_config.json");
@@ -159,6 +161,7 @@ function handleCli(conf){
         conf.loglevel = cli.opts()["log_level"];
     }
     conf.dump = cli.opts()["dump_config"];
+    // conf.no_gui = is_na(cli.opts()["terminal"]) ? false : cli.opts()["terminal"] && false;// Remove && false
 
     init = false;
     return conf;
@@ -288,61 +291,74 @@ function endProgram(){
  * @returns {undefined}
  */
 function run(dry){
-    if(typeof dry == "undefined")
-        dry = false;
-    deployer.log.verbose('Executing action "'+deployer.config.action+'"');
-    var configFilePath;
-    deployer.config.base_path = __dirname;
-    async.series([
-        function(cb){
-            return parseConfig(deployer.config.globalConfigFile,deployer.config.configFile, function(err, config){
-                deployer.config = merge.recursive(deployer.config, config);
-                console.log(deployer.config);
-                if(err){
-                    deployer.log.error(err);
-                }
-                if(deployer.config["dump_config"] === true)
-                    deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
-                return cb();
-            });
-        },
-        function(cb){
-            return getFilesRec(process.cwd(), function(err, files){
-                deployer.files = files;
-                return cb(err);
-            });
-        }
-    ], function(err){
-        // Parse commands
-        for(var command in deployer.config.project.commands){
-            try{
-                actionObjects[command] = new Command(deployer.config.project.commands[command]);
-                console.log(actionObjects[command]);
-            } catch(e){
-                deployer.log.error("Error while parsing command \"" + command + "\": " + e);
+        if(typeof dry == "undefined")
+            dry = false;
+        deployer.log.verbose('Executing action "'+deployer.config.action+'"');
+        var configFilePath;
+        deployer.config.base_path = __dirname;
+        async.series([
+            function(cb){
+                return parseConfig(deployer.config.globalConfigFile,deployer.config.configFile, function(err, config){
+                    deployer.config = merge.recursive(deployer.config, config);
+                    console.log(deployer.config);
+                    if(err){
+                        deployer.log.error(err);
+                    }
+                    if(deployer.config["dump_config"] === true)
+                        deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
+                    return cb();
+                });
+            },
+            function(cb){
+                return getFilesRec(process.cwd(), function(err, files){
+                    deployer.files = files;
+                    return cb(err);
+                });
             }
-        }
+        ], function(err){
+            // Parse commands
+            for(var command in deployer.config.project.commands){
+                try{
+                    actionObjects[command] = new Command(deployer.config.project.commands[command]);
+                    console.log(actionObjects[command]);
+                } catch(e){
+                    deployer.log.error("Error while parsing command \"" + command + "\": " + e);
+                }
+            }
+            var arg = new Arguments({
+                hello: {
+                    dude: "world"
+                },
+                how: {
+                    _type: "prompt"
+                },
+                yop: "${how}${ hello.dude }"
+            });
+            arg.brewArguments(function(values){
+                console.log("Output values: ", values, arg);
+            });
+            return;
 
-        if(dry){
-            return dryHelp();
-        } else {
-            var initialCmd = deployer.config.project.commands[deployer.config.action];
-            if(initialCmd){
-                if(initialCmd.awake){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
-                    // Create the inner CLI
-                    return runPermanentCli();
-                } else {
-                    console.log(actionObjects, deployer.config.action);
-                    actionObjects[deployer.config.action].execute(endProgram);
-                    /*return execCommandRoot(deployer.config.action, function(){
+            if(dry){
+                return dryHelp();
+            } else {
+                var initialCmd = deployer.config.project.commands[deployer.config.action];
+                if(initialCmd){
+                    if(initialCmd.awake){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
+                        // Create the inner CLI
+                        return runPermanentCli();
+                    } else {
+                        console.log(actionObjects, deployer.config.action);
+                        actionObjects[deployer.config.action].execute(endProgram);
+                        /*return execCommandRoot(deployer.config.action, function(){
                         rl.close();
                     });*/
+                    }
+                } else {
+                    deployer.log.error('Tried to launch Deployer with unexistent action "' + deployer.config.action + '"');
                 }
-            } else {
-                deployer.log.error('Tried to launch Deployer with unexistent action "' + deployer.config.action + '"');
             }
-        }
-    });
+        });
 }
 
 function runPermanentCli(){

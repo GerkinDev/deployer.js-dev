@@ -1,5 +1,13 @@
+'use strict';
+
 var Action = require("./action.js");
 var Breadcrumb = require("./breadcrumb.js");
+
+
+/**
+ * @typedef ActionGroupChild
+ * @type   {Action|ActionGroup}
+ */
 
 /**
  * Creates a new ActionGroup
@@ -8,12 +16,6 @@ var Breadcrumb = require("./breadcrumb.js");
  * @param   {ActionGroup.Mode} config.mode Type of async execution of the command group
  * @param   {ActionGroupChild[]} config.actions Sub action groups or child actions
  */
-
-/**
- * @typedef ActionGroupChild
- * @type   {Action|ActionGroup}
- */
-
 function ActionGroup(config){
     if(is_na(config))
         throw "Can't create ActionGroup with null or undefined config.";
@@ -130,7 +132,6 @@ ActionGroup.test = function(config){
 
 ActionGroup.prototype.execute = function(breadcrumb, next){
     deployer.log.info("Starting ActionGroup " + breadcrumb.toString());
-    var timer = (new Date()).getTime();
     var mode;
     switch(this.mode){
         case 1:{
@@ -143,10 +144,9 @@ ActionGroup.prototype.execute = function(breadcrumb, next){
     }
 
     async[mode](this.actions, function(action, index, callback){
-        action.execute(breadcrumb.clone().push(index), callback);
+        action.execute(breadcrumb.clone().push(index).startTimer(), callback);
     }, function(){
-        var time = ((new Date()).getTime() - timer);
-        deployer.log.info("Ended ActionGroup " + breadcrumb.toString() + " after " + time + "ms");
+        deployer.log.info("Ended ActionGroup " + breadcrumb.toString() + " after " + breadcrumb.getTimer() + "ms");
         next();
     });
 }

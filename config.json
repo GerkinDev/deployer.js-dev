@@ -266,10 +266,10 @@
             "release": {
                 "arguments": {
                     "version": {
-                        "type": "prompt"
+                        "_type": "prompt"
                     },
                     "versionMessage": {
-                        "type": "prompt"
+                        "_type": "prompt"
                     }
                 },
                 "description": "Makes a release by pre-commiting on git, updating file versions, post-commit & push",

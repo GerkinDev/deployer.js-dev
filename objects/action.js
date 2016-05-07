@@ -1,3 +1,5 @@
+'use strict';
+
 var Breadcrumb = require("./breadcrumb.js");
 
 /**
@@ -14,7 +16,8 @@ function Action(config){
 
 
     var actionName,
-        vars;
+        vars,
+        processFunction;
 
     Object.defineProperties(this, {
         /**
@@ -45,11 +48,21 @@ function Action(config){
             set: function(val){
                 vars = val;
             }
+        },
+        /**
+         * @member {ProcessFunction} processFunction
+         * @memberof Action
+         * @public
+         * @readonly
+         * @instance
+         */
+        processFunction:{
+            get: function(){return processFunction;}
         }
     });
 
     if(is_na(config.action) && is_na(config.actionName == null)){
-        throw "Could not find action for config: " + JSON.stringify(config);
+        throw `Could not find action for config: ${ JSON.stringify(config) }`;
     }
     this.actionName = config.action || config.actionName
 }
@@ -58,16 +71,21 @@ Action.test = function(){
     return true;
 }
 
-var processFunction;
 
+/**
+ * Runs the specified action
+ * @author Gerkin
+ * @param   {Breadcrumb} breadcrumb The actions breadcrumb
+ * @param   {Function} callback   Action to call afterwards
+ * @returns {undefined} Async
+ */
 Action.prototype.execute = function(breadcrumb, callback){
-    deployer.log.info("Starting Action " + breadcrumb.toString());
-    var timer = (new Date()).getTime();
-    var time = ((new Date()).getTime() - timer);
-    deployer.log.info("Ending Action " + breadcrumb.toString() + " after " + time + "ms");
-    return callback();
+    deployer.log.info(`Starting Action "${ breadcrumb.toString() }"`);
+    console.log(this.processFunction.toString());
+    deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+    return callback()
     processFunction(this.vars, function(){
-        deployer.log.info("Starting ActionGroup " + breadcrumb.toString());
+    deployer.log.info(`Starting Action "${ breadcrumb.toString() }"`);
         callback();
     });
 }

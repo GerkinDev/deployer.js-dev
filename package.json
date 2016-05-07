@@ -1,4 +1,5 @@
 {
+  "version": "0.3.0",
   "name": "deployer.js",
   "description": "Automating and configurable script to handle working on projects",
   "homepage": "TODO",
@@ -9,7 +10,6 @@
     "email": "agermain@gerkindevelopment.net",
     "url": "https://www.gerkindevelopment.net/"
   },
-  "version": "0.0.1",
   "dependencies": {
     "async": ">=1.5.2",
     "checksum": "^0.1.1",

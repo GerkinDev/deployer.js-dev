@@ -37,9 +37,15 @@ module.exports = {
             },function (e, output) {
                 outputName = file.replace(new RegExp(config.from), config.to); 
                 deployer.log.info(file + " changed. Recompiling to CSS to " + outputName);
-                fs.writeFile(outputName, output.css, function(){
-                    cb(config, file, endcb);
-                });
+                if(outputName === file){
+                    deployer.log.error("Target file is the same as source file. Operation aborted");
+                    deployer.log.verbose("Regexes used:", new RegExp(config.from), config.to);
+                    return cb(config,file,endcb);
+                } else {
+                    fs.writeFile(outputName, output.css, function(){
+                        return cb(config, file, endcb);
+                    });
+                }
             });
         });
     }
