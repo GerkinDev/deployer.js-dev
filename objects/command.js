@@ -1,7 +1,8 @@
 'use strict';
 
-var ActionGroup = require("./actiongroup.js");
-var Breadcrumb = require("./breadcrumb.js");
+const ActionGroup = require("./actiongroup.js");
+const Breadcrumb = require("./breadcrumb.js");
+const Arguments = require('./arguments.js');
 
 /**
  * Creates a new command
@@ -12,12 +13,13 @@ var Breadcrumb = require("./breadcrumb.js");
  */
 function Command(config){
     if(is_na(config))
-        throw "Can't create Command with null or undefined config.";
+        throw new Error("Can't create Command with null or undefined config.");
 
     console.log("Creating COMMAND with", config);
 
     var type,
-        actionGroup;
+        actionGroup,
+        commandArgs;
 
     Object.defineProperties(this, {
         /**
@@ -59,6 +61,9 @@ function Command(config){
                 return val;
                 return undefined;
             }
+        },
+        commandArgs: {
+            get: function(){return commandArgs;}
         }
     });
 
@@ -67,18 +72,22 @@ function Command(config){
     } else if((config.awake === false || is_na(config.awake)) && config.command_group === true){
         this.type = "MOMENTARY"
     } else {
-        throw "Could not resolve command type: listener or command_group";
+        throw new Error("Could not resolve command type: listener or command_group");
     }
 
+    if(config.arguments){
+        commandArgs = new Arguments(config.arguments);
+        console.log(commandArgs);
+    }
     try{
         this.actionGroup = new ActionGroup(config.actionGroup);
         console.log(actionGroup);
     } catch(e){
         throw e;
     }
-    
+
     if(is_na(this.type) || is_na(this.actionGroup)){
-        throw "Properties not correctly initialized";
+        throw new Error("Properties not correctly initialized");
     }
 }
 
@@ -91,9 +100,17 @@ Command.Type = {
     MOMENTARY: 2
 }
 
+
+/**
+ * Execute the command: process arguments then triggers {@link Command.actionGroup}
+ * @author Gerkin
+ * @param {Function} next Function to execute once finished
+ */
 Command.prototype.execute = function(next){
     var breadcrumb = new Breadcrumb();
-    this.actionGroup.execute(breadcrumb.startTimer(), next);
+    this.commandArgs.brewArguments((args)=>{
+        this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb.startTimer(), next);
+    });
 }
 
 module.exports = Command;

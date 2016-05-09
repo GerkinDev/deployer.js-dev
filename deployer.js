@@ -34,8 +34,8 @@ const spawnargs = require('spawn-args');
 
 require('./utils.js');
 
-var Command = require('./objects/command.js');
-var Arguments = require('./objects/arguments.js');
+const Command = require('./objects/command.js');
+const Arguments = require('./objects/arguments.js');
 
 var init = true;
 process.on('uncaughtException', function (error) {
@@ -322,9 +322,9 @@ function run(dry){
                     actionObjects[command] = new Command(deployer.config.project.commands[command]);
                     console.log(actionObjects[command]);
                 } catch(e){
-                    deployer.log.error("Error while parsing command \"" + command + "\": " + e);
+                    deployer.log.error("Error while parsing command \"" + command + "\": ", e, e.stack);
                 }
-            }
+            }/*
             var arg = new Arguments({
                 hello: {
                     dude: "world"
@@ -337,7 +337,7 @@ function run(dry){
             arg.brewArguments(function(values){
                 console.log("Output values: ", values, arg);
             });
-            return;
+            return;*/
 
             if(dry){
                 return dryHelp();

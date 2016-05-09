@@ -7,7 +7,11 @@
  * @param   {string} config.actionName Name of the action, IE the name of the module inside the "actions" directory
  */
 function Arguments(config, sourceObj){
-    this.arguments = Arguments.parseRec(config);
+    this.arguments = Arguments.parseRec(config,this);
+    if(typeof sourceObj != "undefined")
+        this.ancestor = sourceObj;
+    else
+        this.ancestor = null;
 }
 /**
  * Generates plain string or {@link ComputedArgument} with given args object
@@ -15,7 +19,7 @@ function Arguments(config, sourceObj){
  * @param   {object} args Arguments description
  * @returns {object} Parsed with {@link ComputedArgument ComputedArguments instances}
  */
-Arguments.parseRec = function(args){
+Arguments.parseRec = function(args,parent){
     var newObj = {};
     for(var key in args){
         var arg = args[key];
@@ -24,9 +28,9 @@ Arguments.parseRec = function(args){
         } else {
             if(arg.constructor.name == "Object"){
                 if(arg.hasOwnProperty("_type")){ // If computed
-                    newObj[key] = new ComputedArgument(arg, key);
+                    newObj[key] = new ComputedArgument(arg, key, parent);
                 } else { // Must be a nested var
-                    newObj[key] = Arguments.parseRec(arg);
+                    newObj[key] = Arguments.parseRec(arg,parent);
                 }
             } else {
                 newObj[key] = arg;
@@ -42,6 +46,22 @@ Arguments.parseRec = function(args){
  */
 Arguments.prototype.brewArguments = function(callback){
     Arguments._brewArguments.call(this, this.arguments, ()=>{
+        /*function copyRec(main, complement){
+            for(var i in complement){
+                if(is_na(main[i])){
+                    main[i] = complement[i];
+                } else {
+                    if(typeof complement[i] == "object"){
+                        main[i] = copyRec(main[i], complement[i]);
+                    } else {
+                        main[i] = complement[i];
+                    }
+                }
+            }
+            return main;
+        }*/
+        if(this.ancestor)
+            this.arguments = merge.recursive(this.arguments, this.ancestor);
         return callback(this.arguments)
     });
 }
@@ -75,6 +95,19 @@ Arguments._brewArguments = function(obj, callback){
         callback();
     });
 }
+Arguments.prototype.prepareActionArgs = function(actionVars){
+    Object.keys(actionVars).map((key,index)=>{
+        let val = actionVars[key];
+        if(typeof val == "object"){
+            actionVars[key] = this.prepareActionArgs(val);
+        } else if(typeof val == "string"){
+            actionVars[key] = this.replacePlaceHolder(val);
+        } else {
+            actionVars[key] = val;
+        }
+    });
+    return actionVars;
+}
 /**
  * Replace given string placeholders with instance vars.
  * @todo Demo
@@ -86,16 +119,24 @@ Arguments.prototype.replacePlaceHolder = function(string){
     return string.replace(/\$\{\s*([\w\.]+)\s*\}/g, (matched, identifier)=>{
         let identifiers = identifier.split(".");
         let value = this.arguments;
+        let valueAncestor = this.ancestor || "";
         for(let i = 0, j = identifiers.length; i < j; i++){
-            value = value[identifiers[i]];
-            if(typeof value == "undefined" || value === null){
+            // Search in both ancestor & current obj
+            if(typeof value == "object"){
+                value = value[identifiers[i]];
+            } else {
                 value = "";
+            }
+            if(typeof valueAncestor == "object"){
+                valueAncestor = valueAncestor[identifiers[i]];
+            } else {
+                valueAncestor = "";
+            }
+            if(value == "" && valueAncestor == ""){
                 break;
             }
         }
-        if(typeof value != "string")
-            value = "";
-        return value;
+        return value || valueAncestor || "";
     });
 }
 
@@ -107,11 +148,12 @@ Arguments.prototype.replacePlaceHolder = function(string){
  * @param {object}   config  Description of this ComputedArgument object
  * @param {string} argName Name of this argument
  */
-function ComputedArgument(config, argName){
+function ComputedArgument(config, argName, parent){
     this.type = config._type;
     this.argName = argName;
     delete config["_type"];
     this.data = config;
+    this.parent = parent;
 }
 /**
  * Execute special handling.
@@ -126,7 +168,7 @@ ComputedArgument.prototype.brew = function(callback){
         } break;
 
         case "regex_replace": {
-            return callback("hello");
+            return callback(this.parent.replacePlaceHolder(this.data.value).replace(new RegExp(this.data.search), this.data.replacement));
         } break;
     }
     return callback(null);

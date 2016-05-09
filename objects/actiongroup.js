@@ -1,7 +1,8 @@
 'use strict';
 
-var Action = require("./action.js");
-var Breadcrumb = require("./breadcrumb.js");
+const Action = require("./action.js");
+const Breadcrumb = require("./breadcrumb.js");
+const Arguments = require('./arguments.js');
 
 
 /**
@@ -18,12 +19,13 @@ var Breadcrumb = require("./breadcrumb.js");
  */
 function ActionGroup(config){
     if(is_na(config))
-        throw "Can't create ActionGroup with null or undefined config.";
+        throw new Error("Can't create ActionGroup with null or undefined config.");
 
     console.log("Creating ACTIONGROUP with", config);
 
     var mode,
-        actions;
+        actions,
+        args;
 
     Object.defineProperties(this, {
         /**
@@ -34,15 +36,15 @@ function ActionGroup(config){
          */
         mode: {
             get: function(){
-                return type;
+                return mode;
             },
             set: function(val){
                 if(Object.keys(ActionGroup.Mode).indexOf(val) != -1){
-                    type = ActionGroup.Mode[val];
-                    return type;
+                    mode = ActionGroup.Mode[val];
+                    return mode;
                 } else if(Object.values(ActionGroup.Mode).indexOf(val) != -1){
-                    type = val;
-                    return type;
+                    mode = val;
+                    return mode;
                 } else {
                     return undefined;
                 }
@@ -74,15 +76,24 @@ function ActionGroup(config){
                 actions = val;
                 return val;
             }
+        },
+        arguments: {
+            get: function(){return args;},
+            set: function(newArgs){
+                if(!(newArgs instanceof Arguments))
+                    throw new TypeError(`Setter of "ActionGroup.arguments" expects object of type "Arguments", "${ typeof newArgs }" given.`);
+                args = newArgs;
+            }
         }
     });
+    args = new Arguments(config.arguments);
 
     if(config.mode === "parallel"){
-        type = ActionGroup.Mode.PARALLEL;
+        mode = ActionGroup.Mode.PARALLEL;
     } else if(config.mode === "serie"){
-        type = ActionGroup.Mode.SERIE;
+        mode = ActionGroup.Mode.SERIE;
     } else {
-        throw "Could not resolve command type: listener or command_group";
+        throw new Error("Could not resolve command type: listener or command_group");
     }
 
     var actionsGroupChild = [];
@@ -101,7 +112,7 @@ function ActionGroup(config){
             try{
                 actionGroupChild = new Action(actionGroupChildConfig);
             } catch(e){
-                deployer.log.warn("Action said it can parse an object it failed on:", JSON.stringify(actionGroupChildConfig));
+                deployer.log.warn("Action said it can parse an object it failed on:", JSON.stringify(actionGroupChildConfig), e);
             }
         }
         if(actionGroupChild === null){
@@ -113,7 +124,7 @@ function ActionGroup(config){
     this.actions = actionsGroupChild;
 
     if(is_na(this.mode) || is_na(this.actions) || this.actions.length < 1){
-        throw "Properties not correctly initialized";
+        throw new Error("Properties not correctly initialized");
     }
 }
 
@@ -129,10 +140,17 @@ ActionGroup.Mode = {
 ActionGroup.test = function(config){
     return (!is_na(config.mode)) && (typeof config.mode == "string") && (!is_na(config.actions)) && (config.actions.constructor.name == "Array");
 }
+ActionGroup.prototype.setArguments = function(arg){
+    if(!(arg instanceof Arguments))
+        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+    this.arguments.ancestor = arg.arguments;
+    return this;
+}
 
 ActionGroup.prototype.execute = function(breadcrumb, next){
     deployer.log.info("Starting ActionGroup " + breadcrumb.toString());
     var mode;
+
     switch(this.mode){
         case 1:{
             mode = "forEachOf";
@@ -143,11 +161,14 @@ ActionGroup.prototype.execute = function(breadcrumb, next){
         } break;
     }
 
-    async[mode](this.actions, function(action, index, callback){
-        action.execute(breadcrumb.clone().push(index).startTimer(), callback);
-    }, function(){
-        deployer.log.info("Ended ActionGroup " + breadcrumb.toString() + " after " + breadcrumb.getTimer() + "ms");
-        next();
+    return this.arguments.brewArguments((values)=>{
+        console.log(values, this.arguments);
+        async[mode](this.actions, (action, index, callback)=>{
+            action.setArguments(this.arguments).execute(breadcrumb.clone().push(index).startTimer(), callback);
+        }, function(){
+            deployer.log.info("Ended ActionGroup " + breadcrumb.toString() + " after " + breadcrumb.getTimer() + "ms");
+            return next();
+        });
     });
 }
 

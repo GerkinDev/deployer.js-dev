@@ -170,7 +170,13 @@
             "documentate2": {
                 "arguments": {
                     "version": {
-                        "type": "prompt"
+                        "_type": "prompt"
+                    },
+                    "version_minor": {
+                        "_type": "regex_replace",
+                        "value": "${ version }",
+                        "search": "^(\\d+)\\.(\\d+).*",
+                        "replacement": "$1.$2"
                     }
                 },
                 "command_group": true,
@@ -191,16 +197,9 @@
                                 "template": "default",
                                 "template.bck": "gerkindevelopment",
                                 "typepath": "javascript",
-                                "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                                "basePath": "%documentation.base.path%%version_minor%/javascript/"
-                            },
-                            "arguments": {
-                                "version_minor": {
-                                    "type": "regex_replace",
-                                    "value": "%version%",
-                                    "search": "^(\\d+)\\.(\\d+).*",
-                                    "replacement": "$1.$2"
-                                }
+                                "destinationPath": "${ documentation.base.path }${ version_minor }/javascript/",
+                                "basePath": "${ documentation.base.path }${ version_minor }/javascript/",
+                                "plugins": ["node_modules/jsdoc-codesnippet"]
                             }
                         },
                         {
@@ -230,14 +229,6 @@
                                 "basePath": "%documentation.base.path%%version_minor%",
                                 "resourcesUrl": "../resources",
                                 "resourcesPath": "%documentation.base.path%resources"
-                            },
-                            "arguments": {
-                                "version_minor": {
-                                    "type": "regex_replace",
-                                    "value": "%version%",
-                                    "search": "^(\\d+)\\.(\\d+).*",
-                                    "replacement": "$1.$2"
-                                }
                             }
                         },
                         {
@@ -250,14 +241,6 @@
                                 "project_name": "%project_name%",
                                 "author": "%author%",
                                 "resourcesUrl": "./resources"
-                            },
-                            "arguments": {
-                                "version_minor": {
-                                    "type": "regex_replace",
-                                    "value": "%version%",
-                                    "search": "^(\\d+)\\.(\\d+).*",
-                                    "replacement": "$1.$2"
-                                }
                             }
                         }
                     ]

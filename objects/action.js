@@ -1,6 +1,7 @@
 'use strict';
 
-var Breadcrumb = require("./breadcrumb.js");
+const Breadcrumb = require("./breadcrumb.js");
+const Arguments = require('./arguments.js');
 
 /**
  * Creates a new action
@@ -10,14 +11,15 @@ var Breadcrumb = require("./breadcrumb.js");
  */
 function Action(config){
     if(is_na(config))
-        throw "Can't create Action with null or undefined config.";
+        throw new Error("Can't create Action with null or undefined config.");
 
     console.log("Creating ACTION with", config);
 
 
     var actionName,
-        vars,
-        processFunction;
+        actionConfig,
+        processFunction,
+        args;
 
     Object.defineProperties(this, {
         /**
@@ -41,12 +43,20 @@ function Action(config){
                 return undefined;
             }
         },
-        vars: {
+        config: {
             get: function(){
-                return vars;
+                return actionConfig;
             },
             set: function(val){
-                vars = val;
+                actionConfig = val;
+            }
+        },
+        arguments: {
+            get: function(){
+                return args;
+            },
+            set: function(newArgs){
+                args = newArgs;
             }
         },
         /**
@@ -62,31 +72,43 @@ function Action(config){
     });
 
     if(is_na(config.action) && is_na(config.actionName == null)){
-        throw `Could not find action for config: ${ JSON.stringify(config) }`;
+        throw new Error(`Could not find action for config: ${ JSON.stringify(config) }`);
     }
-    this.actionName = config.action || config.actionName
+    this.actionName = config.action || config.actionName;
+    this.config = config.data;
+    args = new Arguments(config.arguments);
 }
 
 Action.test = function(){
     return true;
 }
+Action.prototype.setArguments = function(arg){
+    if(!(arg instanceof Arguments))
+        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+    this.arguments.ancestor = arg.arguments;
+    return this;
+}
 
 
 /**
- * Runs the specified action
+ * Runs the specified action. It first compile local arguments with ancestors (see {@link Arguments.brewArguments}), then it replaces {@link Action.config} placeholders with {@link Action.arguments} values.
  * @author Gerkin
+ * @see Arguments.brewArguments
  * @param   {Breadcrumb} breadcrumb The actions breadcrumb
  * @param   {Function} callback   Action to call afterwards
  * @returns {undefined} Async
  */
 Action.prototype.execute = function(breadcrumb, callback){
-    deployer.log.info(`Starting Action "${ breadcrumb.toString() }"`);
-    console.log(this.processFunction.toString());
-    deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-    return callback()
-    processFunction(this.vars, function(){
-    deployer.log.info(`Starting Action "${ breadcrumb.toString() }"`);
-        callback();
+    deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
+    return this.arguments.brewArguments((values)=>{
+        var compiledArgs = this.arguments.prepareActionArgs(this.config);
+        console.log(JSON.stringify(compiledArgs, null, 4)); 
+        deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+        return callback()
+        processFunction(compiledArgs, function(){
+            deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
+            callback();
+        });
     });
 }
 
