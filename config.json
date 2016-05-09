@@ -199,7 +199,9 @@
                                 "typepath": "javascript",
                                 "destinationPath": "${ documentation.base.path }${ version_minor }/javascript/",
                                 "basePath": "${ documentation.base.path }${ version_minor }/javascript/",
-                                "plugins": ["node_modules/jsdoc-codesnippet"]
+                                "plugins": [
+                                    "node_modules/jsdoc-codesnippet"
+                                ]
                             }
                         },
                         {
@@ -220,26 +222,26 @@
                                         "link": "javascript/index.html"
                                     }
                                 ],
-                                "project_name": "%project_name%",
-                                "author": "%author%",
-                                "version": "%version_minor%",
-                                "company_start": "%company.start%",
-                                "root": "%documentation.base.url%",
-                                "baseUrl": "%documentation.base.url%%version_minor%",
-                                "basePath": "%documentation.base.path%%version_minor%",
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
+                                "version": "${ version_minor }",
+                                "company_start": "${ company.start }",
+                                "root": "${ documentation.base.url }",
+                                "baseUrl": "${ documentation.base.url }${ version_minor }",
+                                "basePath": "${ documentation.base.path }${ version_minor }",
                                 "resourcesUrl": "../resources",
-                                "resourcesPath": "%documentation.base.path%resources"
+                                "resourcesPath": "${ documentation.base.path }resources"
                             }
                         },
                         {
                             "action": "version-history",
                             "data": {
-                                "basePath": "%documentation.base.path%",
+                                "basePath": "${ documentation.base.path }",
                                 "template": "gerkindevelopment",
-                                "version_minor": "%version_minor%",
-                                "versionUrl": "%documentation.base.url%%version_minor%",
-                                "project_name": "%project_name%",
-                                "author": "%author%",
+                                "version_minor": "${ version_minor }",
+                                "versionUrl": "${ documentation.base.url }${ version_minor }",
+                                "project_name": "${ project_name }",
+                                "author": "${ author }",
                                 "resourcesUrl": "./resources"
                             }
                         }
@@ -437,7 +439,8 @@
         },
         "versions": {
             "0.1": "http://deployer.gerkindevelopment.net/0.1",
-            "0.2": "http://deployer.gerkindevelopment.net/0.2"
+            "0.2": "http://deployer.gerkindevelopment.net/0.2",
+            "0.3": "http://deployer.gerkindevelopment.net/0.3"
         },
         "checksums": {
             "./deployer.js": {

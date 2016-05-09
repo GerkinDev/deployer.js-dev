@@ -43,6 +43,7 @@ module.exports = {
 			},
 			resources: config.resourcesUrl
 		}
+        templateArgs["versions"][templateArgs.current.version] = templateArgs.current.url;
 		var content = swig.renderFile(templatePath, templateArgs);
 		var output = config.basePath + "/index.php";
 		async.waterfall([

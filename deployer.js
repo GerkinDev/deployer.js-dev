@@ -270,7 +270,7 @@ function dryHelp(){
     // Add all commands
     for(var command in deployer.config.project.commands){
         var tmpcmd = deployer.config.project.commands[command];
-        deployer.log.silly("Registering command "+command);
+        deployer.log.silly(`Registering command "${ command }.`);
         helpCli.command(command).description(
             (tmpcmd.description ? tmpcmd.description : "") +
             (tmpcmd.description && tmpcmd.awake ? " - " : "") +
@@ -319,7 +319,7 @@ function run(dry){
             // Parse commands
             for(var command in deployer.config.project.commands){
                 try{
-                    actionObjects[command] = new Command(deployer.config.project.commands[command]);
+                    actionObjects[command] = new Command(deployer.config.project.commands[command]).setArgumentsGlobal(deployer.config.project.arguments);
                     console.log(actionObjects[command]);
                 } catch(e){
                     deployer.log.error("Error while parsing command \"" + command + "\": ", e, e.stack);

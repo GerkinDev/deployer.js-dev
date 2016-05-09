@@ -62,6 +62,13 @@ function Command(config){
                 return undefined;
             }
         },
+        /**
+         * @member {Arguments} commandArgs
+         * @memberof Command
+         * @public
+         * @readonly
+         * @instance
+         */
         commandArgs: {
             get: function(){return commandArgs;}
         }
@@ -100,7 +107,19 @@ Command.Type = {
     MOMENTARY: 2
 }
 
-
+/**
+ * @function setArgumentsGlobal
+ * @memberof Command
+ * @description Prepare {@link Command#commandArgs} by setting its {@link Arguments#ancestor} with projet-wide constants.
+ * @param   {Arguments} args The argument object to put as ancestor
+ * @instance
+ * @public
+ * @author Gerkin
+ */
+Command.prototype.setArgumentsGlobal = function(args){
+    this.commandArgs.ancestor = new Arguments(args);
+    return this;
+}
 /**
  * Execute the command: process arguments then triggers {@link Command.actionGroup}
  * @author Gerkin

@@ -77,6 +77,12 @@ function ActionGroup(config){
                 return val;
             }
         },
+        /**
+         * @member {Arguments} arguments
+         * @memberof ActionGroup
+         * @public
+         * @instance
+         */
         arguments: {
             get: function(){return args;},
             set: function(newArgs){
@@ -136,17 +142,32 @@ ActionGroup.Mode = {
     PARALLEL: 1,
     SERIE: 2
 }
-
+/**
+ * @function test
+ * @memberof ActionGroup
+ * @description Check if given object is ok to be parsed by {@link ActionGroup constructor}
+ * @param   {object} config The object to test
+ * @returns {boolean} True if ok, false otherwise
+ * @static
+ * @public
+ * @author Gerkin
+ */
 ActionGroup.test = function(config){
     return (!is_na(config.mode)) && (typeof config.mode == "string") && (!is_na(config.actions)) && (config.actions.constructor.name == "Array");
 }
-ActionGroup.prototype.setArguments = function(arg){
-    if(!(arg instanceof Arguments))
-        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
-    this.arguments.ancestor = arg.arguments;
-    return this;
-}
 
+/**
+ * @method execute
+ * @memberof ActionGroup
+ * @description todo
+ * @param   {Breadcrumb} breadcrumb The actions breadcrumb
+ * @param   {Function} callback   Function to call afterwards
+ * @returns {undefined} Async
+ * @instance
+ * @public
+ * @author Gerkin
+ * @see {@link Arguments.brewArguments}
+ */
 ActionGroup.prototype.execute = function(breadcrumb, next){
     deployer.log.info("Starting ActionGroup " + breadcrumb.toString());
     var mode;
@@ -170,6 +191,21 @@ ActionGroup.prototype.execute = function(breadcrumb, next){
             return next();
         });
     });
+}
+/**
+ * @function setArguments
+ * @memberof ActionGroup
+ * @description Prepare {@link ActionGroup#arguments} by setting its {@link Arguments#ancestor} for placeholder operations
+ * @param   {Arguments} arg The argument object to put as ancestor
+ * @instance
+ * @public
+ * @author Gerkin
+ */
+ActionGroup.prototype.setArguments = function(arg){
+    if(!(arg instanceof Arguments))
+        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+    this.arguments.ancestor = arg;
+    return this;
 }
 
 module.exports = ActionGroup;

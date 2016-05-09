@@ -4,10 +4,11 @@ const Breadcrumb = require("./breadcrumb.js");
 const Arguments = require('./arguments.js');
 
 /**
- * Creates a new action
  * @class Action
+ * @description Creates a new action
  * @param   {object} config Configuration of the action
  * @param   {string} config.actionName Name of the action, IE the name of the module inside the "actions" directory
+ * @param   {object} config.data Object to pass to the called action after being replaced using {@link Arguments.prepareActionArgs}
  */
 function Action(config){
     if(is_na(config))
@@ -43,6 +44,12 @@ function Action(config){
                 return undefined;
             }
         },
+        /**
+         * @member {object} config
+         * @memberof Action
+         * @public
+         * @instance
+         */
         config: {
             get: function(){
                 return actionConfig;
@@ -51,11 +58,19 @@ function Action(config){
                 actionConfig = val;
             }
         },
+        /**
+         * @member {Arguments} arguments
+         * @memberof Action
+         * @public
+         * @instance
+         */
         arguments: {
             get: function(){
                 return args;
             },
             set: function(newArgs){
+                if(!(newArgs instanceof Arguments))
+                    throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof newArgs }" given.`);
                 args = newArgs;
             }
         },
@@ -79,37 +94,65 @@ function Action(config){
     args = new Arguments(config.arguments);
 }
 
-Action.test = function(){
+/**
+ * @function test
+ * @memberof Action
+ * @description Check if given object is ok to be parsed by {@link Action constructor}
+ * @param   {object} obj The object to test
+ * @returns {boolean} True if ok, false otherwise
+ * @static
+ * @public
+ * @author Gerkin
+ */
+Action.test = function(obj){
     return true;
 }
-Action.prototype.setArguments = function(arg){
-    if(!(arg instanceof Arguments))
-        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
-    this.arguments.ancestor = arg.arguments;
-    return this;
-}
-
 
 /**
- * Runs the specified action. It first compile local arguments with ancestors (see {@link Arguments.brewArguments}), then it replaces {@link Action.config} placeholders with {@link Action.arguments} values.
- * @author Gerkin
- * @see Arguments.brewArguments
+ * @method execute
+ * @memberof Action
+ * @description Runs the specified action. It first compile local arguments with ancestors (see {@link Arguments#brewArguments}), then it replaces {@link Action#config} placeholders with {@link Action#arguments} values, and finally, it calls {@link Action#processFunction}.
  * @param   {Breadcrumb} breadcrumb The actions breadcrumb
  * @param   {Function} callback   Action to call afterwards
  * @returns {undefined} Async
+ * @instance
+ * @public
+ * @author Gerkin
+ * @see {@link Arguments.brewArguments}
  */
 Action.prototype.execute = function(breadcrumb, callback){
     deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
+    /**
+     * @snippetStart prepareActionArgs
+     */
     return this.arguments.brewArguments((values)=>{
         var compiledArgs = this.arguments.prepareActionArgs(this.config);
         console.log(JSON.stringify(compiledArgs, null, 4)); 
         deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-        return callback()
-        processFunction(compiledArgs, function(){
+        //return callback()
+        return this.processFunction(compiledArgs, ()=>{
             deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
             callback();
         });
     });
+    /**
+     * @snippetEnd prepareActionArgs
+     */
+}
+/**
+ * @function setArguments
+ * @memberof Action
+ * @description Prepare {@link Action#arguments} by setting its {@link Arguments#ancestor} for placeholder operations
+ * @param   {Arguments} arg The argument object to put as ancestor
+ * @instance
+ * @public
+ * @author Gerkin
+ */
+Action.prototype.setArguments = function(arg){
+    if(!(arg instanceof Arguments))
+        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+    this.arguments.ancestor = arg;
+    return this;
 }
 
 module.exports = Action;
