@@ -11,91 +11,119 @@ const Arguments = require('./arguments.js');
  * @param   {Command.Type} config.type Type of command
  * @param   {ActionGroup} config.actionGroup Related base action group
  */
-function Command(config){
-    if(is_na(config))
-        throw new Error("Can't create Command with null or undefined config.");
+class Command{
+    constructor ({ awake, command_group,args,actionGroup}){
+        if(is_na(arguments[0]))
+            throw new Error("Can't create Command with null or undefined config.");
 
-    console.log("Creating COMMAND with", config);
+        var _type,
+            _actionGroup,
+            _commandArgs;
 
-    var type,
-        actionGroup,
-        commandArgs;
-
-    Object.defineProperties(this, {
-        /**
-         * @member {Command.Type} type
-         * @memberof Command
-         * @public
-         * @instance
-         */
-        type: {
-            get: function(){
-                return type;
+        Object.defineProperties(this, {
+            /**
+             * @member {Command.Type} type
+             * @memberof Command
+             * @public
+             * @instance
+             */
+            type: {
+                get: function(){
+                    return _type;
+                },
+                set: function(val){
+                    if(Object.keys(Command.Type).indexOf(val) != -1){
+                        _type = Command.Type[val];
+                        return _type;
+                    } else if(Object.values(Command.Type).indexOf(val) != -1){
+                        _type = val;
+                        return _type;
+                    } else {
+                        return undefined;
+                    }
+                }
             },
-            set: function(val){
-                if(Object.keys(Command.Type).indexOf(val) != -1){
-                    type = Command.Type[val];
-                    return type;
-                } else if(Object.values(Command.Type).indexOf(val) != -1){
-                    type = val;
-                    return type;
-                } else {
+            /**
+             * @member {ActionGroup} actionGroup
+             * @memberof Command
+             * @public
+             * @instance
+             */
+            actionGroup: {
+                get: function(){
+                    return _actionGroup;
+                },
+                set: function(val){
+                    if(val.constructor.name != "ActionGroup")
+                        return undefined;
+                    _actionGroup = val;
+                    return val;
                     return undefined;
                 }
-            }
-        },
-        /**
-         * @member {ActionGroup} actionGroup
-         * @memberof Command
-         * @public
-         * @instance
-         */
-        actionGroup: {
-            get: function(){
-                return actionGroup;
             },
-            set: function(val){
-                if(val.constructor.name != "ActionGroup")
-                    return undefined;
-                actionGroup = val;
-                return val;
-                return undefined;
+            /**
+             * @member {Arguments} commandArgs
+             * @memberof Command
+             * @public
+             * @readonly
+             * @instance
+             */
+            commandArgs: {
+                get: function(){return _commandArgs;}
             }
-        },
-        /**
-         * @member {Arguments} commandArgs
-         * @memberof Command
-         * @public
-         * @readonly
-         * @instance
-         */
-        commandArgs: {
-            get: function(){return commandArgs;}
+        });
+
+        if(awake === true && (command_group === false || is_na(command_group))){
+            this.type = "PERMANENT"
+        } else if((awake === false || is_na(awake)) && command_group === true){
+            this.type = "MOMENTARY"
+        } else {
+            throw new Error("Could not resolve Command type: listener or command_group");
         }
-    });
 
-    if(config.awake === true && (config.command_group === false || is_na(config.command_group))){
-        this.type = "PERMANENT"
-    } else if((config.awake === false || is_na(config.awake)) && config.command_group === true){
-        this.type = "MOMENTARY"
-    } else {
-        throw new Error("Could not resolve command type: listener or command_group");
-    }
-
-    if(config.arguments){
-        commandArgs = new Arguments(config.arguments);
-        console.log(commandArgs);
-    }
-    try{
-        this.actionGroup = new ActionGroup(config.actionGroup);
-        console.log(actionGroup);
-    } catch(e){
-        throw e;
+        if(args){
+            _commandArgs = new Arguments(args);
+            //console.log(commandArgs);
+        }
+        if(this.type === Command.Type.MOMENTARY){
+            try{
+                this.actionGroup = new ActionGroup(actionGroup);
+                //console.log(actionGroup);
+            } catch(e){
+                throw e;
+            }
+        } else if(this.type === Command.Type.PERMANENT){
+            deployer.log.error("PERMANENT commands not yet implemented");
+        } else {
+            throw new Error("Properties not correctly initialized");
+        }
     }
 
-    if(is_na(this.type) || is_na(this.actionGroup)){
-        throw new Error("Properties not correctly initialized");
-    }
+
+    /**
+     * @function setArgumentsGlobal
+     * @memberof Command
+     * @description Prepare {@link Command#commandArgs} by setting its {@link Arguments#ancestor} with projet-wide constants.
+     * @param   {Arguments} args The argument object to put as ancestor
+     * @instance
+     * @public
+     * @author Gerkin
+     */
+    setArgumentsGlobal (args){
+        this.commandArgs.ancestor = new Arguments(args);
+        return this;
+    };
+    /**
+     * Execute the command: process arguments then triggers {@link Command.actionGroup}
+     * @author Gerkin
+     * @param {Function} next Function to execute once finished
+     */
+    execute (next){
+        var breadcrumb = new Breadcrumb();
+        this.commandArgs.brewArguments((args)=>{
+            this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb.startTimer(), next);
+        });
+    };
 }
 
 /**
@@ -105,31 +133,6 @@ function Command(config){
 Command.Type = {
     PERMANENT: 1,
     MOMENTARY: 2
-}
-
-/**
- * @function setArgumentsGlobal
- * @memberof Command
- * @description Prepare {@link Command#commandArgs} by setting its {@link Arguments#ancestor} with projet-wide constants.
- * @param   {Arguments} args The argument object to put as ancestor
- * @instance
- * @public
- * @author Gerkin
- */
-Command.prototype.setArgumentsGlobal = function(args){
-    this.commandArgs.ancestor = new Arguments(args);
-    return this;
-}
-/**
- * Execute the command: process arguments then triggers {@link Command.actionGroup}
- * @author Gerkin
- * @param {Function} next Function to execute once finished
- */
-Command.prototype.execute = function(next){
-    var breadcrumb = new Breadcrumb();
-    this.commandArgs.brewArguments((args)=>{
-        this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb.startTimer(), next);
-    });
-}
+};
 
 module.exports = Command;

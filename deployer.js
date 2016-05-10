@@ -291,40 +291,40 @@ function endProgram(){
  * @returns {undefined}
  */
 function run(dry){
-        if(typeof dry == "undefined")
-            dry = false;
-        deployer.log.verbose('Executing action "'+deployer.config.action+'"');
-        var configFilePath;
-        deployer.config.base_path = __dirname;
-        async.series([
-            function(cb){
-                return parseConfig(deployer.config.globalConfigFile,deployer.config.configFile, function(err, config){
-                    deployer.config = merge.recursive(deployer.config, config);
-                    console.log(deployer.config);
-                    if(err){
-                        deployer.log.error(err);
-                    }
-                    if(deployer.config["dump_config"] === true)
-                        deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
-                    return cb();
-                });
-            },
-            function(cb){
-                return getFilesRec(process.cwd(), function(err, files){
-                    deployer.files = files;
-                    return cb(err);
-                });
-            }
-        ], function(err){
-            // Parse commands
-            for(var command in deployer.config.project.commands){
-                try{
-                    actionObjects[command] = new Command(deployer.config.project.commands[command]).setArgumentsGlobal(deployer.config.project.arguments);
-                    console.log(actionObjects[command]);
-                } catch(e){
-                    deployer.log.error("Error while parsing command \"" + command + "\": ", e, e.stack);
+    if(typeof dry == "undefined")
+        dry = false;
+    deployer.log.verbose('Executing action "'+deployer.config.action+'"');
+    var configFilePath;
+    deployer.config.base_path = __dirname;
+    async.series([
+        function(cb){
+            return parseConfig(deployer.config.globalConfigFile,deployer.config.configFile, function(err, config){
+                deployer.config = merge.recursive(deployer.config, config);
+                console.log(deployer.config);
+                if(err){
+                    deployer.log.error(err);
                 }
-            }/*
+                if(deployer.config["dump_config"] === true)
+                    deployer.log.always("Configuration: " + JSON.stringify(deployer.config, null, 4));
+                return cb();
+            });
+        },
+        function(cb){
+            return getFilesRec(process.cwd(), function(err, files){
+                deployer.files = files;
+                return cb(err);
+            });
+        }
+    ], function(err){
+        // Parse commands
+        for(var command in deployer.config.project.commands){
+            try{
+                actionObjects[command] = new Command(deployer.config.project.commands[command]);
+                //console.log(actionObjects[command]);
+            } catch(e){
+                deployer.log.error("Error while parsing command \"" + command + "\": ", e, e.stack);
+            }
+        }/*
             var arg = new Arguments({
                 hello: {
                     dude: "world"
@@ -339,26 +339,25 @@ function run(dry){
             });
             return;*/
 
-            if(dry){
-                return dryHelp();
-            } else {
-                var initialCmd = deployer.config.project.commands[deployer.config.action];
-                if(initialCmd){
-                    if(initialCmd.awake){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
-                        // Create the inner CLI
-                        return runPermanentCli();
-                    } else {
-                        console.log(actionObjects, deployer.config.action);
-                        actionObjects[deployer.config.action].execute(endProgram);
-                        /*return execCommandRoot(deployer.config.action, function(){
-                        rl.close();
-                    });*/
-                    }
+        if(dry){
+            return dryHelp();
+        } else {
+            var initialCmd = actionObjects[deployer.config.action];
+            if(initialCmd){
+                console.log(actionObjects, deployer.config.action);
+                if(initialCmd.type == Command.Type.PERMANENT){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
+                    // Create the inner CLI
+                    return runPermanentCli();
+                } else if(initialCmd.type == Command.Type.MOMENTARY){
+                    initialCmd.setArgumentsGlobal(deployer.config.project.args).execute(endProgram);
                 } else {
-                    deployer.log.error('Tried to launch Deployer with unexistent action "' + deployer.config.action + '"');
+                    deployer.log.error(`Tried to launch Deployer with command having unexistent type value "${ initialCmd.type }".`);
                 }
+            } else {
+                deployer.log.error(`Tried to launch Deployer with unexistent command "${ deployer.config.action }".`);
             }
-        });
+        }
+    });
 }
 
 function runPermanentCli(){

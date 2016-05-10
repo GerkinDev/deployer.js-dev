@@ -1,6 +1,6 @@
 {
     "project": {
-        "arguments": {
+        "args": {
             "project_name": "deployer.js",
             "author": "Gerkin",
             "documentation": {
@@ -27,7 +27,7 @@
             "_default": {
                 "awake": true,
                 "command_group": false,
-                "actions": [
+                "eventListeners": [
                     {
                         "action": "less-compile",
                         "data": {
@@ -74,101 +74,7 @@
                 ]
             },
             "documentate": {
-                "arguments": {
-                    "version": {
-                        "type": "prompt"
-                    }
-                },
-                "command_group": true,
-                "mode": "parallel",
-                "actions": [
-                    {
-                        "action": "jsdoc",
-                        "data": {
-                            "private": true,
-                            "selection": {
-                                "\\.(js)$": true,
-                                "\\.min\\.(js)$": false,
-                                "^\\.\\/node_modules($|\\/)": false,
-                                "^\\.\\/templates($|\\/)": false,
-                                "^\\.\\/actions\\/ithoughts-index-doc\\.js": false
-                            },
-                            "template": "default",
-                            "template.bck": "gerkindevelopment",
-                            "typepath": "javascript",
-                            "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                            "basePath": "%documentation.base.path%%version_minor%/javascript/"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    },
-                    {
-                        "action": "ithoughts-index-doc",
-                        "data": {
-                            "template": "gerkindevelopment",
-                            "head_links": {
-                                "GerkinDevelopment": "https://www.gerkindevelopment.net/",
-                                "Back to Documentation Index": "/"
-                            },
-                            "doc_links": [
-                                {
-                                    "labels": {
-                                        "main": "JavaScript",
-                                        "sub": "Node.js"
-                                    },
-                                    "image": "/images/serverside.jpg",
-                                    "link": "javascript/index.html"
-                                }
-                            ],
-                            "project_name": "%project_name%",
-                            "author": "%author%",
-                            "version": "%version_minor%",
-                            "company_start": "%company.start%",
-                            "root": "%documentation.base.url%",
-                            "baseUrl": "%documentation.base.url%%version_minor%",
-                            "basePath": "%documentation.base.path%%version_minor%",
-                            "resourcesUrl": "../resources",
-                            "resourcesPath": "%documentation.base.path%resources"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    },
-                    {
-                        "action": "version-history",
-                        "data": {
-                            "basePath": "%documentation.base.path%",
-                            "template": "gerkindevelopment",
-                            "version_minor": "%version_minor%",
-                            "versionUrl": "%documentation.base.url%%version_minor%",
-                            "project_name": "%project_name%",
-                            "author": "%author%",
-                            "resourcesUrl": "./resources"
-                        },
-                        "arguments": {
-                            "version_minor": {
-                                "type": "regex_replace",
-                                "value": "%version%",
-                                "search": "^(\\d+)\\.(\\d+).*",
-                                "replacement": "$1.$2"
-                            }
-                        }
-                    }
-                ]
-            },
-            "documentate2": {
-                "arguments": {
+                "args": {
                     "version": {
                         "_type": "prompt"
                     },
@@ -249,7 +155,7 @@
                 }
             },
             "release": {
-                "arguments": {
+                "args": {
                     "version": {
                         "_type": "prompt"
                     },
@@ -312,7 +218,7 @@
                                         "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
                                         "basePath": "%documentation.base.path%%version_minor%/javascript/"
                                     },
-                                    "arguments": {
+                                    "args": {
                                         "version_minor": {
                                             "type": "regex_replace",
                                             "value": "%version%",
@@ -349,7 +255,7 @@
                                         "resourcesUrl": "../resources",
                                         "resourcesPath": "%documentation.base.path%resources"
                                     },
-                                    "arguments": {
+                                    "args": {
                                         "version_minor": {
                                             "type": "regex_replace",
                                             "value": "%version%",
@@ -369,7 +275,7 @@
                                         "author": "%author%",
                                         "resourcesUrl": "./resources"
                                     },
-                                    "arguments": {
+                                    "args": {
                                         "version_minor": {
                                             "type": "regex_replace",
                                             "value": "%version%",
