@@ -3,6 +3,7 @@
 const ActionGroup = require("./actiongroup.js");
 const Breadcrumb = require("./breadcrumb.js");
 const Arguments = require('./arguments.js');
+const Listener = require("./listener.js");
 
 /**
  * Creates a new command
@@ -12,7 +13,7 @@ const Arguments = require('./arguments.js');
  * @param   {ActionGroup} config.actionGroup Related base action group
  */
 class Command{
-    constructor ({ awake, command_group,args,actionGroup}){
+    constructor ({ awake, command_group,args,actionGroup, eventListeners}){
         if(is_na(arguments[0]))
             throw new Error("Can't create Command with null or undefined config.");
 
@@ -93,6 +94,10 @@ class Command{
                 throw e;
             }
         } else if(this.type === Command.Type.PERMANENT){
+            this.listeners = [];
+            for(var i = 0, i < eventListeners.length; i++){
+                this.listeners.push(new Listener(eventListeners[i]));
+            }
             deployer.log.error("PERMANENT commands not yet implemented");
         } else {
             throw new Error("Properties not correctly initialized");
