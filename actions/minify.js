@@ -34,14 +34,7 @@ module.exports = {
         filesArray.forEach(function(file){
             var outputName = file.replace(nameReplacement, config.output.to);
             deployer.log.silly("MINIFY => Minifying " + colour.italic(file) + " to " + colour.italic(outputName));
-            minifier.minify(file, {
-                output: outputName,
-                uglify:{
-                    warnings: true,
-                    unsafe: true,
-                    hoist_vars: true
-                }
-            });
+            module.exports.minify(file, outputName);
         });
         deployer.log.info("MINIFY => Minification completed");
         return cb();
@@ -57,14 +50,40 @@ module.exports = {
     processSingle: function(config, file,cb, endcb){
         outputName = file.replace(new RegExp(config.from), config.to); 
         deployer.log.info(file + " changed. Minifying to " + outputName);
-        minifier.minify(file, {
-            output: outputName,
-            uglify:{
-                warnings: true,
-                unsafe: true,
-                hoist_vars: true
-            }
-        });
+        module.exports.minify(file, outputName);
         cb(config, file, endcb);
+    },
+    minify: function(input, output, uglify){
+        if(is_na(uglify) || uglify === true){
+            try{
+                try{
+                    minifier.minify(input, {
+                        output: output,
+                        uglify:{
+                            warnings: true,
+                            unsafe: true,
+                            hoist_vars: true
+                        }
+                    });
+                } catch(e){
+                    deployer.log.error("Invalid JS file.");
+                    minifier.minify(input, {
+                        output: output,
+                        uglify:false
+                    });
+                }
+            } catch(e){
+                deployer.log.error("Invalid JS file.");
+            }
+        } else {
+            try{
+                minifier.minify(input, {
+                    output: output,
+                    uglify:false
+                });
+            } catch(e){
+                deployer.log.error("Invalid JS file.");
+            }
+        }
     }
 };
