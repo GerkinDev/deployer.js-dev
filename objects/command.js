@@ -98,7 +98,6 @@ class Command{
             for(var i = 0, j = eventListeners.length; i < j; i++){
                 this.listeners.push(new Listener(eventListeners[i]));
             }
-            deployer.log.error("PERMANENT commands not yet implemented");
         } else {
             throw new Error("Properties not correctly initialized");
         }

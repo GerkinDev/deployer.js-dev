@@ -424,23 +424,28 @@ function runPermanentCli(){
     }
 
     deployer.log.silly("Running pre-listen actions");
-        return async.doUntil(
-            function(cb){
-                rl.prompt();
-                rl.on('line', function(data){
-                    var args = [process.argv[0],process.argv[1]].concat(spawnargs(data)); // Prepend to allow the args to be run by commander
-                    rl.pause();
-                    rl.removeAllListeners('line');
-                    clicb = cb;
-                    innerCli.parse(args);
-                });
-            },
-            function(){return exit},
-            function(){
-                deployer.log.always("Exiting...");
-                rl.close();
-            }
-        );
+    return async.doUntil(
+        function(cb){
+            rl.on('close',function(){
+                console.log("");
+                process.exit(0);
+            });
+            rl.setPrompt(colour["green"](colour["bold"]("    => ")));
+            rl.prompt();
+            rl.on('line', function(data){
+                var args = [process.argv[0],process.argv[1]].concat(spawnargs(data)); // Prepend to allow the args to be run by commander
+                rl.pause();
+                rl.removeAllListeners('line');
+                clicb = cb;
+                innerCli.parse(args);
+            });
+        },
+        function(){return exit},
+        function(){
+            deployer.log.always("Exiting...");
+            rl.close();
+        }
+    );
     /*return execCommandRoot(deployer.config.action, function(err){
         deployer.log.silly("Pre-listen actions done");
         innerCli.outputHelp(reformatHelp);

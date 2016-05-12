@@ -33,8 +33,12 @@ module.exports = {
         var nameReplacement = new RegExp(config.output.from);
         filesArray.forEach(function(file){
             var outputName = file.replace(nameReplacement, config.output.to);
-            deployer.log.silly("MINIFY => Minifying " + colour.italic(file) + " to " + colour.italic(outputName));
-            module.exports.minify(file, outputName);
+            if(file === outputName && (is_na(config.safe) || config.safe !== false)){
+                deployer.log.warn('Minify output file is the same as input. Original will be irremediably changed. Please set data.safe to false to accept it');
+            } else {
+                deployer.log.silly("MINIFY => Minifying " + colour.italic(file) + " to " + colour.italic(outputName));
+                module.exports.minify(file, outputName);
+            }
         });
         deployer.log.info("MINIFY => Minification completed");
         return cb();
@@ -48,9 +52,13 @@ module.exports = {
      * @param {Function} endcb  Callback to call after the end of the chain of singleProcess actions
      */
     processSingle: function(config, file,cb, endcb){
-        outputName = file.replace(new RegExp(config.from), config.to); 
-        deployer.log.info(file + " changed. Minifying to " + outputName);
-        module.exports.minify(file, outputName);
+        outputName = file.replace(new RegExp(config.from), config.to);
+        if(file === outputName && (is_na(config.safe) || config.safe !== false)){
+            deployer.log.warn('Minify output file is the same as input. Original will be irremediably changed. Please set data.safe to false to accept it');
+        } else {
+            deployer.log.info(file + " changed. Minifying to " + outputName);
+            module.exports.minify(file, outputName);
+        }
         cb(config, file, endcb);
     },
     minify: function(input, output, uglify){
