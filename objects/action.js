@@ -11,10 +11,11 @@ const Arguments = require('./arguments.js');
  * @param   {object} config.data Object to pass to the called action after being replaced using {@link Arguments.prepareActionArgs}
  */
 class Action{
-    constructor ({action, actionName, data, args}){
+    constructor ({action, actionName, data, args}, eventListener = false){
         if(is_na(arguments[0]))
             throw new Error("Can't create Action with null or undefined config.");
 
+        this.eventListener = eventListener;
 
         var _actionName,
             _actionConfig,
@@ -32,12 +33,18 @@ class Action{
                 get: function(){
                     return _actionName;
                 },
-                set: function(val){
+                set: val=>{
                     var actionPath = "../actions/" + val + ".js";
                     var handler = require(actionPath);
                     if(handler != null && handler.process && typeof handler.process == "function"){
                         _actionName = val;
-                        _processFunction = handler.process;
+                        if(this.eventListener)
+                            _processFunction = handler.processSingle;
+                        else
+                            _processFunction = handler.process;
+                        if(is_na(_processFunction)){
+                            throw new ActionError(`Could not find "${ this.eventListener ? "processSingle" : "process" } for action "${ _actionName }". This action will do nothing`);
+                        }
                         return _actionName;
                     }
                     return undefined;
@@ -120,6 +127,10 @@ class Action{
      * @see {@link Arguments.brewArguments}
      */
     execute (breadcrumb, callback){
+        if(this.eventListener === true){
+            throw new ActionError(`Calling "execute" on "Action" should be done only if mode eventListener is disabled.`);
+        }
+        
         deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
         /**
          * @snippetStart prepareActionArgs
@@ -127,10 +138,8 @@ class Action{
         return this.arguments.brewArguments((values)=>{
             var compiledArgs = this.arguments.prepareActionArgs(this.config);
             console.log(JSON.stringify(compiledArgs, null, 4)); 
-            deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-            //return callback()
             return this.processFunction(compiledArgs, ()=>{
-                deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
+                deployer.log.info(`Ended Action "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
                 callback();
             });
         });
@@ -138,6 +147,32 @@ class Action{
          * @snippetEnd prepareActionArgs
          */
     }
+
+    /**
+     * @method trigger
+     * @memberof Action
+     * @description 
+     * @param   {Breadcrumb} breadcrumb The actions breadcrumb
+     * @param   {string} filepath Filepath of event
+     * @param   {Function} callback   Action to call afterwards
+     * @returns {undefined} Async
+     * @instance
+     * @public
+     * @author Gerkin
+     * @see {@link Arguments.brewArguments}
+     */
+    trigger (breadcrumb, filepath, callback){
+        if(this.eventListener === false){
+            throw new ActionError(`Calling "trigger" on "Action" should be done only if mode eventListener is enabled.`);
+        }
+        
+        deployer.log.info(`Starting EventHandler "${ breadcrumb.toString() }" with handler "${ this.actionName }"`);
+        return this.processFunction(filepath, ()=>{
+            deployer.log.info(`Ended EventHandler "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+            callback();
+        });
+    }
+
     /**
      * @function setArguments
      * @memberof Action
@@ -152,6 +187,14 @@ class Action{
             throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
         this.arguments.ancestor = arg;
         return this;
+    }
+}
+
+class ActionError extends Error{
+    constructor(message = "Error with an action!"){
+        super(); 
+        this.name = "ActionError";
+        this.message = message;
     }
 }
 

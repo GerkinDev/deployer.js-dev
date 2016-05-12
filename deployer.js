@@ -424,13 +424,6 @@ function runPermanentCli(){
     }
 
     deployer.log.silly("Running pre-listen actions");
-    return execCommandRoot(deployer.config.action, function(err){
-        deployer.log.silly("Pre-listen actions done");
-        innerCli.outputHelp(reformatHelp);
-        rl.setPrompt(colour["green"](colour["bold"]("    => ")));
-        rl.on('close',function(){
-            process.exit(0);
-        });
         return async.doUntil(
             function(cb){
                 rl.prompt();
@@ -448,7 +441,14 @@ function runPermanentCli(){
                 rl.close();
             }
         );
-    });
+    /*return execCommandRoot(deployer.config.action, function(err){
+        deployer.log.silly("Pre-listen actions done");
+        innerCli.outputHelp(reformatHelp);
+        rl.setPrompt(colour["green"](colour["bold"]("    => ")));
+        rl.on('close',function(){
+            process.exit(0);
+        });
+    });*/
 }
 
 
@@ -465,8 +465,9 @@ function execCommandRoot(command, callback){
         // If the command is a listener
         if(cmd.awake){
             var deletedIndex = [];
-            for(var i = 0, j = cmd.actions.length; i < j; i++){
-                var action = cmd["actions"][i];
+            console.log(cmd);
+            for(var i = 0, j = cmd.eventListeners.length; i < j; i++){
+                var action = cmd["eventListeners"][i];
                 // If this action uses events
                 if(action.events){
                     console.log(action, "is event listener");

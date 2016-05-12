@@ -95,7 +95,7 @@ class Command{
             }
         } else if(this.type === Command.Type.PERMANENT){
             this.listeners = [];
-            for(var i = 0, i < eventListeners.length; i++){
+            for(var i = 0, j = eventListeners.length; i < j; i++){
                 this.listeners.push(new Listener(eventListeners[i]));
             }
             deployer.log.error("PERMANENT commands not yet implemented");

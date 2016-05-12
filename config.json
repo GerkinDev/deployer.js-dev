@@ -64,7 +64,7 @@
                         "events": {
                             "onchange": {
                                 "selection": {
-                                    "\\.(cs|j)s€$": true,
+                                    "\\.(cs|j)s$": true,
                                     "\\.min\\.(cs|j)s$": false
                                 },
                                 "warmup": false
