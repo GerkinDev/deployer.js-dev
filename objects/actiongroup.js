@@ -1,13 +1,13 @@
 'use strict';
 
-const Action = require("./action.js");
+const CommandAction = require("./commandaction.js");
 const Breadcrumb = require("./breadcrumb.js");
 const Arguments = require('./arguments.js');
 
 
 /**
  * @typedef ActionGroupChild
- * @type   {Action|ActionGroup}
+ * @type   {CommandAction|ActionGroup}
  */
 
 /**
@@ -67,7 +67,7 @@ class ActionGroup{
 
                     var ok = true;
                     for(var i = 0, j = val.length; i < j; i++){
-                        ok &= (val[i].constructor.name == "ActionGroup") || (val[i].constructor.name == "Action");
+                        ok &= (val[i].constructor.name == "ActionGroup") || (val[i].constructor.name == "CommandAction");
                     }
                     if(!ok)
                         return undefined;
@@ -113,11 +113,11 @@ class ActionGroup{
                     deployer.log.warn("ActionGroup said it can parse an object it failed on:", JSON.stringify(actionGroupChildConfig))
                 }
             }
-            if(actionGroupChild === null && Action.test(actionGroupChildConfig)){
+            if(actionGroupChild === null && CommandAction.test(actionGroupChildConfig)){
                 try{
-                    actionGroupChild = new Action(actionGroupChildConfig);
+                    actionGroupChild = new CommandAction(actionGroupChildConfig);
                 } catch(e){
-                    deployer.log.warn("Action said it can parse an object it failed on:", JSON.stringify(actionGroupChildConfig), e);
+                    deployer.log.warn("CommandAction said it can parse an object it failed on:", JSON.stringify(actionGroupChildConfig), e);
                 }
             }
             if(actionGroupChild === null){

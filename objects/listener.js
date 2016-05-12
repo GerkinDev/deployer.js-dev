@@ -1,6 +1,6 @@
 'use strict';
 
-const Action = require('./action.js');
+const ListenerAction = require('./listeneraction.js');
 const Arguments = require('./arguments.js');
 const Breadcrumb = require('./breadcrumb.js');
 const chokidar = require('chokidar');
@@ -16,7 +16,7 @@ class Listener{
             throw new Error("Can't create Listener with null or undefined config.");
 
         console.log("Creating listener:", arguments, action, data, args, next,events);
-        this.actionHandler = new Action({action,data}, true);
+        this.actionHandler = new ListenerAction({action,data,next});
         
         this.linkingTable = {};
         

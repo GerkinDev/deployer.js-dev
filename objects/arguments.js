@@ -2,7 +2,7 @@
 
 /**
  * @class Arguments
- * @description Handle arguments transmitted from a {@link Command},{@link ActionGroup} or {@link Action}, to a {@link ActionGroup} or {@link Action}
+ * @description Handle arguments transmitted from a {@link Command},{@link ActionGroup} or {@link CommandAction}, to a {@link ActionGroup} or {@link CommandAction}
  * @param   {object} config Configuration of the action
  * @param   {string} config.actionName Name of the action, IE the name of the module inside the "actions" directory
  * @param {Arguments} [sourceObj] Other {@link Arguments} instance to set as {@link Arguments.ancestor}
@@ -110,7 +110,7 @@ Arguments.prototype.brewArguments = function(callback){
 /**
  * @method prepareActionArgs
  * @memberof Arguments
- * @description Apply {@link Arguments#replacePlaceHolder} on every strings of given object. It should be typically applied on the {@link Action#config} object once it was {@link Arguments#brewArguments brew}, then pass the resulting object to the {@link Action#processFunction}: {@snippet prepareActionArgs}.
+ * @description Apply {@link Arguments#replacePlaceHolder} on every strings of given object. It should be typically applied on the {@link CommandAction#config} object once it was {@link Arguments#brewArguments brew}, then pass the resulting object to the {@link CommandAction#processFunction}: {@snippet prepareActionArgs}.
  * @param   {object}   actionVars Object to replace placeholders in
  * @returns {object} Replaced
  * @instance
