@@ -126,7 +126,7 @@ class Command{
     execute (next){
         var breadcrumb = new Breadcrumb();
         this.commandArgs.brewArguments((args)=>{
-            this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb.startTimer(), next);
+            this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb, next);
         });
     };
 }

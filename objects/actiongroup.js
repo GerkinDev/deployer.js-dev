@@ -160,6 +160,7 @@ class ActionGroup{
      * @see {@link Arguments.brewArguments}
      */
     execute (breadcrumb, next){
+        breadcrumb.startTimer();
         deployer.log.info("Starting ActionGroup " + breadcrumb.toString());
         var mode;
 
@@ -176,7 +177,7 @@ class ActionGroup{
         return this.arguments.brewArguments((values)=>{
             console.log(values, this.arguments);
             async[mode](this.actions, (action, index, callback)=>{
-                action.setArguments(this.arguments).execute(breadcrumb.clone().push(index).startTimer(), callback);
+                action.setArguments(this.arguments).execute(breadcrumb.clone().push(index), callback);
             }, function(){
                 deployer.log.info("Ended ActionGroup " + breadcrumb.toString() + " after " + breadcrumb.getTimer() + "ms");
                 return next();

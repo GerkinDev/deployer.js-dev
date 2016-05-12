@@ -127,6 +127,7 @@ class Action{
      * @see {@link Arguments.brewArguments}
      */
     execute (breadcrumb, callback){
+        breadcrumb.startTimer();
         if(this.eventListener === true){
             throw new ActionError(`Calling "execute" on "Action" should be done only if mode eventListener is disabled.`);
         }
@@ -162,6 +163,7 @@ class Action{
      * @see {@link Arguments.brewArguments}
      */
     trigger (breadcrumb, filepath, callback){
+        breadcrumb.startTimer();
         if(this.eventListener === false){
             throw new ActionError(`Calling "trigger" on "Action" should be done only if mode eventListener is enabled.`);
         }
