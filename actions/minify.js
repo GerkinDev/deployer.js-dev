@@ -66,14 +66,14 @@ module.exports = {
                         }
                     });
                 } catch(e){
-                    deployer.log.error("Invalid JS file.");
+                    deployer.log.error("Invalid JS file. Maybe it is not ES5 compatible.");
                     minifier.minify(input, {
                         output: output,
                         uglify:false
                     });
                 }
             } catch(e){
-                deployer.log.error("Invalid JS file.");
+                deployer.log.error("Invalid JS file. EcmaScript > ES5 not yet supported");
             }
         } else {
             try{
@@ -82,7 +82,7 @@ module.exports = {
                     uglify:false
                 });
             } catch(e){
-                deployer.log.error("Invalid JS file.");
+                deployer.log.error("Invalid JS file. EcmaScript > ES5 not yet supported");
             }
         }
     }

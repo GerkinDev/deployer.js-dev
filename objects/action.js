@@ -130,7 +130,7 @@ class Action{
         if(this.eventListener === true){
             throw new ActionError(`Calling "execute" on "Action" should be done only if mode eventListener is disabled.`);
         }
-        
+
         deployer.log.info(`Starting Action "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
         /**
          * @snippetStart prepareActionArgs
@@ -165,11 +165,15 @@ class Action{
         if(this.eventListener === false){
             throw new ActionError(`Calling "trigger" on "Action" should be done only if mode eventListener is enabled.`);
         }
-        
+
         deployer.log.info(`Starting EventHandler "${ breadcrumb.toString() }" with handler "${ this.actionName }"`);
-        return this.processFunction(filepath, ()=>{
-            deployer.log.info(`Ended EventHandler "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-            callback();
+        return this.arguments.brewArguments((values)=>{
+            var compiledArgs = this.arguments.prepareActionArgs(this.config);
+            console.log(JSON.stringify(compiledArgs, null, 4)); 
+            return this.processFunction(compiledArgs,filepath, ()=>{
+                deployer.log.info(`Ended EventHandler "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+                callback();
+            });
         });
     }
 
