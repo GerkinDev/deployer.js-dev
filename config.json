@@ -191,10 +191,10 @@
                                     "^\\.\\/templates($|\\/)": false
                                 },
                                 "setDiffs": {
-                                    "/(@version\\s+)\\d+(\\.\\d+)*": "$1%version%"
+                                    "/(@version\\s+)\\d+(\\.\\d+)*": "$1$ { version }"
                                 },
-                                "targetVersion": "%version%",
-                                "companyName": "%company.name%"
+                                "targetVersion": "${ version }",
+                                "companyName": "${ company.name }"
                             }
                         },
                         {
@@ -215,13 +215,13 @@
                                         "template": "default",
                                         "template.bck": "gerkindevelopment",
                                         "typepath": "javascript",
-                                        "destinationPath": "%documentation.base.path%%version_minor%/javascript/",
-                                        "basePath": "%documentation.base.path%%version_minor%/javascript/"
+                                        "destinationPath": "${ documentation.base.path}${ version_minor }/javascript/",
+                                        "basePath": "${ documentation.base.path }/${ version_minor }/javascript/"
                                     },
                                     "args": {
                                         "version_minor": {
-                                            "type": "regex_replace",
-                                            "value": "%version%",
+                                            "_type": "regex_replace",
+                                            "value": "${ version }",
                                             "search": "^(\\d+)\\.(\\d+).*",
                                             "replacement": "$1.$2"
                                         }
@@ -245,20 +245,20 @@
                                                 "link": "javascript/index.html"
                                             }
                                         ],
-                                        "project_name": "%project_name%",
-                                        "author": "%author%",
-                                        "version": "%version_minor%",
-                                        "company_start": "%company.start%",
-                                        "root": "%documentation.base.url%",
-                                        "baseUrl": "%documentation.base.url%%version_minor%",
-                                        "basePath": "%documentation.base.path%%version_minor%",
+                                        "project_name": "${ project_name }",
+                                        "author": "${ author }",
+                                        "version": "${ version_minor }",
+                                        "company_start": "${ company.start }",
+                                        "root": "${ documentation.base.url }",
+                                        "baseUrl": "${ documentation.base.url}/${ version_minor }",
+                                        "basePath": "${ documentation.base.path}/${version_minor }",
                                         "resourcesUrl": "../resources",
-                                        "resourcesPath": "%documentation.base.path%resources"
+                                        "resourcesPath": "${ documentation.base.path }/resources"
                                     },
                                     "args": {
                                         "version_minor": {
                                             "type": "regex_replace",
-                                            "value": "%version%",
+                                            "value": "${ version }",
                                             "search": "^(\\d+)\\.(\\d+).*",
                                             "replacement": "$1.$2"
                                         }
@@ -267,18 +267,18 @@
                                 {
                                     "action": "version-history",
                                     "data": {
-                                        "basePath": "%documentation.base.path%",
+                                        "basePath": "${ documentation.base.path }",
                                         "template": "gerkindevelopment",
-                                        "version_minor": "%version_minor%",
-                                        "versionUrl": "%documentation.base.url%%version_minor%",
-                                        "project_name": "%project_name%",
-                                        "author": "%author%",
+                                        "version_minor": "${ version_minor }",
+                                        "versionUrl": "${ documentation.base.url }${ version_minor }",
+                                        "project_name": "${ project_name}",
+                                        "author": "${ author }",
                                         "resourcesUrl": "./resources"
                                     },
                                     "args": {
                                         "version_minor": {
                                             "type": "regex_replace",
-                                            "value": "%version%",
+                                            "value": "${ version }",
                                             "search": "^(\\d+)\\.(\\d+).*",
                                             "replacement": "$1.$2"
                                         }
@@ -297,14 +297,14 @@
                                             {
                                                 "action": "commit",
                                                 "data": {
-                                                    "message": "%versionMessage%"
+                                                    "message": "${ versionMessage }"
                                                 }
                                             },
                                             {
                                                 "action": "tag",
                                                 "data": {
-                                                    "label": "v%version%",
-                                                    "message": "%versionMessage%"
+                                                    "label": "v${ version }",
+                                                    "message": "${ versionMessage}"
                                                 }
                                             },
                                             {
@@ -321,14 +321,14 @@
                                             {
                                                 "action": "commit",
                                                 "data": {
-                                                    "message": "%versionMessage%"
+                                                    "message": "${ versionMessage }"
                                                 }
                                             },
                                             {
                                                 "action": "tag",
                                                 "data": {
-                                                    "label": "v%version%",
-                                                    "message": "%versionMessage%"
+                                                    "label": "v${ version }",
+                                                    "message": "${ versionMessage }"
                                                 }
                                             },
                                             {
