@@ -17,27 +17,43 @@ class Listener{
 
         console.log("Creating listener:", arguments, action, data, args, next,events);
         this.actionHandler = new ListenerAction({action,data,next});
-        
+
         this.linkingTable = {};
-        
+        this.events = events;
+
         for(var event in events){
             switch(event){
                 case "onchange":{
                     var files = filesFromSelectors(events[event].selection);
                     console.log({event,files});
-                    
+
                     this.linkingTable[event] = files;
                     let watcher = chokidar.watch(files, {
                         persistent: false
                     });
                     watcher.on("change", path => {
                         console.log(`${ path } has changed on ${ new Date().toString() }`);
-                        this.actionHandler.trigger(new Breadcrumb, path, function(){console.log("Ended")});
+                        this.actionHandler.trigger(new Breadcrumb().push(event), path, function(){
+                            console.log("Ended")
+                        });
                     });
                 } break;
             }
         }
-
+    }
+    warmup(next){
+        async.forEachOfSeries(this.events, (event, key, cb) => {
+            if(!is_na(event.warmup) && event.warmup === true){
+                let table = this.linkingTable[key];
+                console.log(table);
+                async.each(table, (file,partialCb) => {
+                    console.log("Go file", file);
+                    this.actionHandler.trigger(new Breadcrumb().push(key ), file, partialCb);
+                },cb);
+            } else {
+                cb();
+            }
+        }, next);
     }
 }
 

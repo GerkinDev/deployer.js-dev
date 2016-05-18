@@ -53,8 +53,10 @@ module.exports = {
      */
     processSingle: function(config, file,cb, endcb){
         outputName = file.replace(new RegExp(config.from), config.to);
+        console.log(config,new RegExp(config.from), file.match(new RegExp(config.from)));
         if(file === outputName && (is_na(config.safe) || config.safe !== false)){
             deployer.log.warn('Minify output file is the same as input. Original will be irremediably changed. Please set data.safe to false to accept it');
+            deployer.log.verbose(`From "${ file }" to "${ outputName }".`)
         } else {
             deployer.log.info(file + " changed. Minifying to " + outputName);
             module.exports.minify(file, outputName);

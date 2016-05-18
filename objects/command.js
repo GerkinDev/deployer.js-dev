@@ -128,6 +128,12 @@ class Command{
             this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb, next);
         });
     };
+    
+    preRun(next){
+        async.eachSeries(this.listeners, (listener, cb)=>{
+            listener.warmup(cb);
+        },next);
+    }
 }
 
 /**

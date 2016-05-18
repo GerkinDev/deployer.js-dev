@@ -42,9 +42,9 @@
                         "events": {
                             "onchange": {
                                 "selection": {
-                                    "\\.less€$": true
+                                    "\\.less$": true
                                 },
-                                "warmup": false
+                                "warmup": true
                             }
                         },
                         "next": {
@@ -58,13 +58,13 @@
                     {
                         "action": "minify",
                         "data": {
-                            "from": "^(\\.\\/templates.*)(\\.(?:cs|j)s)$",
+                            "from": "^(templates.*)(\\.(?:cs|j)s)$",
                             "to": "$1.min$2"
                         },
                         "events": {
                             "onchange": {
                                 "selection": {
-                                    "\\.(cs|j)s$": true,
+                                    "^(\\.\\/templates.*)(\\.(?:cs|j)s)$": true,
                                     "\\.min\\.(cs|j)s$": false
                                 },
                                 "warmup": false

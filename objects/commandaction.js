@@ -2,7 +2,7 @@
 
 const Breadcrumb = require("./breadcrumb.js");
 const Arguments = require('./arguments.js');
-const Action = require('./action.js');
+const Action = require('./action.js').Action;
 
 /**
  * @class CommandAction
@@ -37,13 +37,10 @@ class CommandAction extends Action{
                     var actionPath = "../actions/" + val + ".js";
                     var handler = require(actionPath);
                     if(handler != null && handler.process && typeof handler.process == "function"){
-                        _actionName = val;
-                        if(this.eventListener)
-                            _processFunction = handler.processSingle;
-                        else
-                            _processFunction = handler.process;
+                        [_actionName,_processFunction] = [val,handler.process];
+                        
                         if(is_na(_processFunction)){
-                            throw new ActionError(`Could not find "${ this.eventListener ? "processSingle" : "process" } for action "${ _actionName }". This action will do nothing`);
+                            throw new ActionError(`Could not find "process" for action "${ _actionName }". This action will do nothing`);
                         }
                         return _actionName;
                     }
@@ -128,9 +125,6 @@ class CommandAction extends Action{
      */
     execute (breadcrumb, callback){
         breadcrumb.startTimer();
-        if(this.eventListener === true){
-            throw new ActionError(`Calling "execute" on "CommandAction" should be done only if mode eventListener is disabled.`);
-        }
 
         deployer.log.info(`Starting CommandAction "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
         /**
@@ -150,36 +144,6 @@ class CommandAction extends Action{
     }
 
     /**
-     * @method trigger
-     * @memberof CommandAction
-     * @description 
-     * @param   {Breadcrumb} breadcrumb The actions breadcrumb
-     * @param   {string} filepath Filepath of event
-     * @param   {Function} callback   CommandAction to call afterwards
-     * @returns {undefined} Async
-     * @instance
-     * @public
-     * @author Gerkin
-     * @see {@link Arguments.brewArguments}
-     */
-    trigger (breadcrumb, filepath, callback){
-        breadcrumb.startTimer();
-        if(this.eventListener === false){
-            throw new ActionError(`Calling "trigger" on "CommandAction" should be done only if mode eventListener is enabled.`);
-        }
-
-        deployer.log.info(`Starting EventHandler "${ breadcrumb.toString() }" with handler "${ this.actionName }"`);
-        return this.arguments.brewArguments((values)=>{
-            var compiledArgs = this.arguments.prepareActionArgs(this.config);
-            console.log(JSON.stringify(compiledArgs, null, 4)); 
-            return this.processFunction(compiledArgs,filepath, ()=>{
-                deployer.log.info(`Ended EventHandler "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-                callback();
-            });
-        });
-    }
-
-    /**
      * @function setArguments
      * @memberof CommandAction
      * @description Prepare {@link CommandAction#arguments} by setting its {@link Arguments#ancestor} for placeholder operations
@@ -193,14 +157,6 @@ class CommandAction extends Action{
             throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
         this.arguments.ancestor = arg;
         return this;
-    }
-}
-
-class ActionError extends Error{
-    constructor(message = "Error with an action!"){
-        super(); 
-        this.name = "ActionError";
-        this.message = message;
     }
 }
 

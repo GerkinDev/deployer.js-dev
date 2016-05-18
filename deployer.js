@@ -347,7 +347,9 @@ function run(dry){
                 console.log(actionObjects, deployer.config.action);
                 if(initialCmd.type == Command.Type.PERMANENT){ // If the command used for initialization is awake (IE, if it will keep deployer command line up)
                     // Create the inner CLI
-                    return runPermanentCli();
+                    initialCmd.preRun(function(){ 
+                        return runPermanentCli();
+                    });
                 } else if(initialCmd.type == Command.Type.MOMENTARY){
                     initialCmd.setArgumentsGlobal(deployer.config.project.args).execute(endProgram);
                 } else {
@@ -415,8 +417,7 @@ function runPermanentCli(){
             tmpcli.action((function(){
                 var cmd = command;
                 return function(){
-                    if(clicb != null && clicb.constructor.name == "Function"){
-                        return execCommandRoot(cmd,clicb);
+                    if(clicb != null && clicb.constructor.name == "Function"){ return actionObjects[cmd].setArgumentsGlobal(deployer.config.project.args).execute(clicb);
                     }
                 }
             })());
