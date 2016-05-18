@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: objects/commandaction.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: objects/commandaction.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file A single executable action for command CLI
+ *
+ * @author Gerkin
+ * @copyright 2016 %company.name%
+ * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
+ * @package deployer.js
+ *
+ * @version %version%
+ */
+
+'use strict';
+
+const Breadcrumb = require("./breadcrumb.js");
+const Arguments = require('./arguments.js');
+const Action = require('./action.js').Action;
+
+/**
+ * @class CommandAction
+ * @description Creates a new action
+ * @param   {object} config Configuration of the action
+ * @param   {string} config.actionName Name of the action, IE the name of the module inside the "actions" directory
+ * @param   {object} config.data Object to pass to the called action after being replaced using {@link Arguments.prepareActionArgs}
+ */
+class CommandAction extends Action{
+    constructor ({action, actionName, data, args}){
+        if(is_na(arguments[0]))
+            throw new Error("Can't create CommandAction with null or undefined config.");
+        super();
+
+        var _actionName,
+            _actionConfig,
+            _processFunction,
+            _args;
+
+        Object.defineProperties(this, {
+            /**
+             * @member {string} actionName
+             * @memberof CommandAction
+             * @public
+             * @instance
+             */
+            actionName: {
+                get: function(){
+                    return _actionName;
+                },
+                set: val=>{
+                    var actionPath = "../actions/" + val + ".js";
+                    var handler = require(actionPath);
+                    if(handler != null &amp;&amp; handler.process &amp;&amp; typeof handler.process == "function"){
+                        [_actionName,_processFunction] = [val,handler.process];
+                        
+                        if(is_na(_processFunction)){
+                            throw new ActionError(`Could not find "process" for action "${ _actionName }". This action will do nothing`);
+                        }
+                        return _actionName;
+                    }
+                    return undefined;
+                }
+            },
+            /**
+             * @member {object} config
+             * @memberof CommandAction
+             * @public
+             * @instance
+             */
+            config: {
+                get: function(){
+                    return _actionConfig;
+                },
+                set: function(val){
+                    _actionConfig = val;
+                }
+            },
+            /**
+             * @member {Arguments} arguments
+             * @memberof CommandAction
+             * @public
+             * @instance
+             */
+            arguments: {
+                get: function(){
+                    return _args;
+                },
+                set: function(newArgs){
+                    if(!(newArgs instanceof Arguments))
+                        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof newArgs }" given.`);
+                    _args = newArgs;
+                }
+            },
+            /**
+             * @member {ProcessFunction} processFunction
+             * @memberof CommandAction
+             * @public
+             * @readonly
+             * @instance
+             */
+            processFunction:{
+                get: function(){return _processFunction;}
+            }
+        });
+
+        if(is_na(action) &amp;&amp; is_na(actionName)){
+            throw new Error(`Could not find action for config: ${ JSON.stringify(arguments[0]) }`);
+        }
+        this.actionName = action || actionName;
+        this.config = data;
+        this.arguments = new Arguments(args);
+    }
+
+    /**
+     * @function test
+     * @memberof CommandAction
+     * @description Check if given object is ok to be parsed by {@link CommandAction constructor}
+     * @param   {object} obj The object to test
+     * @returns {boolean} True if ok, false otherwise
+     * @static
+     * @public
+     * @author Gerkin
+     */
+    static test (obj){
+        return true;
+    }
+
+    /**
+     * @method execute
+     * @memberof CommandAction
+     * @description Runs the specified action. It first compile local arguments with ancestors (see {@link Arguments#brewArguments}), then it replaces {@link CommandAction#config} placeholders with {@link CommandAction#arguments} values, and finally, it calls {@link CommandAction#processFunction}.
+     * @param   {Breadcrumb} breadcrumb The actions breadcrumb
+     * @param   {Function} callback   CommandAction to call afterwards
+     * @returns {undefined} Async
+     * @instance
+     * @public
+     * @author Gerkin
+     * @see {@link Arguments.brewArguments}
+     */
+    execute (breadcrumb, callback){
+        breadcrumb.startTimer();
+
+        deployer.log.info(`Starting CommandAction "${ breadcrumb.toString() }" with action name "${ this.actionName }"`);
+        /**
+         * @snippetStart prepareActionArgs
+         */
+        return this.arguments.brewArguments((values)=>{
+            var compiledArgs = this.arguments.prepareActionArgs(this.config);
+            console.log(JSON.stringify(compiledArgs, null, 4)); 
+            return this.processFunction(compiledArgs, ()=>{
+                deployer.log.info(`Ended CommandAction "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+                callback();
+            });
+        });
+        /**
+         * @snippetEnd prepareActionArgs
+         */
+    }
+
+    /**
+     * @function setArguments
+     * @memberof CommandAction
+     * @description Prepare {@link CommandAction#arguments} by setting its {@link Arguments#ancestor} for placeholder operations
+     * @param   {Arguments} arg The argument object to put as ancestor
+     * @instance
+     * @public
+     * @author Gerkin
+     */
+    setArguments (arg){
+        if(!(arg instanceof Arguments))
+            throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+        this.arguments.ancestor = arg;
+        return this;
+    }
+}
+
+module.exports = CommandAction;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-actions_cp.html">actions/cp</a></li><li><a href="module-actions_exec.html">actions/exec</a></li><li><a href="module-actions_files-version.html">actions/files-version</a></li><li><a href="module-actions_git.html">actions/git</a></li><li><a href="module-actions_less-compile.html">actions/less-compile</a></li><li><a href="module-actions_minify.html">actions/minify</a></li><li><a href="module-actions_svn.html">actions/svn</a></li><li><a href="module-actions_version-history.html">actions/version-history</a></li><li><a href="module-actions_wordpress-upgrade.html">actions/wordpress-upgrade</a></li><li><a href="module-deployer.html">deployer</a></li></ul><h3>Classes</h3><ul><li><a href="ActionGroup.html">ActionGroup</a></li><li><a href="Arguments.html">Arguments</a></li><li><a href="Breadcrumb.html">Breadcrumb</a></li><li><a href="Command.html">Command</a></li><li><a href="CommandAction.html">CommandAction</a></li><li><a href="ComputedArgument.html">ComputedArgument</a></li><li><a href="Listener.html">Listener</a></li><li><a href="ListenerAction.html">ListenerAction</a></li></ul><h3>Global</h3><ul><li><a href="global.html#deployer">deployer</a></li><li><a href="global.html#getFilesRec">getFilesRec</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue May 17 2016 18:02:33 GMT-1000 (TAHT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
