@@ -135,10 +135,11 @@ class CommandActionCommand extends Action{
      * @public
      * @author Gerkin
      */
-    setArguments (arg){
+    setArguments (arg){/*
         if(!(arg instanceof Arguments))
             throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
-        this.arguments.ancestor = arg;
+        this.arguments.ancestor = arg;*/
+		console.log(arg);
         return this;
     }
 }

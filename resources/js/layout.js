@@ -1,3 +1,14 @@
+/**
+ * @file General layout handler
+ *
+ * @author Gerkin
+ * @copyright 2016 GerkinDevelopment
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html GPLv2
+ * @package deployer.js
+ *
+ * @version 0.4.0
+ */
+
 $(document).ready(function () {
 	var AFFIX_TOP_LIMIT;
 	$(window).resize(function(){

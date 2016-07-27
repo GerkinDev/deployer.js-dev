@@ -269,12 +269,12 @@
         },
         "checksums": {
             "./deployer.js": {
-                "sha1": "937be022feb3919b83b2f45c8454e3c5a7cccbd7",
-                "md5": "0a89cf3caf74c00b1604764d69338f91"
+                "sha1": "7680d7cb3243ac3b6725a08a4c9a3cc5f28fafca",
+                "md5": "0a892e28e6306ffcd17d02ed6d0477af"
             },
             "./utils.js": {
-                "sha1": "434ecbc0e36c515f96a955e748ac653e186f34a6",
-                "md5": "e6612fbe54d39707c7de61c2f7d74964"
+                "sha1": "1d03f76c284cbb917f469f3c019260c55a96b1e5",
+                "md5": "2eb7632948672421b8a7602727d80d3f"
             },
             "./actions/cp.js": {
                 "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
@@ -293,20 +293,20 @@
                 "md5": "9b2182f4e2b1c359b54d7f7ef48ff246"
             },
             "./actions/ithoughts-index-doc.js": {
-                "sha1": "9092db23df67398c84c54350d930db39082c6ad1",
-                "md5": "c7b56186910d99cd8429e57a1353da16"
+                "sha1": "19bd3a9c0add02280a894e95dcc72e85e28bfe2e",
+                "md5": "5b14463625c1968ad9d990f1edc155d0"
             },
             "./actions/jsdoc.js": {
-                "sha1": "b4a8a9afa8f8c4b8c5a82920a26206a3a5ba21a1",
-                "md5": "1fb47d2fb3442bd239f8014232741401"
+                "sha1": "44d327c5cb572eef6b87a05b19266e6472f2ea0d",
+                "md5": "c90b8da7fb4b29fa17134c198209e111"
             },
             "./actions/less-compile.js": {
-                "sha1": "25d4583f4a6e2c53f39edadb95c0200583273746",
-                "md5": "5438b219fde72fef542eab7692376885"
+                "sha1": "3c54477b9d15a8a7219f77895fd7bb31f74cafbe",
+                "md5": "baebe4a704e23edf9f5204b1f36b4ee3"
             },
             "./actions/minify.js": {
-                "sha1": "e5a49bbf35db565668a5c421b7ba7e4c704d248c",
-                "md5": "508fbb1196f2328d6f3bf8d82f41c8ea"
+                "sha1": "c032cf1f0f987ffae50d3847d3120292dfdc02e2",
+                "md5": "97f55af8f1476ef6c192876ade1f1b0d"
             },
             "./actions/phpdoc.js": {
                 "sha1": "052bfdafff2f62c214472213a01a51aa6d55c2b2",
@@ -317,8 +317,8 @@
                 "md5": "aa7bda30cba3d38f0fce925636827d6c"
             },
             "./actions/version-history.js": {
-                "sha1": "aa2222afeaa7394467e61b4960ad5b33720b1d5c",
-                "md5": "006a6cd31cbfd00fb1d524daebf2ea70"
+                "md5": "25ae3c3d1beba223e012d03a5de666e4",
+                "sha1": "016fa8254375c772cc2d03d6db59228396066707"
             },
             "./actions/wordpress-upgrade.js": {
                 "sha1": "13c021a02f5365c10321fb238b17a0e1b20bc91d",
@@ -329,32 +329,40 @@
                 "md5": "85062b44551c31fcf2c745320b82a4e5"
             },
             "./objects/actiongroup.js": {
-                "sha1": "3f5bf41a36be5720d4f0544e3b7b3bb77acc5866",
-                "md5": "05417c6fd3b1863d50334c8937c5a4e6"
+                "sha1": "5a92b410583f2d81f65d567b988e712a4eee48f4",
+                "md5": "337696d584abce1407d42823c9148cfd"
             },
             "./objects/arguments.js": {
-                "md5": "e24112bf68a7799d3dd2f2b28b17e3b1",
-                "sha1": "519336f3567d139e6135cc7fda015f2ed4b58a7d"
+                "sha1": "8ecd5b1e3360145834154c458a4282b55133c376",
+                "md5": "9a5d340ced496eac941ecbf1eba7f641"
             },
             "./objects/breadcrumb.js": {
                 "sha1": "3cf69f5c9ced4a9c39023bf71cd865977bb76ced",
                 "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
             },
             "./objects/command.js": {
-                "sha1": "1f0c6553c1e0a5e2da29ab48fa5292f723aa6296",
-                "md5": "a58e9ae374d0772578953d825fef51f4"
+                "sha1": "7ddc0f797897e258599fa3d384d3d9abba53f39f",
+                "md5": "4d2f8b4356d28a41916b9203d42f4320"
             },
             "./objects/commandaction.js": {
-                "sha1": "8c399460278d4b16878f8d6d6cf376a9fb329480",
-                "md5": "90766f5918990f03b6fb4f0c22534fe9"
+                "sha1": "a63fa55335e6eba56679552b3569be03bfb2498b",
+                "md5": "f7e26d6b7e4436c684c673ad88c2413c"
+            },
+            "./objects/commandactioncommand.js": {
+                "sha1": "0c1fa1d5c0a68907d80de164fa6d965a629d2bf0",
+                "md5": "2f290695b800ab6272319266eb6ccece"
             },
             "./objects/listener.js": {
-                "sha1": "d345347dbfa960a6c2179398ce48c95165bb108c",
-                "md5": "e14c61d1f9b9965da00a0ffb3170227d"
+                "md5": "bb1af33c27a4ab3999605b3ead0b9db8",
+                "sha1": "9abdad1eaaf332d5c3bb7a65c26386494d2952f9"
             },
             "./objects/listeneraction.js": {
-                "sha1": "17ddd66f76f4d9226d5858a933cdbd2ff99a4854",
-                "md5": "f434102427ebdcd85fec4b6c3dac3f19"
+                "sha1": "3acbb01e331de682c9d84cc1a7ad4d73f4f585c2",
+                "md5": "357773abd57815ccc88199d8ac4854f5"
+            },
+            "./resources/js/layout.js": {
+                "sha1": "573bda4c1ae8a10bee8c15488d99c277ba1b5e14",
+                "md5": "a3f1f7cdd259b7e4068ec86a6f6d6b89"
             }
         }
     },
