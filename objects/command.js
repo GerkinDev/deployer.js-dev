@@ -25,7 +25,7 @@ const Listener = require("./listener.js");
  */
 class Command{
     constructor ({ awake, command_group,args,actionGroup, eventListeners}){
-        if(is_na(arguments[0]))
+        if(isNA(arguments[0]))
             throw new Error("Can't create Command with null or undefined config.");
 
         var _type,
@@ -85,9 +85,9 @@ class Command{
             }
         });
 
-        if(awake === true && (command_group === false || is_na(command_group))){
+        if(awake === true && (command_group === false || isNA(command_group))){
             this.type = "PERMANENT"
-        } else if((awake === false || is_na(awake)) && command_group === true){
+        } else if((awake === false || isNA(awake)) && command_group === true){
             this.type = "MOMENTARY"
         } else {
             throw new Error("Could not resolve Command type: listener or command_group");
@@ -97,6 +97,7 @@ class Command{
             _commandArgs = new Arguments(args);
             //console.log(commandArgs);
         }
+		
         if(this.type === Command.Type.MOMENTARY){
             try{
                 this.actionGroup = new ActionGroup(actionGroup);
@@ -125,6 +126,7 @@ class Command{
      * @author Gerkin
      */
     setArgumentsGlobal (args){
+		console.log(args);
         this.commandArgs.ancestor = new Arguments(args);
         return this;
     };
@@ -132,11 +134,14 @@ class Command{
      * Execute the command: process arguments then triggers {@link Command.actionGroup}
      * @author Gerkin
      * @param {Function} next Function to execute once finished
+     * @param {Object} [ancestorCommand] Describe the ancestor command: ie if this command is called from inside another
+     * @param {Breadcrumb} ancestorCommand.breadcrumb Breadcrumb of parent
+     * @param {Object} ancestorCommand.args Arguments that parent set to this command
      */
-    execute (next){
+    execute (next, ancestorCommand){
         var breadcrumb = new Breadcrumb();
-        this.commandArgs.brewArguments((args)=>{
-            this.actionGroup.setArguments(this.commandArgs).execute(breadcrumb, next);
+        this.commandArgs.brewArguments((brewedArguments)=>{
+            this.actionGroup.setArguments(brewedArguments).execute(breadcrumb, next);
         });
     };
     

@@ -19,23 +19,23 @@
  * @param {Arguments} [sourceObj] Other {@link Arguments} instance to set as {@link Arguments.ancestor}
  */
 function Arguments(config, sourceObj){
-    /**
+	/**
      * @member {object} arguments
      * @memberof Arguments
      * @public
      * @instance
      */
-    this.arguments = Arguments.parseRec(config,this);
-    /**
+	this.arguments = Arguments.parseRec(config,this);
+	/**
      * @member {Arguments} ancestor
      * @memberof Arguments
      * @public
      * @instance
      */
-    if(typeof sourceObj != "undefined")
-        this.ancestor = sourceObj;
-    else
-        this.ancestor = null;
+	if(typeof sourceObj != "undefined")
+		this.ancestor = sourceObj;
+	else
+		this.ancestor = null;
 }
 
 /**
@@ -49,27 +49,29 @@ function Arguments(config, sourceObj){
  * @author Gerkin
  */
 Arguments._brewArguments = function(obj, callback){
-    async.forEachOfSeries(obj, (value, key, next)=>{
-        console.log(value, key);
-        if(value.constructor.name === "ComputedArgument"){
-            return value.brew((val)=>{
-                if(typeof val == "undefined" || val === null)
-                    return next();
-                obj[key] = this.replacePlaceHolder(val);
-                next()
-            });
-        } else if(value.constructor.name === "Object"){
-            return Arguments._brewArguments.call(this, value, next);
-        } else if(value.constructor.name === "String"){
-            obj[key] = this.replacePlaceHolder(value);
-            next();
-        } else {
-            deployer.log.warn(`Can't find type of ${value}: ${ typeof value}, ${ value.constructor.name}` );
-            next();
-        }
-    }, function(){
-        callback();
-    });
+	async.forEachOfSeries(obj, (value, key, next)=>{
+		if(value.constructor.name === "ComputedArgument"){
+			value.preBrew(()=>{
+				return value.brew((val)=>{
+					if(typeof val == "undefined" || val === null)
+						return next();
+					obj[key] = this.replacePlaceHolder(val);
+					this.arguments[key] = obj[key];
+					next();
+				});
+			});
+		} else if(value.constructor.name === "Object"){
+			return Arguments._brewArguments.call(this, value, next);
+		} else if(value.constructor.name === "String"){
+			obj[key] = this.replacePlaceHolder(value);
+			next();
+		} else {
+			deployer.log.warn(`Can't find type of ${value}: ${ typeof value}, ${ value.constructor.name}` );
+			next();
+		}
+	}, function(){
+		callback();
+	});
 }
 /**
  * @function parseRec
@@ -82,24 +84,24 @@ Arguments._brewArguments = function(obj, callback){
  * @author Gerkin
  */
 Arguments.parseRec = function(args,parent){
-    var newObj = {};
-    for(var key in args){
-        var arg = args[key];
-        if(typeof arg == "undefined" && arg == null){
-            continue;
-        } else {
-            if(arg.constructor.name == "Object"){
-                if(arg.hasOwnProperty("_type")){ // If computed
-                    newObj[key] = new ComputedArgument(arg, key, parent);
-                } else { // Must be a nested var
-                    newObj[key] = Arguments.parseRec(arg,parent);
-                }
-            } else {
-                newObj[key] = arg;
-            }
-        }
-    }
-    return newObj;
+	var newObj = {};
+	for(var key in args){
+		var arg = args[key];
+		if(typeof arg == "undefined" && arg == null){
+			continue;
+		} else {
+			if(arg.constructor.name == "Object"){
+				if(arg.hasOwnProperty("_type")){ // If computed
+					newObj[key] = new ComputedArgument(arg, key, parent);
+				} else { // Must be a nested var
+					newObj[key] = Arguments.parseRec(arg,parent);
+				}
+			} else {
+				newObj[key] = arg;
+			}
+		}
+	}
+	return newObj;
 }
 /**
  * @method brewArguments
@@ -112,11 +114,65 @@ Arguments.parseRec = function(args,parent){
  * @author Gerkin
  */
 Arguments.prototype.brewArguments = function(callback){
-    Arguments._brewArguments.call(this, this.arguments, ()=>{
-        if(this.ancestor)
-            this.arguments = merge.recursive(this.arguments, this.ancestor.arguments);
-        return callback(this.arguments)
-    });
+	var newArg = this.clone();
+	Arguments._brewArguments.call(newArg, newArg.arguments, ()=>{
+		if(newArg.ancestor)
+			newArg.arguments = merge.recursive(newArg.arguments, this.ancestor.arguments);
+		return callback(newArg)
+	});
+}
+
+Arguments.prototype.clone = function(){
+	var newArgument = new Arguments({}, this.ancestor);
+	newArgument.arguments = Arguments.deepClone(this.arguments, newArgument);
+	return newArgument;
+}
+Arguments.deepClone = function(obj, newParent){
+	var newT,
+		i;
+	if(!isNA(obj)){
+		switch(obj.constructor){
+			case Object:{
+				newT = {};
+				for(var i in obj){
+					if(obj.hasOwnProperty(i)){
+						newT[i] = Arguments.deepClone(obj[i],newParent);
+					}
+				}
+				return newT;
+			}break;
+
+			case Array:{
+				newT = [];
+				for(var i in obj){
+					if(obj.hasOwnProperty(i)){
+						newT[i] = Arguments.deepClone(obj[i],newParent);
+					}
+				}
+				return newT;
+			}break;
+
+			case Function:{
+			}break;
+
+			case ComputedArgument:{
+				let newObj = obj.clone();
+				newObj.parent = newParent;
+				return newObj;
+			}break;
+
+			case Arguments:{
+				let newObj = obj.clone();
+				newObj.ancestor = newParent;
+			}break;
+
+			default:{
+				return obj;
+			}
+		}
+	} else {
+		return obj;
+	}
 }
 /**
  * @method prepareActionArgs
@@ -129,17 +185,17 @@ Arguments.prototype.brewArguments = function(callback){
  * @author Gerkin
  */
 Arguments.prototype.prepareActionArgs = function(actionVars){
-    Object.keys(actionVars).map((key,index)=>{
-        let val = actionVars[key];
-        if(typeof val == "object"){
-            actionVars[key] = this.prepareActionArgs(val);
-        } else if(typeof val == "string"){
-            actionVars[key] = this.replacePlaceHolder(val);
-        } else {
-            actionVars[key] = val;
-        }
-    });
-    return actionVars;
+	Object.keys(actionVars).map((key,index)=>{
+		let val = actionVars[key];
+		if(typeof val == "object"){
+			actionVars[key] = this.prepareActionArgs(val);
+		} else if(typeof val == "string"){
+			actionVars[key] = this.replacePlaceHolder(val);
+		} else {
+			actionVars[key] = val;
+		}
+	});
+	return actionVars;
 }
 /**
  * @method replacePlaceHolder
@@ -153,28 +209,28 @@ Arguments.prototype.prepareActionArgs = function(actionVars){
  * @author Gerkin
  */
 Arguments.prototype.replacePlaceHolder = function(string){
-    return string.replace(/\$\{\s*([\w\.]+)\s*\}/g, (matched, identifier)=>{
-        let identifiers = identifier.split(".");
-        let value = this.arguments;
-        let valueAncestor = this.ancestor.arguments || "";
-        for(let i = 0, j = identifiers.length; i < j; i++){
-            // Search in both ancestor & current obj
-            if(typeof value == "object"){
-                value = value[identifiers[i]];
-            } else {
-                value = "";
-            }
-            if(typeof valueAncestor == "object"){
-                valueAncestor = valueAncestor[identifiers[i]];
-            } else {
-                valueAncestor = "";
-            }
-            if(value == "" && valueAncestor == ""){
-                break;
-            }
-        }
-        return value || valueAncestor || "";
-    });
+	return string.replace(/\$\{\s*([\w\.]+)\s*\}/g, (matched, identifier)=>{
+		let identifiers = identifier.split(".");
+		let value = this.arguments;
+		let valueAncestor = this.ancestor.arguments || "";
+		for(let i = 0, j = identifiers.length; i < j; i++){
+			// Search in both ancestor & current obj
+			if(typeof value == "object"){
+				value = value[identifiers[i]];
+			} else {
+				value = "";
+			}
+			if(typeof valueAncestor == "object"){
+				valueAncestor = valueAncestor[identifiers[i]];
+			} else {
+				valueAncestor = "";
+			}
+			if(value == "" && valueAncestor == ""){
+				break;
+			}
+		}
+		return value || valueAncestor || "";
+	});
 }
 
 
@@ -189,11 +245,11 @@ Arguments.prototype.replacePlaceHolder = function(string){
  * @author Gerkin
  */
 function ComputedArgument(config, argName, parent){
-    this.type = config._type;
-    this.argName = argName;
-    delete config["_type"];
-    this.data = config;
-    this.parent = parent;
+	this.type = config._type;
+	this.argName = argName;
+	delete config["_type"];
+	this.data = config;
+	this.parent = parent;
 }
 /**
  * @method brew
@@ -206,16 +262,37 @@ function ComputedArgument(config, argName, parent){
  * @author Gerkin
  */
 ComputedArgument.prototype.brew = function(callback){
-    switch(this.type){
-        case "prompt":{
-            return requestPrompt(is_na(this.data.question) ? `Please provide a value for argument "${ this.argName }": ` : this.data.question, callback);
-        } break;
+	switch(this.type){
+		case "prompt":{
+			return requestPrompt(isNA(this.data.question) ? `Please provide a value for argument "${ this.argName }": ` : this.data.question, callback);
+		} break;
 
-        case "regex_replace": {
-            return callback(this.parent.replacePlaceHolder(this.data.value).replace(new RegExp(this.data.search), this.data.replacement));
-        } break;
-    }
-    return callback(null);
+		case "regex_replace": {
+			return callback(this.parent.replacePlaceHolder(this.data.value).replace(new RegExp(this.data.search), this.data.replacement));
+		} break;
+	}
+	return callback(null);
+}
+/**
+ * @method preBrew
+ * @memberof ComputedArgument
+ * @description Prepare special handling.
+ * @param   {Function} callback Function to call afterwards.
+ * @returns {undefined} Async
+ * @instance
+ * @public
+ * @author Gerkin
+ */
+ComputedArgument.prototype.preBrew = function(callback){
+	return callback();
+}
+ComputedArgument.prototype.clone = function(){
+	var clonedConfig = (()=>{
+		let data = merge.recursive(true,this.data);
+		data["_type"] = this.type;
+		return data
+	})();
+	return new ComputedArgument(clonedConfig, this.argName, this.parent);
 }
 
 module.exports = Arguments;

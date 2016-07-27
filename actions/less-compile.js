@@ -42,9 +42,14 @@ module.exports = {
                     deployer.log.verbose("Regexes used:", new RegExp(config.from), config.to);
                     return cb(config,file,endcb);
                 } else {
-                    fs.writeFile(outputName, output.css, function(){
+                    if(e){
+                        deployer.log.error(e);
                         return cb(config, file, endcb);
-                    });
+                    } else {
+                        fs.writeFile(outputName, output.css, function(){
+                            return cb(config, file, endcb);
+                        });
+                    }
                 }
             });
         });

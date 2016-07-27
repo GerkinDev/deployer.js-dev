@@ -23,10 +23,9 @@ const chokidar = require('chokidar');
  */
 class Listener{
     constructor({action, data = {}, args = {}, next = null, events = null}){
-        if(is_na(arguments[0]))
+        if(isNA(arguments[0]))
             throw new Error("Can't create Listener with null or undefined config.");
 
-        console.log("Creating listener:", arguments, action, data, args, next,events);
         this.actionHandler = new ListenerAction({action,data,next});
 
         this.linkingTable = {};
@@ -45,7 +44,7 @@ class Listener{
                     watcher.on("change", path => {
                         console.log(`${ path } has changed on ${ new Date().toString() }`);
                         this.actionHandler.trigger(new Breadcrumb().push(event), path, function(){
-                            console.log("Ended")
+                            console.log("Ended", next);
                         });
                     });
                 } break;
@@ -54,11 +53,11 @@ class Listener{
     }
     warmup(next){
         async.forEachOfSeries(this.events, (event, key, cb) => {
-            if(!is_na(event.warmup) && event.warmup === true){
+            if(!isNA(event.warmup) && event.warmup === true){
                 let table = this.linkingTable[key];
                 console.log(table);
                 async.each(table, (file,partialCb) => {
-                    console.log("Go file", file);
+                    deployer.log.verbose("Warming up file \"${ file }\"");
                     this.actionHandler.trigger(new Breadcrumb().push(key ), file, partialCb);
                 },cb);
             } else {

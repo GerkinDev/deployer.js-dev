@@ -27,9 +27,7 @@ module.exports = {
      * @returns {undefined}
      */
 	process: function(config, cb){
-		console.log("In JSDoc",config);
 		var filesArray = filesFromSelectors(config.selection);
-		console.log(filesArray);
 		var l = filesArray.length;
 		if(l == 0){
 			deployer.log.info("JSDOC => No files to document with jsdoc");

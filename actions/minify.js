@@ -33,7 +33,7 @@ module.exports = {
         var nameReplacement = new RegExp(config.output.from);
         filesArray.forEach(function(file){
             var outputName = file.replace(nameReplacement, config.output.to);
-            if(file === outputName && (is_na(config.safe) || config.safe !== false)){
+            if(file === outputName && (isNA(config.safe) || config.safe !== false)){
                 deployer.log.warn('Minify output file is the same as input. Original will be irremediably changed. Please set data.safe to false to accept it');
             } else {
                 deployer.log.silly("MINIFY => Minifying " + colour.italic(file) + " to " + colour.italic(outputName));
@@ -54,7 +54,7 @@ module.exports = {
     processSingle: function(config, file,cb, endcb){
         outputName = file.replace(new RegExp(config.from), config.to);
         console.log(config,new RegExp(config.from), file.match(new RegExp(config.from)));
-        if(file === outputName && (is_na(config.safe) || config.safe !== false)){
+        if(file === outputName && (isNA(config.safe) || config.safe !== false)){
             deployer.log.warn('Minify output file is the same as input. Original will be irremediably changed. Please set data.safe to false to accept it');
             deployer.log.verbose(`From "${ file }" to "${ outputName }".`)
         } else {
@@ -64,7 +64,7 @@ module.exports = {
         cb(config, file, endcb);
     },
     minify: function(input, output, uglify){
-        if(is_na(uglify) || uglify === true){
+        if(isNA(uglify) || uglify === true){
             try{
                 try{
                     minifier.minify(input, {

@@ -245,13 +245,14 @@ getModuleVersion = function(moduleName, callback){
 }
 
 var enqueuedPrompts = [];
-var runningPromp = null;
+var runningPrompt = null;
 requestPrompt = function(question, callback){
-    if(runningPromp == null){
-        runningPromp = {question: question, cb: callback};
+    if(runningPrompt === null){
+        runningPrompt = {question: question, cb: callback};
+        deployer.log.verbose("RunningPrompt:", runningPrompt);
         return rl.question(question, function(value){
-            runningPromp.cb(value); // Call this prompt request callback
-            runningPromp = null;
+            runningPrompt.cb(value); // Call this prompt request callback
+            runningPrompt = null;
             if(enqueuedPrompts.length > 0){ // If other prompts were enqueued
                 var newPrompt = enqueuedPrompts[0];
                 enqueuedPrompts = enqueuedPrompts.slice(1);
@@ -263,33 +264,6 @@ requestPrompt = function(question, callback){
     }
 }
 
-transformArguments = function(parent, newArgs, callback){
-    newArgs = replacePlaceHolders(newArgs,parent);
-    var args = merge(parent, true);
-    return async.forEachOf(newArgs, function(newArg, key, cb){
-        if(newArg && newArg.constructor && newArg.constructor.name === "Object"){ // If this is an object, it must be a special function
-            switch(newArg.type){
-                case "regex_replace":{
-                    args[key] = newArg.value.replace(new RegExp(newArg.search), newArg.replacement);
-                    return cb();
-                } break;
-
-                case "prompt":{
-                    return requestPrompt("Please provide a value for argument \"" + key + "\": ", function(val){
-                        args[key] = val;
-                        return cb();
-                    });
-                } break;
-            }
-        } else {
-            args[key] = newArg;
-            return cb();
-        }
-    }, function(err){
-        return callback(err,args);
-    });
-}
-
-is_na = function(val){
+isNA = function(val){
     return (val === null) || (typeof val === "undefined");
 }

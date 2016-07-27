@@ -24,7 +24,7 @@ const ActionError = require('./action.js').ActionError;
  */
 class ListenerAction extends Action{
     constructor ({action, actionName, data, args}){
-        if(is_na(arguments[0]))
+        if(isNA(arguments[0]))
             throw new Error("Can't create ListenerAction with null or undefined config.");
         super();
 
@@ -52,7 +52,7 @@ class ListenerAction extends Action{
                     if(handler != null && handler.processSingle && typeof handler.processSingle == "function"){
                         _actionName = val;
                         _processFunction = handler.processSingle;
-                        if(is_na(_processFunction)){
+                        if(isNA(_processFunction)){
                             throw new ActionError(`Could not find "${ this.eventListener ? "processSingle" : "process" } for action "${ _actionName }". This action will do nothing`);
                         }
                         return _actionName;
@@ -102,7 +102,7 @@ class ListenerAction extends Action{
             }
         });
 
-        if(is_na(action) && is_na(actionName)){
+        if(isNA(action) && isNA(actionName)){
             throw new Error(`Could not find action for config: ${ JSON.stringify(arguments[0]) }`);
         }
         this.actionName = action || actionName;
@@ -139,13 +139,10 @@ class ListenerAction extends Action{
      */
     trigger (breadcrumb, filepath, callback){
         breadcrumb.startTimer();
-        if(this.eventListener === false){
-            throw new ActionError(`Calling "trigger" on "Action" should be done only if mode eventListener is enabled.`);
-        }
 
         deployer.log.info(`Starting EventHandler "${ breadcrumb.toString() }" with handler "${ this.actionName }"`);
-        return this.arguments.brewArguments((values)=>{
-            var compiledArgs = this.arguments.prepareActionArgs(this.config);
+        return this.arguments.brewArguments((brewedArguments)=>{
+            var compiledArgs = brewedArguments.prepareActionArgs(this.config);
             console.log(JSON.stringify(compiledArgs, null, 4)); 
             return this.processFunction(compiledArgs,filepath, ()=>{
                 deployer.log.info(`Ended EventHandler "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
