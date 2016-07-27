@@ -296,13 +296,13 @@
                 "sha1": "19bd3a9c0add02280a894e95dcc72e85e28bfe2e",
                 "md5": "5b14463625c1968ad9d990f1edc155d0"
             },
-            "./actions/less-compile.js": {
-                "sha1": "3c54477b9d15a8a7219f77895fd7bb31f74cafbe",
-                "md5": "baebe4a704e23edf9f5204b1f36b4ee3"
-            },
             "./actions/jsdoc.js": {
                 "sha1": "44d327c5cb572eef6b87a05b19266e6472f2ea0d",
                 "md5": "c90b8da7fb4b29fa17134c198209e111"
+            },
+            "./actions/less-compile.js": {
+                "sha1": "3c54477b9d15a8a7219f77895fd7bb31f74cafbe",
+                "md5": "baebe4a704e23edf9f5204b1f36b4ee3"
             },
             "./actions/minify.js": {
                 "sha1": "c032cf1f0f987ffae50d3847d3120292dfdc02e2",
@@ -349,8 +349,8 @@
                 "md5": "f7e26d6b7e4436c684c673ad88c2413c"
             },
             "./objects/commandactioncommand.js": {
-                "sha1": "1fa25b57ad756abef013ad1c66c4f1a1520d26ac",
-                "md5": "360965b7c6bd13d2b30c643d8ab539f0"
+                "sha1": "3b7157206ff034deb3f45b274c365ca2fff353cc",
+                "md5": "4e4caab412a370f29db648c2caef3fb0"
             },
             "./objects/listener.js": {
                 "md5": "bb1af33c27a4ab3999605b3ead0b9db8",

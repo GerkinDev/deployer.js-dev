@@ -122,6 +122,15 @@ Arguments.prototype.brewArguments = function(callback){
 	});
 }
 
+/**
+ * @method clone
+ * @memberof Arguments
+ * @description Clones the current argument to return an exact copy of it, to use without modifying the original
+ * @returns {Arguments} Clone
+ * @instance
+ * @public
+ * @author Gerkin
+ */
 Arguments.prototype.clone = function(){
 	var newArgument = new Arguments({}, this.ancestor);
 	newArgument.arguments = Arguments.deepClone(this.arguments, newArgument);
