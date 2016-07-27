@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @package deployer.js
  *
- * @version 0.4.0
+ * @version 0.
  */
 
 'use strict';
@@ -119,6 +119,7 @@ class CommandActionCommand extends Action{
 		}
 
 		breadcrumb.startTimer();
+		deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 
 		var targetedCommand = deployer.config.actionObjects[this.commandName];
 		if(isNA(targetedCommand)){
@@ -127,11 +128,6 @@ class CommandActionCommand extends Action{
 		}
 
 		var commandClone = targetedCommand.clone();
-		console.log({
-			clone:commandClone,
-			args:commandClone.commandArgs.arguments,
-			thisArgs:this.arguments
-		});
 		return this.arguments.brewArguments((brewedArguments)=>{
 			function mergeNoArg(original, newData){
 				function _mergeNoArg(orig, newDat){
@@ -156,16 +152,13 @@ class CommandActionCommand extends Action{
 				_mergeNoArg(original, newData);
 				return original;
 			}
-			
+
 			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
 			commandClone.commandArgs.arguments = mergeNoArg(commandClone.commandArgs.arguments, compiledArgs);
-			console.log({
-				compiled:compiledArgs,
-				merged: commandClone.commandArgs.arguments
-			});
 			process.exit();
-			deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
-			return this.processFunction(compiledArgs, endExecute);
+			return commandClone.setArgumentsGlobal(merge(true, deployer.config.project.args)).execute(function(){
+				endExecute()
+			});
 		});
 	}
 
