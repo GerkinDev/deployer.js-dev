@@ -81,7 +81,7 @@ class CommandActionCommand extends Action{
 
 		this.commandName = command;
 		this.config = data;
-		//this.arguments = new Arguments(args);
+		this.arguments = new Arguments(data);
 	}
 
 	/**

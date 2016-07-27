@@ -280,13 +280,13 @@
                 "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
                 "md5": "5b4c213f092065c81cdcfdb1c384c6fc"
             },
-            "./actions/exec.js": {
-                "sha1": "a92d569592c3c1387560cb01f584ef16cb3fa411",
-                "md5": "759a9a514f44abb36cacda33af49a85d"
-            },
             "./actions/files-version.js": {
                 "sha1": "60a16cbbefc42a02d01d012d8889b688dbe39b41",
                 "md5": "1deb1eed73b133d16c79f4e1f265285b"
+            },
+            "./actions/exec.js": {
+                "sha1": "a92d569592c3c1387560cb01f584ef16cb3fa411",
+                "md5": "759a9a514f44abb36cacda33af49a85d"
             },
             "./actions/git.js": {
                 "sha1": "5314aa8afea9d31669b9086f83e2cd3172cf0eed",
@@ -349,8 +349,8 @@
                 "md5": "f7e26d6b7e4436c684c673ad88c2413c"
             },
             "./objects/commandactioncommand.js": {
-                "sha1": "b43676e55bc458516f85421a7b753f64d3fca656",
-                "md5": "d178a918e25b7cb357cf743272b96d71"
+                "sha1": "661514ac68bd6c574338ea2a5418301989debda3",
+                "md5": "ecab0da2dd2e9fb0a1ec2d1c1ec01c8a"
             },
             "./objects/listener.js": {
                 "md5": "bb1af33c27a4ab3999605b3ead0b9db8",
