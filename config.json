@@ -308,13 +308,13 @@
                 "sha1": "c032cf1f0f987ffae50d3847d3120292dfdc02e2",
                 "md5": "97f55af8f1476ef6c192876ade1f1b0d"
             },
-            "./actions/phpdoc.js": {
-                "sha1": "052bfdafff2f62c214472213a01a51aa6d55c2b2",
-                "md5": "a1808d7987f5198102e1aba2c1366971"
-            },
             "./actions/svn.js": {
                 "sha1": "36b5741341e4eb96ba93523ade81389b4239d5c1",
                 "md5": "aa7bda30cba3d38f0fce925636827d6c"
+            },
+            "./actions/phpdoc.js": {
+                "sha1": "052bfdafff2f62c214472213a01a51aa6d55c2b2",
+                "md5": "a1808d7987f5198102e1aba2c1366971"
             },
             "./actions/version-history.js": {
                 "md5": "25ae3c3d1beba223e012d03a5de666e4",
@@ -341,8 +341,8 @@
                 "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
             },
             "./objects/command.js": {
-                "md5": "453859cf34e67b702dd163112caa5b28",
-                "sha1": "42ad8f19c5d76670a6fa2c34c7983751c337352b"
+                "sha1": "86268730aeaf8f577df9a8d805f48cd04170cc06",
+                "md5": "5c71c22ecf99b87ff1ad25a41c004918"
             },
             "./objects/commandaction.js": {
                 "sha1": "a63fa55335e6eba56679552b3569be03bfb2498b",
