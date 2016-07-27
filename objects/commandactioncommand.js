@@ -124,9 +124,14 @@ class CommandActionCommand extends Action{
 			deployer.log.error(`Trying to execute an inexistant command ${ this.commandName }`);
 			return endExecute();
 		}
-		
+
 		var commandClone = targetedCommand.clone();
-		console.log(commandClone.json, commandClone, commandClone.commandArgs.arguments, commandClone.commandArgs.arguments.version);
+		console.log({
+			json:commandClone.json,
+			clone:commandClone,
+			args:commandClone.commandArgs.arguments,
+			version:commandClone.commandArgs.arguments.version
+		});
 		process.exit();
 		deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 		return this.arguments.brewArguments((brewedArguments)=>{
