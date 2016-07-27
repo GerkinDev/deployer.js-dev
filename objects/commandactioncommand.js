@@ -23,7 +23,7 @@ const Action = require('./action.js').Action;
  * @param   {object} config.data Object to pass to the called action after being replaced using {@link Arguments.prepareActionArgs}
  */
 class CommandActionCommand extends Action{
-	constructor ({command, data}){
+	constructor ({command, data = {}}){
 		if(isNA(arguments[0]))
 			throw new Error("Can't create CommandActionCommand with null or undefined config.");
 		super();
@@ -133,8 +133,32 @@ class CommandActionCommand extends Action{
 			thisArgs:this.arguments
 		});
 		return this.arguments.brewArguments((brewedArguments)=>{
+			function mergeNoArg(original, newData){
+				function _mergeNoArg(orig, newDat){
+					for(var i in newData){
+						if(isNA(orig[i])){
+							orig[i] = newDat[i];
+						} else {
+							if(["Arguments", "ComputedArgument"].indexOf(orig[i].constructor.name) === -1){
+								if(newDat[i].constructor.name == "Object"){
+									orig[i] = {};
+									_mergeNoArg(orig[i], newDat[i]);
+								} else {
+									orig[i] = newDat[i];
+								}
+							} else {
+								orig[i] = newDat[i];
+							}
+						}
+					}
+				}
+
+				_mergeNoArg(original, newData);
+				return original;
+			}
+			
 			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
-			commandClone.commandArgs.arguments = merge.recursive(commandClone.commandArgs.arguments, compiledArgs);
+			commandClone.commandArgs.arguments = mergeNoArg(commandClone.commandArgs.arguments, compiledArgs);
 			console.log({
 				compiled:compiledArgs,
 				merged: commandClone.commandArgs.arguments
