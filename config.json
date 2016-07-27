@@ -276,13 +276,13 @@
                 "sha1": "1d03f76c284cbb917f469f3c019260c55a96b1e5",
                 "md5": "2eb7632948672421b8a7602727d80d3f"
             },
-            "./actions/cp.js": {
-                "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
-                "md5": "5b4c213f092065c81cdcfdb1c384c6fc"
-            },
             "./actions/exec.js": {
                 "sha1": "a92d569592c3c1387560cb01f584ef16cb3fa411",
                 "md5": "759a9a514f44abb36cacda33af49a85d"
+            },
+            "./actions/cp.js": {
+                "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
+                "md5": "5b4c213f092065c81cdcfdb1c384c6fc"
             },
             "./actions/files-version.js": {
                 "sha1": "60a16cbbefc42a02d01d012d8889b688dbe39b41",
@@ -333,16 +333,16 @@
                 "md5": "337696d584abce1407d42823c9148cfd"
             },
             "./objects/arguments.js": {
-                "sha1": "8ecd5b1e3360145834154c458a4282b55133c376",
-                "md5": "9a5d340ced496eac941ecbf1eba7f641"
+                "sha1": "50715a5d72487716cda8210e881da39b44b164b7",
+                "md5": "0fbac240cb7b1870401415b3a653a642"
             },
             "./objects/breadcrumb.js": {
                 "sha1": "3cf69f5c9ced4a9c39023bf71cd865977bb76ced",
                 "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
             },
             "./objects/command.js": {
-                "sha1": "7ddc0f797897e258599fa3d384d3d9abba53f39f",
-                "md5": "4d2f8b4356d28a41916b9203d42f4320"
+                "md5": "453859cf34e67b702dd163112caa5b28",
+                "sha1": "42ad8f19c5d76670a6fa2c34c7983751c337352b"
             },
             "./objects/commandaction.js": {
                 "sha1": "a63fa55335e6eba56679552b3569be03bfb2498b",

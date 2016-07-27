@@ -126,7 +126,7 @@ class CommandActionCommand extends Action{
 		}
 		
 		var commandClone = targetedCommand.clone();
-		console.log(commandClone, commandClone.commandArgs.arguments);
+		console.log(commandClone, commandClone.commandArgs.arguments, commandClone.commandArgs.arguments.version);
 		process.exit();
 		deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 		return this.arguments.brewArguments((brewedArguments)=>{
