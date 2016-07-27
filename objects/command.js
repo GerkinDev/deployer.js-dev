@@ -31,7 +31,7 @@ class Command{
 		var _type,
 			_actionGroup,
 			_commandArgs,
-			_json = arguments[0];
+			_json = merge.recursive(true, arguments[0]);
 
 		Object.defineProperties(this, {
 			/**
@@ -177,7 +177,7 @@ class Command{
 	 * @author Gerkin
 	 */
 	clone (){
-		return new Command(this.json);
+		return new Command(this.json);	
 	}
 }
 
