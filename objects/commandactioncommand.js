@@ -23,67 +23,67 @@ const Action = require('./action.js').Action;
  * @param   {object} config.data Object to pass to the called action after being replaced using {@link Arguments.prepareActionArgs}
  */
 class CommandActionCommand extends Action{
-    constructor ({command, data}){
-        if(isNA(arguments[0]))
-            throw new Error("Can't create CommandActionCommand with null or undefined config.");
-        super();
+	constructor ({command, data}){
+		if(isNA(arguments[0]))
+			throw new Error("Can't create CommandActionCommand with null or undefined config.");
+		super();
 
-        var _commandName,
-            _commandConfig;
+		var _commandName,
+			_commandConfig;
 
-        Object.defineProperties(this, {
-            /**
+		Object.defineProperties(this, {
+			/**
              * @member {string} commandName
              * @memberof CommandActionCommand
              * @public
              * @instance
              */
-            commandName: {
-                get: function(){
-                    return _commandName;
-                },
-                set: val=>{
+			commandName: {
+				get: function(){
+					return _commandName;
+				},
+				set: val=>{
 					_commandName = val;
-                }
-            },
-            /**
+				}
+			},
+			/**
              * @member {object} config
              * @memberof CommandActionCommand
              * @public
              * @instance
              */
-            config: {
-                get: function(){
-                    return _commandConfig;
-                },
-                set: function(val){
-                    _commandConfig = val;
-                }
-            },
-            /**
+			config: {
+				get: function(){
+					return _commandConfig;
+				},
+				set: function(val){
+					_commandConfig = val;
+				}
+			},
+			/**
              * @member {Arguments} arguments
              * @memberof CommandActionCommand
              * @public
              * @instance
              */
-            arguments: {
-                get: function(){
-                    return _args;
-                },
-                set: function(newArgs){
-                    if(!(newArgs instanceof Arguments))
-                        throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof newArgs }" given.`);
-                    _args = newArgs;
-                }
-            },
-        });
+			arguments: {
+				get: function(){
+					return _args;
+				},
+				set: function(newArgs){
+					if(!(newArgs instanceof Arguments))
+						throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof newArgs }" given.`);
+					_args = newArgs;
+				}
+			},
+		});
 
-        this.commandName = command;
-        this.config = data;
-        //this.arguments = new Arguments(args);
-    }
+		this.commandName = command;
+		this.config = data;
+		//this.arguments = new Arguments(args);
+	}
 
-    /**
+	/**
      * @function test
      * @memberof CommandActionCommand
      * @description Check if given object is ok to be parsed by {@link CommandActionCommand constructor}
@@ -93,13 +93,13 @@ class CommandActionCommand extends Action{
      * @public
      * @author Gerkin
      */
-    static test (obj){
+	static test (obj){
 		return Object.keys(obj).filter(function(key){
 			return ["command", "data"].indexOf(key) === -1
 		}).length === 0;
-    }
+	}
 
-    /**
+	/**
      * @method execute
      * @memberof CommandActionCommand
      * @description Runs the specified action. It first compile local arguments with ancestors (see {@link Arguments#brewArguments}), then it replaces {@link CommandActionCommand#config} placeholders with {@link CommandActionCommand#arguments} values, and finally, it calls {@link CommandActionCommand#processFunction}.
@@ -111,22 +111,31 @@ class CommandActionCommand extends Action{
      * @author Gerkin
      * @see {@link Arguments.brewArguments}
      */
-    execute (breadcrumb, callback){
-        breadcrumb.startTimer();
+	execute (breadcrumb, callback){
+		function endExecute(){
+			deployer.log.info(`Ended CommandActionCommand "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
+			callback();
+		}
 
-		console.log(deployer.config.actionObjects);
+		breadcrumb.startTimer();
+
+		var targetedCommand = deployer.config.actionObjects[this.commandName];
+		if(isNA(targetedCommand)){
+			deployer.log.error(`Trying to execute an inexistant command ${ this.commandName }`);
+			return endExecute();
+		}
+		
+		var commandClone = targetedCommand.clone();
+		console.log(commandClone, commandClone.commandArgs.arguments);
 		process.exit();
-        deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
-        return this.arguments.brewArguments((brewedArguments)=>{
-            var compiledArgs = brewedArguments.prepareActionArgs(this.config);
-            return this.processFunction(compiledArgs, ()=>{
-                deployer.log.info(`Ended CommandActionCommand "${ breadcrumb.toString() }" after ${ breadcrumb.getTimer() }ms`);
-                callback();
-            });
-        });
-    }
+		deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
+		return this.arguments.brewArguments((brewedArguments)=>{
+			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
+			return this.processFunction(compiledArgs, endExecute);
+		});
+	}
 
-    /**
+	/**
      * @function setArguments
      * @memberof CommandActionCommand
      * @description Prepare {@link CommandActionCommand#arguments} by setting its {@link Arguments#ancestor} for placeholder operations
@@ -135,13 +144,13 @@ class CommandActionCommand extends Action{
      * @public
      * @author Gerkin
      */
-    setArguments (arg){/*
+	setArguments (arg){/*
         if(!(arg instanceof Arguments))
             throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
         this.arguments.ancestor = arg;*/
 		console.log(arg);
-        return this;
-    }
+		return this;
+	}
 }
 
 module.exports = CommandActionCommand;
