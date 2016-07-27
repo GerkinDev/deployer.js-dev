@@ -134,7 +134,11 @@ class CommandActionCommand extends Action{
 		});
 		return this.arguments.brewArguments((brewedArguments)=>{
 			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
-			console.log(compiledArgs);
+			commandClone.commandArgs.arguments = merge.recursive(commandClone.commandArgs.arguments, compiledArgs);
+			console.log({
+				compiled:compiledArgs,
+				merged: commandClone.commandArgs.arguments
+			});
 			process.exit();
 			deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 			return this.processFunction(compiledArgs, endExecute);

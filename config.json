@@ -332,13 +332,13 @@
                 "sha1": "5a92b410583f2d81f65d567b988e712a4eee48f4",
                 "md5": "337696d584abce1407d42823c9148cfd"
             },
-            "./objects/breadcrumb.js": {
-                "sha1": "3cf69f5c9ced4a9c39023bf71cd865977bb76ced",
-                "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
-            },
             "./objects/arguments.js": {
                 "sha1": "50715a5d72487716cda8210e881da39b44b164b7",
                 "md5": "0fbac240cb7b1870401415b3a653a642"
+            },
+            "./objects/breadcrumb.js": {
+                "sha1": "3cf69f5c9ced4a9c39023bf71cd865977bb76ced",
+                "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
             },
             "./objects/command.js": {
                 "sha1": "86268730aeaf8f577df9a8d805f48cd04170cc06",
@@ -349,8 +349,8 @@
                 "md5": "f7e26d6b7e4436c684c673ad88c2413c"
             },
             "./objects/commandactioncommand.js": {
-                "sha1": "5fde3fa40b4e296a7148430ac7fd63e353044567",
-                "md5": "ef6625d87468d037804921e72b89f90b"
+                "sha1": "c29130be3c3836c191ad749644ae52922cd6fa37",
+                "md5": "2362f6f70c331a87f60b8f41dc9442a8"
             },
             "./objects/listener.js": {
                 "md5": "bb1af33c27a4ab3999605b3ead0b9db8",
