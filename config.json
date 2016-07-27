@@ -308,13 +308,13 @@
                 "sha1": "c032cf1f0f987ffae50d3847d3120292dfdc02e2",
                 "md5": "97f55af8f1476ef6c192876ade1f1b0d"
             },
-            "./actions/svn.js": {
-                "sha1": "36b5741341e4eb96ba93523ade81389b4239d5c1",
-                "md5": "aa7bda30cba3d38f0fce925636827d6c"
-            },
             "./actions/phpdoc.js": {
                 "sha1": "052bfdafff2f62c214472213a01a51aa6d55c2b2",
                 "md5": "a1808d7987f5198102e1aba2c1366971"
+            },
+            "./actions/svn.js": {
+                "sha1": "36b5741341e4eb96ba93523ade81389b4239d5c1",
+                "md5": "aa7bda30cba3d38f0fce925636827d6c"
             },
             "./actions/version-history.js": {
                 "md5": "25ae3c3d1beba223e012d03a5de666e4",
@@ -349,8 +349,8 @@
                 "md5": "f7e26d6b7e4436c684c673ad88c2413c"
             },
             "./objects/commandactioncommand.js": {
-                "sha1": "8a85e4217120e380e81a07c1c2e9bca9958aa70e",
-                "md5": "61aa1b4f2150f92d96976f72295edf9e"
+                "sha1": "b43676e55bc458516f85421a7b753f64d3fca656",
+                "md5": "d178a918e25b7cb357cf743272b96d71"
             },
             "./objects/listener.js": {
                 "md5": "bb1af33c27a4ab3999605b3ead0b9db8",
