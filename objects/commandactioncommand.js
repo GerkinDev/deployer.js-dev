@@ -132,10 +132,11 @@ class CommandActionCommand extends Action{
 			args:commandClone.commandArgs.arguments,
 			thisArgs:this.arguments
 		});
-		process.exit();
-		deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 		return this.arguments.brewArguments((brewedArguments)=>{
 			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
+			console.log(compiledArgs);
+			process.exit();
+			deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
 			return this.processFunction(compiledArgs, endExecute);
 		});
 	}
@@ -150,9 +151,9 @@ class CommandActionCommand extends Action{
      * @author Gerkin
      */
 	setArguments (arg){
-        if(!(arg instanceof Arguments))
-            throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
-        this.arguments.ancestor = arg;
+		if(!(arg instanceof Arguments))
+			throw new TypeError(`Function "setArguments" expects object of type "Arguments", "${ typeof arg }" given.`);
+		this.arguments.ancestor = arg;
 		console.log(arg);
 		return this;
 	}

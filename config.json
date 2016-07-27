@@ -280,13 +280,13 @@
                 "sha1": "fa9f60c0356c9deb1998638232dfa4c004656138",
                 "md5": "5b4c213f092065c81cdcfdb1c384c6fc"
             },
-            "./actions/files-version.js": {
-                "sha1": "60a16cbbefc42a02d01d012d8889b688dbe39b41",
-                "md5": "1deb1eed73b133d16c79f4e1f265285b"
-            },
             "./actions/exec.js": {
                 "sha1": "a92d569592c3c1387560cb01f584ef16cb3fa411",
                 "md5": "759a9a514f44abb36cacda33af49a85d"
+            },
+            "./actions/files-version.js": {
+                "sha1": "60a16cbbefc42a02d01d012d8889b688dbe39b41",
+                "md5": "1deb1eed73b133d16c79f4e1f265285b"
             },
             "./actions/git.js": {
                 "sha1": "5314aa8afea9d31669b9086f83e2cd3172cf0eed",
@@ -332,13 +332,13 @@
                 "sha1": "5a92b410583f2d81f65d567b988e712a4eee48f4",
                 "md5": "337696d584abce1407d42823c9148cfd"
             },
-            "./objects/arguments.js": {
-                "sha1": "50715a5d72487716cda8210e881da39b44b164b7",
-                "md5": "0fbac240cb7b1870401415b3a653a642"
-            },
             "./objects/breadcrumb.js": {
                 "sha1": "3cf69f5c9ced4a9c39023bf71cd865977bb76ced",
                 "md5": "dfaebd9e37e9d352e2c07ff768f9e1e1"
+            },
+            "./objects/arguments.js": {
+                "sha1": "50715a5d72487716cda8210e881da39b44b164b7",
+                "md5": "0fbac240cb7b1870401415b3a653a642"
             },
             "./objects/command.js": {
                 "sha1": "86268730aeaf8f577df9a8d805f48cd04170cc06",
@@ -349,8 +349,8 @@
                 "md5": "f7e26d6b7e4436c684c673ad88c2413c"
             },
             "./objects/commandactioncommand.js": {
-                "sha1": "661514ac68bd6c574338ea2a5418301989debda3",
-                "md5": "ecab0da2dd2e9fb0a1ec2d1c1ec01c8a"
+                "sha1": "5fde3fa40b4e296a7148430ac7fd63e353044567",
+                "md5": "ef6625d87468d037804921e72b89f90b"
             },
             "./objects/listener.js": {
                 "md5": "bb1af33c27a4ab3999605b3ead0b9db8",
