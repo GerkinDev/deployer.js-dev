@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @package deployer.js
  *
- * @version 0.
+ * @version 0.4.0
  */
 
 'use strict';
@@ -155,7 +155,6 @@ class CommandActionCommand extends Action{
 
 			var compiledArgs = brewedArguments.prepareActionArgs(this.config);
 			commandClone.commandArgs.arguments = mergeNoArg(commandClone.commandArgs.arguments, compiledArgs);
-			process.exit();
 			return commandClone.setArgumentsGlobal(merge(true, deployer.config.project.args)).execute(function(){
 				endExecute()
 			});
