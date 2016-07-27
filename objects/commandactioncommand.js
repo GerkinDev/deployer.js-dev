@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @package deployer.js
  *
- * @version %version%
+ * @version 0.4.0
  */
 
 'use strict';
@@ -115,6 +115,7 @@ class CommandActionCommand extends Action{
         breadcrumb.startTimer();
 
 		console.log(deployer.config.actionObjects);
+		process.exit();
         deployer.log.info(`Starting CommandActionCommand "${ breadcrumb.toString() }" with command name "${ this.commandName }"`);
         return this.arguments.brewArguments((brewedArguments)=>{
             var compiledArgs = brewedArguments.prepareActionArgs(this.config);

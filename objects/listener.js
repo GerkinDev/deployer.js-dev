@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.en.html GPLv3
  * @package deployer.js
  *
- * @version %version%
+ * @version 0.4.0
  */
 
 'use strict';
